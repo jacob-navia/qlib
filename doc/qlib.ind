@@ -1,0 +1,69 @@
+\begin{theindex}
+
+  \item asctoq, \hyperpage{15}
+
+  \indexspace
+
+  \item Constants, \hyperpage{10}
+
+  \indexspace
+
+  \item e24toq, \hyperpage{16}
+  \item ellik, \hyperpage{12}
+  \item etoq, \hyperpage{16}
+
+  \indexspace
+
+  \item lltoq, \hyperpage{16}
+
+  \indexspace
+
+  \item qacosh, \hyperpage{8}
+  \item qadd, \hyperpage{16}
+  \item qagm, \hyperpage{8}
+  \item qairy, \hyperpage{8}
+  \item qasin, \hyperpage{9}
+  \item qasinh, \hyperpage{9}
+  \item qatanh, \hyperpage{9}
+  \item qatn, \hyperpage{9}
+  \item qbeta, \hyperpage{10}
+  \item qcalc , \hyperpage{10}
+  \item qcatalan, \hyperpage{10}
+  \item qcbrt, \hyperpage{10}
+  \item qcmp, \hyperpage{16}
+  \item qconst.c, \hyperpage{10}
+  \item qcos, \hyperpage{11}
+  \item qcosh, \hyperpage{11}
+  \item qdiv, \hyperpage{17}
+  \item qei, \hyperpage{11}
+  \item qellie, \hyperpage{11}
+  \item qellik, \hyperpage{12}
+  \item qellpe, \hyperpage{12}
+  \item qellpi, \hyperpage{12}
+  \item qellpk, \hyperpage{12}
+  \item qerf, \hyperpage{13}
+  \item qerfc, \hyperpage{13}
+  \item qexp10, \hyperpage{13}
+  \item qexp2, \hyperpage{14}
+  \item qexpm1, \hyperpage{14}
+  \item qexpn, \hyperpage{14}
+  \item qfexp, \hyperpage{13}
+  \item qfltbi.c, \hyperpage{15}
+  \item qflti.c, \hyperpage{15}
+  \item qfresnl, \hyperpage{17}
+  \item qfrexp, \hyperpage{18}
+  \item qhy2f1, \hyperpage{18}
+  \item qifrac, \hyperpage{16}
+  \item qigam, \hyperpage{18}
+  \item qigami, \hyperpage{18}
+  \item qin, \hyperpage{19}
+  \item qldexp, \hyperpage{18}
+  \item qlgam, \hyperpage{18}
+  \item qmov, \hyperpage{17}
+  \item qmul, \hyperpage{17}
+  \item qmuli, \hyperpage{17}
+  \item qsub, \hyperpage{16}
+  \item qtoasc, \hyperpage{16}
+  \item qtoe, \hyperpage{16}
+
+\end{theindex}
