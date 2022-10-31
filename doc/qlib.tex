@@ -298,7 +298,9 @@ Numbers are represented using the following structure:
 \end{lstlisting}
 
 This differs completely of Mr Moshier representation as an undifferentiated table of integers. Access to exponent
-and sign is clearer. All the library has been rewritten to use this structure. One problem in this transformation was that since numbers were a table of integers, they were always passed by reference, since tables are always passed as a reference to the first member in C. To keep this and avoid inefficiencies when passing numbers by value, all local variables and numbers are declared as tables of one element: instead of \verb,Qfloat x;, all the functions in the library use \verb,Qfloat x[1];, what is actually exactly the same, but since the second declaration will be understood as a table, it will be passed by reference in all calls.
+and sign is clearer. All the library has been rewritten to use this structure. 
+
+One problem in this transformation was that since numbers were a table of integers, they were always passed by reference, since tables are always passed as a reference to the first member in C. To keep this and avoid inefficiencies when passing numbers by value, all local variables and numbers are declared as tables of one element: instead of \verb,Qfloat x;, all the functions in the library use \verb,Qfloat x[1];, what is actually exactly the same, but since the second declaration will be understood as a table, it will be passed by reference in all calls.
 
 All constants were recalculated for 64 bits and correctly rounded, and the precision in several functions was extended.
 \subsection{Implementations}
@@ -484,7 +486,7 @@ I have revised the algorithms of some functions, added some (catalan, AGM, for i
 	\tabto{2.5cm}$-e^{-1}$\tabto{4.2cm}qexp\tabto{6.2cm}$e$\tabto{7.4cm}invSqrt2pi\tabto{9.7cm}$\frac{1}{\sqrt{\pi}}$\par
 	qepsilon\tabto{2.5cm}$ 2^{-448}$
 	\\\hline
-	qcos.c& \index{qcos} Cosinus
+	qcos.c& \index{qcos} \TOC{Cosinus}
 	
 	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}
 	\begin{lstlisting}[numbers=none]
@@ -495,7 +497,7 @@ I have revised the algorithms of some functions, added some (catalan, AGM, for i
 	The cosinus is just $$\cos(x) = \sin \left(\frac{\pi}{2} - x\right)$$
 	In this file the function $cos(x)-1$ (\verb,qcosm1,) is implemented using the Taylor series, useful for small $x$.
 	\\\hline
-	qcosh.c& 	Hyperbolic cosine.\index{qcosh}
+	qcosh.c& 	\TOC{Hyperbolic cosine}\index{qcosh}
 	
 	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}
 	\begin{lstlisting}[numbers=none]
@@ -505,7 +507,7 @@ I have revised the algorithms of some functions, added some (catalan, AGM, for i
 	\end{lstlisting}\vspace{-0.2cm}
 	$$cosh(x)=\frac{exp(x)+exp(-x)}{2}$$
 	\\\hline
-	qei.c& 	The exponential integral
+	qei.c& 	TOC{The exponential integral}
 	
 	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{qei}
 	\begin{lstlisting}[numbers=none]
@@ -523,7 +525,7 @@ I have revised the algorithms of some functions, added some (catalan, AGM, for i
 	For values > 32 SLM used the asymptotic expansion:
 	$$x \times e^x \times Ei(x) = 1+\frac{2}{x^2}+\frac{6}{x^3} + ... \frac{n!}{x^n}$$
 	\\\hline
-	qellie.c&Incomplete elliptic integral of the second kind.
+	qellie.c&\TOC{Incomplete elliptic integral of the second kind}
 	
 	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{qellie}
 	\begin{lstlisting}[numbers=none]
@@ -536,7 +538,7 @@ I have revised the algorithms of some functions, added some (catalan, AGM, for i
 	
 	of amplitude $\phi$ and modulus  $m$, using the arithmetic geometric mean algorithm.
 	\\\hline
-	qellik.c&Incomplete elliptic integral of the first kind.\index{qellik}
+	qellik.c&\TOC{Incomplete elliptic integral of the first kind}\index{qellik}
 	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{ellik}
 	\begin{lstlisting}[numbers=none]
 		int qellik( phi, m, y );
@@ -547,24 +549,24 @@ I have revised the algorithms of some functions, added some (catalan, AGM, for i
 	 Approximates the integral:
 	$$ F(\phi , m) = \int_{0}^{\phi} \frac{dt}{\sqrt{1-m\times sin^2 \ t}}$$
 	\\\hline
-	qellpe.c & Complete elliptic integral of the second kind
+	qellpe.c & \TOC{Complete elliptic integral of the second kind}
 	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{qellpe}
 	\begin{lstlisting}[numbers=none]
-		int qellpe(x, y);
-		qfloat *x; //input
-		qfloat *y; //output
+int qellpe(x, y);
+qfloat *x; //input
+qfloat *y; //output
 	\end{lstlisting}\vspace{-0.2cm}
 	Approximates the integral
 	$$ E(m) = \int_{0}^{\frac{\pi}{2}} \sqrt{1 - m\ sin^2 t} \ dt$$
 	\\\hline
-	qellpj.c& Jacobian Elliptic Functions.
+	qellpj.c& \TOC{Jacobian Elliptic Functions}
 	
 	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{qellpi}
-	\begin{lstlisting}[numbers=none]
-		int qellpj( u, m, sn, cn, dn, ph );
-		qfloat *u, *m;             // inputs
-		qfloat *sn, *cn, *dn, *ph; // outputs
-	\end{lstlisting}\vspace{-0.2cm}
+\begin{lstlisting}[numbers=none]
+int qellpj( u, m, sn, cn, dn, ph );
+qfloat *u, *m;             // inputs
+qfloat *sn, *cn, *dn, *ph; // outputs
+\end{lstlisting}\vspace{-0.2cm}
 	
 	
 	Evaluates the Jacobian elliptic functions $sn(u|m)$, $cn(u|m)$,
@@ -586,7 +588,7 @@ I have revised the algorithms of some functions, added some (catalan, AGM, for i
 	
 	{\footnotesize{ACCURACY:}}  Truncated at 70 bits.
 	\\\hline
-	qellpk.c& Complete elliptic integral of the first kind.
+	qellpk.c& \TOC{Complete elliptic integral of the first kind}
 	
 	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{qellpk}
 	\begin{lstlisting}[numbers=none]
@@ -608,7 +610,7 @@ I have revised the algorithms of some functions, added some (catalan, AGM, for i
 	
 	{\footnotesize ACCURACY:} Truncated at NBITS
 	\\\hline
-	qerf.c& Error function
+	qerf.c& \TOC{Error function}
 	
 	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{qerf}
 	\begin{lstlisting}[numbers=none]
@@ -619,7 +621,7 @@ I have revised the algorithms of some functions, added some (catalan, AGM, for i
 	Calculates the error function.
 	$$erf(x)=\frac{2}{\sqrt{\pi}} \ \int_{0}^{x} exp(-t^2)\ dt$$
 	\\\hline
-	qerfc.c&Complementary error function.
+	qerfc.c&\TOC{Complementary error function}
 	
 	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{qerfc}
 	\begin{lstlisting}[numbers=none]
@@ -631,7 +633,7 @@ I have revised the algorithms of some functions, added some (catalan, AGM, for i
 	$$erfc(x)=\frac{2}{\sqrt{\pi}} \ \int_{x}^{\infty} exp(-t^2)\ dt = 1-erf(x)$$
 	using two different continued fraction for arguments smaller than 4 and bigger than 4.
 	\\\hline
-	qexp.c& The exponential function
+	qexp.c& \TOC{The exponential function}
 	
 	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{qfexp}
 	\begin{lstlisting}[numbers=none]
@@ -643,7 +645,7 @@ I have revised the algorithms of some functions, added some (catalan, AGM, for i
 	To achieve full precision this needs approx 30-40 iterations, depending on the argument. Arguments close to 1 need more iterations. This method is different from the one used by Mr Moshier: $$exp(x)=\frac{1+tanh(x)}{1-tanh(x)}$$
 	The speed of the calculation was improved by 60\%. On the downside a loss of 1 ulps has been seen due to the long summation of the pre-calculated inverse factorials table.
 	\\\hline
-	qexp10.c& Base 10 exponential function
+	qexp10.c& \TOC{Base 10 exponential function}
 	
 	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{qexp10}
 	\begin{lstlisting}[numbers=none]
@@ -654,7 +656,7 @@ I have revised the algorithms of some functions, added some (catalan, AGM, for i
 	(Common antilogarithm).
 	$$10^x=e^{x \times log(10)}$$
 	\\\hline
-	qexp2.c& Base 2 exponential function
+	qexp2.c& \TOC{Base 2 exponential function}
 	
 	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{qexp2}
 	\begin{lstlisting}[numbers=none]
@@ -665,7 +667,7 @@ I have revised the algorithms of some functions, added some (catalan, AGM, for i
 	Base 2 exponential function
 	$$2^(x)=e^{x\times log(2)}$$
 	\\\hline
-	qexpm1.c& $e^x$\index{qexpm1}
+	qexpm1.c& $e^x - 1$ \TOC{expm1}\index{qexpm1}
 	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}
 	\begin{lstlisting}[numbers=none]
 		int qexpm1(x,y);
@@ -678,7 +680,7 @@ I have revised the algorithms of some functions, added some (catalan, AGM, for i
 	cancellation and the result will have little or no precision.  The \verb,expm1, function provides
 	an alternative means to do this calculation without the risk of significant loss of precision.
 	\\\hline
-	qexpn.c& Exponential integral
+	qexpn.c& \TOC{Exponential integral}
 	
 	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}
 	\begin{lstlisting}[numbers=none]
@@ -690,7 +692,7 @@ I have revised the algorithms of some functions, added some (catalan, AGM, for i
 	Evaluates the exponential integral:
 	$$E_n(x)=\int_{1}^{\infty}\frac{e^{-xt}}{t^n}\ dt$$
 	\\\hline
-	qfac.c& Factorial
+	qfac.c& \TOC{Factorial}
 	
 	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}
 	\begin{lstlisting}[numbers=none]
@@ -700,7 +702,7 @@ I have revised the algorithms of some functions, added some (catalan, AGM, for i
 	\end{lstlisting}\vspace{-0.2cm}
 	Calculates $n!$.
 	\\\hline
-	qfloor.c&
+	qfloor.c&\TOC{Floor}
 	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}
 	\begin{lstlisting}[numbers=none]
 		int qfloor(x,y);
@@ -710,7 +712,7 @@ I have revised the algorithms of some functions, added some (catalan, AGM, for i
 	
 	Computes the largest integer not greater than x.
 	\\\hline 
-	qfltbi.c&\index{qfltbi.c}
+	qfltbi.c&\TOC{The qfltbi file}\index{qfltbi.c}
 	This file contains all the low level routines that were rewritten in assembler. The main routines are:
 	\begin{lstlisting}[numbers=none]
 		addm( x, y )        add significand of x to that of y
@@ -725,7 +727,7 @@ I have revised the algorithms of some functions, added some (catalan, AGM, for i
 		mdnorm( x )         normalize and round off
 	\end{lstlisting}
 	\\\hline
-	qflti.c&\index{qflti.c}
+	qflti.c&\TOC{Utilities}\index{qflti.c}
 	qfloat precision utilities.
 	\begin{lstlisting}[numbers=none]
 		asctoq( string, q)  ascii string to q type
@@ -755,7 +757,7 @@ I have revised the algorithms of some functions, added some (catalan, AGM, for i
 	\end{lstlisting}
 	\\\hline
 	\multicolumn{2}{c}{Conversions}\\\hline
-	qflti.c& From text to qfloat\index{asctoq}
+	qflti.c& \TOC{Text to qfloat}\index{asctoq}
 	
 	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}
 	\begin{lstlisting}[numbers=none]
@@ -764,7 +766,7 @@ I have revised the algorithms of some functions, added some (catalan, AGM, for i
 	
 	The character string \verb,text, will be converted into qfloat, and the \verb,pend, pointer will point to the character right after the last digit. Scientific notation is supported.
 	\\\hline
-	qflti.c& From qfloat to text\index{qtoasc}
+	qflti.c& \TOC{qfloat to text}\index{qtoasc}
 	
 	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}
 	\begin{lstlisting}[numbers=none]
@@ -774,7 +776,7 @@ I have revised the algorithms of some functions, added some (catalan, AGM, for i
 	Formats the given number using the given width and number of digits after the decimal point. Numbers are rounded to the given
 	precision.
 	\\\hline
-	qflti.c&Conversion of double, float to qfloat
+	qflti.c&\TOC{Conversion of double, float to qfloat}
 	
 	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{etoq}\index{e24toq}
 	\begin{lstlisting}[numbers=none]
@@ -784,7 +786,7 @@ I have revised the algorithms of some functions, added some (catalan, AGM, for i
 	\verb,etoq, converts the double precision number $a$ into a qfloat. \verb,e24toq, converts a single
 	precision one into a qfloat.
 	\\\hline
-	qflti.c& Conversion of qflot to double, float, and long double
+	qflti.c& \TOC{Conversion of qfloat to double, float, and long double}
 	
 	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{qtoe}
 	\begin{lstlisting}[numbers=none]
@@ -794,7 +796,7 @@ I have revised the algorithms of some functions, added some (catalan, AGM, for i
 	\verb,qtoe, converts the qfloat number $x$ into a double precision one. If \verb,roundflag, is not zero, rounding will be performed,
 	otherwise the number is truncated.
 	\\\hline
-	qfltbi.c&64 bit integer to qfloat
+	qfltbi.c&\TOC{64 bit integer to qfloat}
 	
 	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{lltoq}
 	\begin{lstlisting}[numbers=none]
@@ -802,7 +804,7 @@ I have revised the algorithms of some functions, added some (catalan, AGM, for i
 	\end{lstlisting}\vspace{-0.2cm} \par
 	This function is written in assembler.
 	\\\hline
-	qflti.c& Compare numbers
+	qflti.c& \TOC{Compare numbers}
 	
 	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{qcmp}
 	\begin{lstlisting}[numbers=none]
@@ -810,7 +812,7 @@ I have revised the algorithms of some functions, added some (catalan, AGM, for i
 	\end{lstlisting}\vspace{-0.2cm} \par
 	Returns 1 if $a> b$, zero if $a = b$ or $-1$ if $a<b$.
 	\\\hline
-	qflti.c& Integer part and fraction
+	qflti.c& \TOC{Integer part and fraction}
 	
 	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{qifrac}
 	\begin{lstlisting}[numbers=none]
@@ -820,7 +822,7 @@ I have revised the algorithms of some functions, added some (catalan, AGM, for i
 	\\\hline
 	\multicolumn{2}{c}{The four operations}
 	\\\hline
-	qflti.c& Addition\index{qadd}
+	qflti.c& \TOC{Addition}\index{qadd}
 	
 	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}
 	\begin{lstlisting}[numbers=none]
@@ -830,7 +832,7 @@ I have revised the algorithms of some functions, added some (catalan, AGM, for i
 	This procedure is written in assembly language.
 	\\\hline
 	
-	qfltbi.c& Subtraction
+	qfltbi.c& \TOC{Subtraction}
 	
 	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{qsub}
 	\begin{lstlisting}[numbers=none]
@@ -839,7 +841,7 @@ I have revised the algorithms of some functions, added some (catalan, AGM, for i
 	$ c=b-a$\par
 	Returns the same integer codes as \verb,qadd,. This procedure is written in assembly language.
 	\\\hline
-	qflbi.c& Multiplication
+	qflbi.c& \TOC{Multiplication}
 	
 	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{qmul}
 	\begin{lstlisting}[numbers=none]
@@ -849,7 +851,7 @@ I have revised the algorithms of some functions, added some (catalan, AGM, for i
 	If an overflow occurs, it returns the biggest possible number in c. This procedure is written in assembly language.
 	
 	\\\hline
-	qflbi.c& Multiplication by a 64 bit integer
+	qflbi.c& \TOC{Multiplication by a 64 bit integer}
 	
 	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{qmuli}
 	\begin{lstlisting}[numbers=none]
@@ -858,7 +860,7 @@ I have revised the algorithms of some functions, added some (catalan, AGM, for i
 	$c=b\times a$.\par
 	If an overflow occurs, it returns the biggest possible number in c. This procedure is written in assembly language.
 	\\\hline
-	qfltbi.c& Division
+	qfltbi.c& \TOC{Division}
 	
 	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{qdiv}
 	\begin{lstlisting}[numbers=none]
@@ -867,7 +869,7 @@ I have revised the algorithms of some functions, added some (catalan, AGM, for i
 	$c=b/a$.\par
 	This procedure is written in assembly language.
 	\\\hline
-	qfltbi.c&  Assignment
+	qfltbi.c&  \TOC{Assignment}
 	
 	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{qmov}
 	\begin{lstlisting}[numbers=none]
@@ -877,7 +879,7 @@ I have revised the algorithms of some functions, added some (catalan, AGM, for i
 	This procedure is written in assembly language.
 	
 	\\\hline
-	qfresf.c& Fresnel integral
+	qfresf.c& \TOC{Fresnel integral}
 	
 	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{qfresnl}
 	\begin{lstlisting}[numbers=none]
@@ -901,7 +903,7 @@ I have revised the algorithms of some functions, added some (catalan, AGM, for i
 	
 	{\footnotesize ACCURACY:}
 	Series expansions are truncated at less than full working precision.
-	\\\hline
+	\\\hline \TOC{ldexp and frexp}
 	qfrexp.c&\index{qldexp}\index{qfrexp}
 	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}
 	\begin{lstlisting}[numbers=none]
@@ -913,7 +915,7 @@ I have revised the algorithms of some functions, added some (catalan, AGM, for i
 	The \verb,qldexp, function multiplies $x$ by $2^n$ 
 	The \verb,qfrexp, function breaks the input $x$ into a normalized fraction and an integral power of 2.
 	\\\hline
-	qgamma.c& log of Gamma function
+	qgamma.c& \TOC{log of Gamma function}
 	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{qlgam}
 	\begin{lstlisting}[numbers=none]
 		int qlgam(x,y);                    int qgamma(x,y)
@@ -923,7 +925,7 @@ I have revised the algorithms of some functions, added some (catalan, AGM, for i
 	
 	The function \verb,qlgam, calculates the natural logarithm of gamma function. The \verb,qgamma, function returns the value of the gamma function.
 	\\\hline
-	qhy2f1.c& Hypergeometric $_2F_1$
+	qhy2f1.c& \TOC{Hypergeometric $_2F_1$}
 	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{qhy2f1}
 	\begin{lstlisting}[numbers=none]
 		int qhy2f1( a, b, c, x, y );
@@ -932,7 +934,7 @@ I have revised the algorithms of some functions, added some (catalan, AGM, for i
 	\end{lstlisting}\vspace{-0.2cm}
 	$$hy_2f_1 = 1+\sum_{k=0}^{\infty}\frac{a(a+1)(a+2)\ ...(a+k)\ b(b+1)(b+2)\ ... (b+k)}{c(c+1)(c+2)\ ... (c+k)\times (k+1)!}\ \ x^{k+1}$$
 	\\\hline
-	qhyperg.c& Hypergeometric function
+	qhyperg.c& \TOC{Hypergeometric function}
 	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}
 	\begin{lstlisting}[numbers=none]
 		int qhyp( a, b, x, y );
@@ -943,7 +945,7 @@ I have revised the algorithms of some functions, added some (catalan, AGM, for i
 	
 	$$_1 F_1(a,b;x) = 1+\frac{a\ x^1}{b \ 1!}+\frac{a\ x^2}{b(b+1) \ 2!} + \frac{a\ x^3}{b(b+1)(b+2) \ 3!} + ...$$
 	\\\hline
-	qigam.c&	The incomplete gamma integral
+	qigam.c&	\TOC{The incomplete gamma integral}
 	
 	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{qigam}
 	\begin{lstlisting}[numbers=none]
