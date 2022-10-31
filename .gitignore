@@ -1,0 +1,14 @@
+doc/qlib.aux
+doc/qlib.idx
+doc/qlib.log
+doc/qlib.out
+doc/qlib.pdf
+doc/qlib.synctex.gz
+doc/qlib.toc
+*.o
+qcalc
+qmtst
+qtime
+tsqrt
+qparanoi
+libmq.a
