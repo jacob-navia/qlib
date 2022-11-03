@@ -5,7 +5,6 @@
 *.s
 *.txt
 qasm.asm
-cephes/
 qcalc
 qmtst
 qparanoi

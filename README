@@ -2,6 +2,13 @@ A: DIRECTORY LAYOUT
    ----------------
 1: The four operations are written in arm64 assembler (directory aarch64), or
    in x86 assembly (directory x86_64).
+   The subdirectories here are:
+   aarch64: asm code for arm64 / Linux
+   arm64:   asm code for Macintosh M1 CPU
+   cephes:  The original sources I started from.
+   x86_64:  asm code for PCs
+   doc:     TEX documentation for everything
+   
 2: The "bsr64" function is essential, and not optional as the assembly 
    functions. Sources for this function are in x86_64 or aarch64.
 3: The statistics library is in the "statslib" directory.
