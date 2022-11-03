@@ -1,0 +1,2635 @@
+	.file	"/mnt/jacob/qlib/cephes/qhead.h"
+.LM0:
+	.file "/mnt/jacob/qlib/cephes/qfltbi.c"
+	.text
+.Ltext:
+	.stabs "/mnt/jacob/qlib/cephes/qfltbi.c",0x64,0,0,.Ltext
+	.stabs "int:t1=r1;-2147483648;2147483647;",128,0,0,0
+	.stabs "char:t2=r2;-128;127;",128,0,0,0
+	.stabs "double:t3=r1;8;0;",128,0,0,0
+	.stabs "float:t4=r1;4;0;",128,0,0,0
+	.stabs "long int:t5=r(0,1);01000000000000000000000;0777777777777777777777;",128,0,0,0
+	.stabs "short:t6=r1;-32768;32767;",128,0,0,0
+	.stabs "signed char:t7=r7;-128;127;",128,0,0,0
+	.stabs "unsigned char:t8=r1;0;255;",128,0,0,0
+	.stabs "unsigned long:t9=r(0,1);0000000000000;01777777777777777777777;",128,0,0,0
+	.stabs "unsigned short:t10=r1;0;65535;",128,0,0,0
+	.stabs "unsigned int:t11=r1;0;-1;",128,0,0,0
+	.stabs "void:t12=12",128,0,0,0
+	.stabs "long long:t13=r(0,1);01000000000000000000000;0777777777777777777777;",128,0,0,0
+	.stabs "unsigned long long:t14=r(0,1);0000000000000;01777777777777777777777;",128,0,0,0
+	.stabs "__int128:t15(0,15)=r(0,15);0;-1;",128,0,0,0
+	.stabs "__uint128:t16",128,0,0,0
+	.stabs "qfloatstruct:T17=s64sign:1,0,32;exponent:11,32,32;mantissa:18=ar1;0;6;14,64,448;;",128,0,0,0
+	.stabs "qfloatstruct _Complex:T19=xsqfloatstruct _Complex:",128,0,0,0
+	.stabs "double _Complex:T20=xsdouble _Complex:",128,0,0,0
+	.stabs "_float128_t:T21=s16low:14,0,64;high:14,64,64;;",128,0,0,0
+	.stabs "long double:t22=r1;16;0;",128,0,0,0
+	.stabs "bool:t23=r23;-128;127;",128,0,0,0
+	.cpu	generic+fp+simd
+	.file	"/mnt/jacob/qlib/cephes/mconf.h"
+.LM1:
+	.file	"/mnt/jacob/qlib/cephes/protos.h"
+.LM2:
+	.file	"/mnt/jacob/qlib/cephes/qprotos.h"
+.LM3:
+	.file	"/mnt/jacob/qlib/cephes/mconf.h"
+.LM4:
+	.file	"/mnt/jacob/qlib/cephes/qfltbi.c"
+.LM5:
+	.text
+	.stabs "shdn1:F1",36,0,0,shdn1
+	.stabs ":t24=*11",128,0,0,0
+	.stabs "x:r24",64,0,8,0
+	.stabs "x:p24",160,0,0,0
+#    1 /* NOTE, this version of qfltb.c uses the 64-bit `long long int'
+#    2    type available in the GNU C compiler.  It can be used only
+#    3    with WORDSIZE = 32 bits.  */
+#    4 
+#    5 #ifdef _MSC_VER
+#    6 /* Microsoft Visual C */
+#    7 #define INT64 __int64
+#    8 #else
+#    9 /* GNU C */
+#   10 #define INT64 long long
+#   11 #endif
+#   12 
+#   13 /* Define nonzero for processors that can shift by 31 bits quickly. */
+#   14 #define FASTSHIFT 1
+#   15 
+#   16 /* 
+#   17  * Utilities for extended precision arithmetic, called by qflt.c.
+#   18  * These should all be written in machine language for speed.
+#   19  *
+#   20  * addm( x, y )		add significand of x to that of y
+#   21  * shdn1( x )		shift significand of x down 1 bit
+#   22  * shdn8( x )		shift significand of x down 8 bits
+#   23  * shdn16( x )		shift significand of x down 16 bits
+#   24  * shup1( x )		shift significand of x up 1 bit
+#   25  * shup8( x )		shift significand of x up 8 bits
+#   26  * shup16( x )		shift significand of x up 16 bits
+#   27  * divm( a, b )		divide significand of a into b
+#   28  * mulm( a, b )		multiply significands, result in b
+#   29  * mdnorm( x )		normalize and round off
+#   30  *
+#   31  * Copyright (c) 1984 - 1988 by Stephen L. Moshier.  All rights reserved.
+#   32  */
+#   33 
+#   34 #include "qhead.h"
+#   35 /* #define N (NQ-2) */
+#   36 #if WORDSIZE != 32
+#   37  Error qfltbi.c works only with WORDSIZE 32.
+#   38 #endif
+#   39 
+#   40 static int mulv(), squarev();
+#   41 int mdnorm();
+#   42 
+#   43 /*
+#   44 ;	Shift mantissa down by 1 bit
+#   45 */
+#   46 
+#   47 int shdn1(x)
+	.type	shdn1,%function
+shdn1:
+	.stabn 68,0,47,0
+	.stabs "x:r24",64,0,8,0
+.L12:
+	.stabs "/mnt/jacob/qlib/cephes/qfltbi.c",0x84,0,0,.L12
+	.stabn 68,0,49,.LG11-shdn1
+.LG11:
+#   48 register QELT *x;
+#   49 {
+	.stabs "newbits:r11",64,0,4,4
+	.stabs "bits:r11",64,0,4,3
+	.stabs "u:r11",64,0,4,1
+	.stabs "i:r1",64,0,4,2
+	.stabd 0xc0,0,0
+	.stabn 68,0,56,.LG13-shdn1
+.LG13:
+#   50 #if FASTSHIFT
+#   51 register QELT newbits;
+#   52 #endif
+#   53 register QELT bits, u;
+#   54 int i;
+#   55 
+#   56 x += 2;	/* point to mantissa area */
+	add x0,x0,8
+	.stabn 68,0,58,.LG14-shdn1
+.LG14:
+#   57 
+#   58 bits = 0;
+	mov x3,xzr
+	.stabn 68,0,59,.LG15-shdn1
+.LG15:
+#   59 for( i=0; i<NQ-1; i++ )
+	mov x2,xzr
+.L6:
+	.stabd 0xc0,0,1
+	.stabn 68,0,61,.LG16-shdn1
+.LG16:
+#   60 	{
+#   61 	u = *x;
+	ldr w1,[x0]
+	.stabn 68,0,63,.LG17-shdn1
+.LG17:
+#   62 #if FASTSHIFT
+#   63 	newbits = u << (WORDSIZE - 1);
+	lsl w4,w1,31
+	.stabn 68,0,64,.LG18-shdn1
+.LG18:
+#   64 	u >>= 1;
+	lsr w1,w1,1
+	.stabn 68,0,65,.LG19-shdn1
+.LG19:
+#   65 	u |= bits;
+	orr w1,w1,w3
+	.stabn 68,0,66,.LG20-shdn1
+.LG20:
+#   66 	bits = newbits;
+	mov w3,w4
+	.stabn 68,0,74,.LG21-shdn1
+.LG21:
+#   67 #else
+#   68 	bits |= u & 0x1;
+#   69 	u >>= 1;
+#   70 	if( bits & 2 )
+#   71 		u |= SIGNBIT;
+#   72 	bits <<= 1;
+#   73 #endif
+#   74 	*x++ = u;
+	str w1,[x0],4
+	.stabd 0xe0,0,1
+.L7:
+	.stabn 68,0,59,.LG22-shdn1
+.LG22:
+	add w2,w2,1
+	.stabn 68,0,59,.LG23-shdn1
+.LG23:
+	cmp w2,13
+	blt .L6
+	.stabn 68,0,76,.LG24-shdn1
+.LG24:
+#   75 	}	
+#   76 return 0;
+	mov x0,xzr
+	.stabd 0xe0,0,0
+.L5:
+	.stabn 68,0,77,.LG25-shdn1
+.LG25:
+#   77 }
+	ret
+.L26:
+	.size	shdn1,.L26-shdn1
+	.stabs	"",36,0,0,.L26-shdn1
+	.globl	shdn1
+	.stabs "shup1:F1",36,0,0,shup1
+	.stabs "x:r24",64,0,8,0
+	.stabs "x:p24",160,0,0,0
+#   78 
+#   79 /*
+#   80 ;	Shift mantissa up by 1 bit
+#   81 */
+#   82 int shup1(x)
+	.type	shup1,%function
+shup1:
+	.stabn 68,0,82,0
+	.stabs "x:r24",64,0,8,0
+	.stabn 68,0,84,.LG34-shup1
+.LG34:
+#   83 register QELT *x;
+#   84 {
+	.stabs "newbits:r11",64,0,4,4
+	.stabs "bits:r11",64,0,4,3
+	.stabs "u:r11",64,0,4,1
+	.stabs "i:r1",64,0,4,2
+	.stabd 0xc0,0,0
+	.stabn 68,0,91,.LG35-shup1
+.LG35:
+#   85 #if FASTSHIFT
+#   86 register QELT newbits;
+#   87 #endif
+#   88 register QELT bits, u;
+#   89 int i;
+#   90 
+#   91 x += NQ;
+	add x0,x0,56
+	.stabn 68,0,92,.LG36-shup1
+.LG36:
+#   92 bits = 0;
+	mov x3,xzr
+	.stabn 68,0,94,.LG37-shup1
+.LG37:
+#   93 
+#   94 for( i=0; i<NQ-1; i++ )
+	mov x2,xzr
+.L28:
+	.stabd 0xc0,0,1
+	.stabn 68,0,96,.LG38-shup1
+.LG38:
+#   95 	{
+#   96 	u = *x;
+	ldr w1,[x0]
+	.stabn 68,0,98,.LG39-shup1
+.LG39:
+#   97 #if FASTSHIFT
+#   98 	newbits = u >> (WORDSIZE - 1);
+	lsr w4,w1,31
+	.stabn 68,0,99,.LG40-shup1
+.LG40:
+#   99 	u <<= 1;
+	lsl w1,w1,1
+	.stabn 68,0,100,.LG41-shup1
+.LG41:
+#  100 	u |= bits;
+	orr w1,w1,w3
+	.stabn 68,0,101,.LG42-shup1
+.LG42:
+#  101 	bits = newbits;
+	mov w3,w4
+	.stabn 68,0,109,.LG43-shup1
+.LG43:
+#  102 #else
+#  103 	bits |= u & SIGNBIT;
+#  104 	u <<= 1;
+#  105 	if( bits & (SIGNBIT >> 1) )
+#  106 		u |= 1;
+#  107 	bits >>= 1;
+#  108 #endif
+#  109 	*x-- = u;
+	mov x15,x0
+	sub x0,x15,4
+	str w1,[x15]
+	.stabd 0xe0,0,1
+.L29:
+	.stabn 68,0,94,.LG44-shup1
+.LG44:
+	add w2,w2,1
+	.stabn 68,0,94,.LG45-shup1
+.LG45:
+	cmp w2,13
+	blt .L28
+	.stabn 68,0,111,.LG46-shup1
+.LG46:
+#  110 	}
+#  111 return 0;
+	mov x0,xzr
+	.stabd 0xe0,0,0
+.L27:
+	.stabn 68,0,112,.LG47-shup1
+.LG47:
+#  112 }
+	ret
+.L48:
+	.size	shup1,.L48-shup1
+	.stabs	"",36,0,0,.L48-shup1
+	.globl	shup1
+	.stabs "shdn8:F1",36,0,0,shdn8
+	.stabs "x:r24",64,0,8,0
+	.stabs "x:p24",160,0,0,0
+#  113 
+#  114 
+#  115 
+#  116 /*
+#  117 ;	Shift mantissa down by 8 bits
+#  118 */
+#  119 
+#  120 int shdn8(x)
+	.type	shdn8,%function
+shdn8:
+	.stabn 68,0,120,0
+	.stabs "x:r24",64,0,8,0
+	.stabn 68,0,122,.LG55-shdn8
+.LG55:
+#  121 register QELT *x;
+#  122 {
+	.stabs "newbyt:r11",64,0,4,3
+	.stabs "oldbyt:r11",64,0,4,2
+	.stabs "i:r1",64,0,4,1
+	.stabd 0xc0,0,0
+	.stabn 68,0,126,.LG56-shdn8
+.LG56:
+#  123 register QELT newbyt, oldbyt;
+#  124 int i;
+#  125 
+#  126 x += 2;
+	add x0,x0,8
+	.stabn 68,0,127,.LG57-shdn8
+.LG57:
+#  127 oldbyt = 0;
+	mov x2,xzr
+	.stabn 68,0,128,.LG58-shdn8
+.LG58:
+#  128 for( i=0; i<NQ-1; i++ )
+	mov x1,xzr
+.L50:
+	.stabd 0xc0,0,1
+	.stabn 68,0,130,.LG59-shdn8
+.LG59:
+#  129 	{
+#  130 	newbyt = *x << (WORDSIZE - 8);
+	ldr w15,[x0]
+	lsl w3,w15,24
+	.stabn 68,0,131,.LG60-shdn8
+.LG60:
+#  131 	*x >>= 8;
+	ldr w15,[x0]
+	lsr w15,w15,8
+	str w15,[x0]
+	.stabn 68,0,132,.LG61-shdn8
+.LG61:
+#  132 	*x |= oldbyt;
+	ldr w15,[x0]
+	orr w15,w15,w2
+	str w15,[x0]
+	.stabn 68,0,133,.LG62-shdn8
+.LG62:
+#  133 	oldbyt = newbyt;
+	mov w2,w3
+	.stabn 68,0,134,.LG63-shdn8
+.LG63:
+#  134 	++x;
+	add x0,x0,4
+	.stabd 0xe0,0,1
+.L51:
+	.stabn 68,0,128,.LG64-shdn8
+.LG64:
+	add w1,w1,1
+	.stabn 68,0,128,.LG65-shdn8
+.LG65:
+	cmp w1,13
+	blt .L50
+	.stabn 68,0,136,.LG66-shdn8
+.LG66:
+#  135 	}
+#  136 return 0;
+	mov x0,xzr
+	.stabd 0xe0,0,0
+.L49:
+	.stabn 68,0,137,.LG67-shdn8
+.LG67:
+#  137 }
+	ret
+.L68:
+	.size	shdn8,.L68-shdn8
+	.stabs	"",36,0,0,.L68-shdn8
+	.globl	shdn8
+	.stabs "shup8:F1",36,0,0,shup8
+	.stabs "x:r24",64,0,8,0
+	.stabs "x:p24",160,0,0,0
+#  138 
+#  139 /*
+#  140 ;	Shift mantissa up by 8 bits
+#  141 */
+#  142 
+#  143 int shup8(x)
+	.type	shup8,%function
+shup8:
+	.stabn 68,0,143,0
+	.stabs "x:r24",64,0,8,0
+	.stabn 68,0,145,.LG75-shup8
+.LG75:
+#  144 register QELT *x;
+#  145 {
+	.stabs "newbyt:r11",64,0,4,3
+	.stabs "oldbyt:r11",64,0,4,2
+	.stabs "i:r1",64,0,4,1
+	.stabd 0xc0,0,0
+	.stabn 68,0,149,.LG76-shup8
+.LG76:
+#  146 int i;
+#  147 register QELT newbyt, oldbyt;
+#  148 
+#  149 x += NQ;
+	add x0,x0,56
+	.stabn 68,0,150,.LG77-shup8
+.LG77:
+#  150 oldbyt = 0;
+	mov x2,xzr
+	.stabn 68,0,152,.LG78-shup8
+.LG78:
+#  151 
+#  152 for( i=0; i<NQ-1; i++ )
+	mov x1,xzr
+.L70:
+	.stabd 0xc0,0,1
+	.stabn 68,0,154,.LG79-shup8
+.LG79:
+#  153 	{
+#  154 	newbyt = *x >> (WORDSIZE - 8);
+	ldr w15,[x0]
+	lsr w3,w15,24
+	.stabn 68,0,155,.LG80-shup8
+.LG80:
+#  155 	*x <<= 8;
+	ldr w15,[x0]
+	lsl w15,w15,8
+	str w15,[x0]
+	.stabn 68,0,156,.LG81-shup8
+.LG81:
+#  156 	*x |= oldbyt;
+	ldr w15,[x0]
+	orr w15,w15,w2
+	str w15,[x0]
+	.stabn 68,0,157,.LG82-shup8
+.LG82:
+#  157 	oldbyt = newbyt;
+	mov w2,w3
+	.stabn 68,0,158,.LG83-shup8
+.LG83:
+#  158 	--x;
+	sub x0,x0,4
+	.stabd 0xe0,0,1
+.L71:
+	.stabn 68,0,152,.LG84-shup8
+.LG84:
+	add w1,w1,1
+	.stabn 68,0,152,.LG85-shup8
+.LG85:
+	cmp w1,13
+	blt .L70
+	.stabn 68,0,160,.LG86-shup8
+.LG86:
+#  159 	}
+#  160 return 0;
+	mov x0,xzr
+	.stabd 0xe0,0,0
+.L69:
+	.stabn 68,0,161,.LG87-shup8
+.LG87:
+#  161 }
+	ret
+.L88:
+	.size	shup8,.L88-shup8
+	.stabs	"",36,0,0,.L88-shup8
+	.globl	shup8
+	.stabs "shup16:F1",36,0,0,shup16
+	.stabs "x:r24",64,0,8,0
+	.stabs "x:p24",160,0,0,0
+#  162 
+#  163 
+#  164 
+#  165 /*
+#  166 ;	Shift mantissa up by 16 bits
+#  167 */
+#  168 
+#  169 int shup16(x)
+	.type	shup16,%function
+shup16:
+	.stabn 68,0,169,0
+	.stabs "x:r24",64,0,8,0
+	.stabn 68,0,171,.LG95-shup16
+.LG95:
+#  170 register QELT *x;
+#  171 {
+	.stabs "newbyt:r11",64,0,4,3
+	.stabs "oldbyt:r11",64,0,4,2
+	.stabs "i:r1",64,0,4,1
+	.stabd 0xc0,0,0
+	.stabn 68,0,188,.LG96-shup16
+.LG96:
+#  172 #if WORDSIZE == 16
+#  173 int i;
+#  174 register short *p;
+#  175 
+#  176 p = x+2;
+#  177 x += 3;
+#  178 
+#  179 for( i=0; i<NQ-2; i++ )
+#  180 	*p++ = *x++;
+#  181 
+#  182 *p = 0;
+#  183 return 0;
+#  184 #else
+#  185 int i;
+#  186 register QELT newbyt, oldbyt;
+#  187 
+#  188 x += NQ;
+	add x0,x0,56
+	.stabn 68,0,189,.LG97-shup16
+.LG97:
+#  189 oldbyt = 0;
+	mov x2,xzr
+	.stabn 68,0,191,.LG98-shup16
+.LG98:
+#  190 
+#  191 for( i=0; i<NQ-1; i++ )
+	mov x1,xzr
+.L90:
+	.stabd 0xc0,0,1
+	.stabn 68,0,193,.LG99-shup16
+.LG99:
+#  192 	{
+#  193 	newbyt = *x >> 16;
+	ldr w15,[x0]
+	lsr w3,w15,16
+	.stabn 68,0,194,.LG100-shup16
+.LG100:
+#  194 	*x <<= 16;
+	ldr w15,[x0]
+	lsl w15,w15,16
+	str w15,[x0]
+	.stabn 68,0,195,.LG101-shup16
+.LG101:
+#  195 	*x |= oldbyt;
+	ldr w15,[x0]
+	orr w15,w15,w2
+	str w15,[x0]
+	.stabn 68,0,196,.LG102-shup16
+.LG102:
+#  196 	oldbyt = newbyt;
+	mov w2,w3
+	.stabn 68,0,197,.LG103-shup16
+.LG103:
+#  197 	--x;
+	sub x0,x0,4
+	.stabd 0xe0,0,1
+.L91:
+	.stabn 68,0,191,.LG104-shup16
+.LG104:
+	add w1,w1,1
+	.stabn 68,0,191,.LG105-shup16
+.LG105:
+	cmp w1,13
+	blt .L90
+	.stabn 68,0,199,.LG106-shup16
+.LG106:
+#  198         }
+#  199 return 0;
+	mov x0,xzr
+	.stabd 0xe0,0,0
+.L89:
+	.stabn 68,0,201,.LG107-shup16
+.LG107:
+#  200 #endif
+#  201 }
+	ret
+.L108:
+	.size	shup16,.L108-shup16
+	.stabs	"",36,0,0,.L108-shup16
+	.globl	shup16
+	.stabs "shdn16:F1",36,0,0,shdn16
+	.stabs "x:r24",64,0,8,0
+	.stabs "x:p24",160,0,0,0
+#  202 
+#  203 /*
+#  204 ;	Shift mantissa down by 16 bits
+#  205 */
+#  206 
+#  207 int shdn16(x)
+	.type	shdn16,%function
+shdn16:
+	.stabn 68,0,207,0
+	.stabs "x:r24",64,0,8,0
+	.stabn 68,0,209,.LG115-shdn16
+.LG115:
+#  208 register QELT *x;
+#  209 {
+	.stabs "newbyt:r11",64,0,4,3
+	.stabs "oldbyt:r11",64,0,4,2
+	.stabs "i:r1",64,0,4,1
+	.stabd 0xc0,0,0
+	.stabn 68,0,226,.LG116-shdn16
+.LG116:
+#  210 #if WORDSIZE == 16
+#  211 int i;
+#  212 register unsigned short *p;
+#  213 
+#  214 x += NQ;
+#  215 p = x+1;
+#  216 
+#  217 for( i=0; i<NQ-2; i++ )
+#  218 	*(--p) = *(--x);
+#  219 
+#  220 *(--p) = 0;
+#  221 return 0;
+#  222 #else
+#  223 register QELT newbyt, oldbyt;
+#  224 int i;
+#  225 
+#  226 x += 2;
+	add x0,x0,8
+	.stabn 68,0,227,.LG117-shdn16
+.LG117:
+#  227 oldbyt = 0;
+	mov x2,xzr
+	.stabn 68,0,228,.LG118-shdn16
+.LG118:
+#  228 for( i=0; i<NQ-1; i++ )
+	mov x1,xzr
+.L110:
+	.stabd 0xc0,0,1
+	.stabn 68,0,230,.LG119-shdn16
+.LG119:
+#  229 	{
+#  230 	newbyt = *x << 16;
+	ldr w15,[x0]
+	lsl w3,w15,16
+	.stabn 68,0,231,.LG120-shdn16
+.LG120:
+#  231 	*x >>= 16;
+	ldr w15,[x0]
+	lsr w15,w15,16
+	str w15,[x0]
+	.stabn 68,0,232,.LG121-shdn16
+.LG121:
+#  232 	*x |= oldbyt;
+	ldr w15,[x0]
+	orr w15,w15,w2
+	str w15,[x0]
+	.stabn 68,0,233,.LG122-shdn16
+.LG122:
+#  233 	oldbyt = newbyt;
+	mov w2,w3
+	.stabn 68,0,234,.LG123-shdn16
+.LG123:
+#  234 	++x;
+	add x0,x0,4
+	.stabd 0xe0,0,1
+.L111:
+	.stabn 68,0,228,.LG124-shdn16
+.LG124:
+	add w1,w1,1
+	.stabn 68,0,228,.LG125-shdn16
+.LG125:
+	cmp w1,13
+	blt .L110
+	.stabn 68,0,236,.LG126-shdn16
+.LG126:
+#  235 	}
+#  236 return 0;
+	mov x0,xzr
+	.stabd 0xe0,0,0
+.L109:
+	.stabn 68,0,238,.LG127-shdn16
+.LG127:
+#  237 #endif
+#  238 }
+	ret
+.L128:
+	.size	shdn16,.L128-shdn16
+	.stabs	"",36,0,0,.L128-shdn16
+	.globl	shdn16
+	.stabs "addm:F1",36,0,0,addm
+	.stabs "x:r24",64,0,8,0
+	.stabs "x:p24",160,0,0,0
+	.stabs "y:r24",64,0,8,1
+	.stabs "y:p24",160,0,0,0
+#  239 
+#  240 
+#  241 
+#  242 /*
+#  243 ;	add mantissas
+#  244 ;	x + y replaces y
+#  245 */
+#  246 
+#  247 int addm( x, y )
+	.type	addm,%function
+addm:
+	.stabn 68,0,247,0
+	.stabs "x:r24",64,0,8,0
+	.stabs "y:r24",64,0,8,1
+	.stabn 68,0,249,.LG137-addm
+.LG137:
+#  248 QELT *x, *y;
+#  249 {
+	.stabs "a:r14",64,0,8,2
+	.stabs "i:r1",64,0,4,3
+	.stabs "carry:r11",64,0,4,4
+	.stabd 0xc0,0,0
+	.stabn 68,0,254,.LG138-addm
+.LG138:
+#  250 register unsigned INT64 a;
+#  251 int i;
+#  252 QELT carry;
+#  253 
+#  254 x += NQ;
+	add x0,x0,56
+	.stabn 68,0,255,.LG139-addm
+.LG139:
+#  255 y += NQ;
+	add x1,x1,56
+	.stabn 68,0,256,.LG140-addm
+.LG140:
+#  256 carry = 0;
+	mov x4,xzr
+	.stabn 68,0,257,.LG141-addm
+.LG141:
+#  257 for( i=0; i<NQ-1; i++ )
+	mov x3,xzr
+.L130:
+	.stabd 0xc0,0,1
+	.stabn 68,0,259,.LG142-addm
+.LG142:
+#  258 	{
+#  259 	a = (unsigned INT64 )(*x) + (unsigned INT64 )(*y) + carry;
+	ldr w15,[x0]
+	ldr w14,[x1]
+	add x15,x14,x15
+	mov w14,w4
+	add x2,x14,x15
+	.stabn 68,0,260,.LG143-addm
+.LG143:
+#  260 	if( ((unsigned int) (a >> 32)) & 0x1 )
+	tbz x2,32,.L134
+	.stabn 68,0,261,.LG144-addm
+.LG144:
+#  261 		carry = 1;
+	mov x4,1
+	b .L135
+.L134:
+	.stabn 68,0,263,.LG145-addm
+.LG145:
+#  262 	else
+#  263 		carry = 0;
+	mov x4,xzr
+.L135:
+	.stabn 68,0,264,.LG146-addm
+.LG146:
+#  264 	*y = a;
+	str w2,[x1]
+	.stabn 68,0,265,.LG147-addm
+.LG147:
+#  265 	--x;
+	sub x0,x0,4
+	.stabn 68,0,266,.LG148-addm
+.LG148:
+#  266 	--y;
+	sub x1,x1,4
+	.stabd 0xe0,0,1
+.L131:
+	.stabn 68,0,257,.LG149-addm
+.LG149:
+	add w3,w3,1
+	.stabn 68,0,257,.LG150-addm
+.LG150:
+	cmp w3,13
+	blt .L130
+	.stabn 68,0,268,.LG151-addm
+.LG151:
+#  267 	}
+#  268 return 0;
+	mov x0,xzr
+	.stabd 0xe0,0,0
+.L129:
+	.stabn 68,0,269,.LG152-addm
+.LG152:
+#  269 }
+	ret
+.L153:
+	.size	addm,.L153-addm
+	.stabs	"",36,0,0,.L153-addm
+	.globl	addm
+	.stabs "subm:F1",36,0,0,subm
+	.stabs "x:r24",64,0,8,0
+	.stabs "x:p24",160,0,0,0
+	.stabs "y:r24",64,0,8,1
+	.stabs "y:p24",160,0,0,0
+#  270 
+#  271 /*
+#  272 ;	subtract mantissas
+#  273 ;	y - x replaces y
+#  274 */
+#  275 
+#  276 int subm( x, y )
+	.type	subm,%function
+subm:
+	.stabn 68,0,276,0
+	.stabs "x:r24",64,0,8,0
+	.stabs "y:r24",64,0,8,1
+	.stabn 68,0,278,.LG162-subm
+.LG162:
+#  277 QELT *x, *y;
+#  278 {
+	.stabs "a:r14",64,0,8,2
+	.stabs "i:r1",64,0,4,3
+	.stabs "carry:r11",64,0,4,4
+	.stabd 0xc0,0,0
+	.stabn 68,0,283,.LG163-subm
+.LG163:
+#  279 register unsigned INT64 a;
+#  280 int i;
+#  281 QELT carry;
+#  282 
+#  283 x += NQ;
+	add x0,x0,56
+	.stabn 68,0,284,.LG164-subm
+.LG164:
+#  284 y += NQ;
+	add x1,x1,56
+	.stabn 68,0,285,.LG165-subm
+.LG165:
+#  285 carry = 0;
+	mov x4,xzr
+	.stabn 68,0,286,.LG166-subm
+.LG166:
+#  286 for( i=0; i<NQ-1; i++ )
+	mov x3,xzr
+.L155:
+	.stabd 0xc0,0,1
+	.stabn 68,0,288,.LG167-subm
+.LG167:
+#  287 	{
+#  288 	a = (unsigned INT64 )(*y) - (unsigned INT64 )(*x) - carry;
+	ldr w15,[x1]
+	ldr w14,[x0]
+	sub x15,x15,x14
+	mov w14,w4
+	sub x2,x15,x14
+	.stabn 68,0,289,.LG168-subm
+.LG168:
+#  289 	if( ((unsigned int) (a >> 32)) & 0x1 )
+	tbz x2,32,.L159
+	.stabn 68,0,290,.LG169-subm
+.LG169:
+#  290 		carry = 1;
+	mov x4,1
+	b .L160
+.L159:
+	.stabn 68,0,292,.LG170-subm
+.LG170:
+#  291 	else
+#  292 		carry = 0;
+	mov x4,xzr
+.L160:
+	.stabn 68,0,293,.LG171-subm
+.LG171:
+#  293 	*y = a;
+	str w2,[x1]
+	.stabn 68,0,294,.LG172-subm
+.LG172:
+#  294 	--x;
+	sub x0,x0,4
+	.stabn 68,0,295,.LG173-subm
+.LG173:
+#  295 	--y;
+	sub x1,x1,4
+	.stabd 0xe0,0,1
+.L156:
+	.stabn 68,0,286,.LG174-subm
+.LG174:
+	add w3,w3,1
+	.stabn 68,0,286,.LG175-subm
+.LG175:
+	cmp w3,13
+	blt .L155
+	.stabn 68,0,297,.LG176-subm
+.LG176:
+#  296 	}
+#  297 return 0;
+	mov x0,xzr
+	.stabd 0xe0,0,0
+.L154:
+	.stabn 68,0,298,.LG177-subm
+.LG177:
+#  298 }
+	ret
+.L178:
+	.size	subm,.L178-subm
+	.stabs	"",36,0,0,.L178-subm
+	.globl	subm
+	.stabs "divm:F1",36,0,0,divm
+	.stabs "a:r24",64,0,8,22
+	.stabs "a:p24",160,0,0,0
+	.stabs "b:p24",160,0,0,0
+#  299 
+#  300 
+#  301 int divm( a, b )
+	.type	divm,%function
+divm:
+	.stabn 68,0,301,0
+	sub	sp,sp,288
+	stp	x29,x30,[sp]
+	add	x29,sp,16
+	stp	x27,x28,[x29,16]
+	stp	x25,x26,[x29,32]
+	stp	x23,x24,[x29,48]
+	stp	x21,x22,[x29,64]
+	mov	x22,x0
+	str	x1,[x29,8]
+	.stabs "a:r24",64,0,8,22
+	.stabs "b:p24",160,0,0,8
+	.stabn 68,0,303,.LG207-divm
+.LG207:
+#  302 QELT a[], b[];
+#  303 {
+	.stabs ":t25=ar1;0;15;11",128,0,0,0
+	.stabs "prod:25",128,0,0,80
+	.stabs "i:r1",64,0,4,28
+	.stabs "prec:r1",64,0,4,27
+	.stabs "k:r1",64,0,4,26
+	.stabs "quot:25",128,0,0,144
+	.stabs "u:r14",64,0,8,25
+	.stabs "qu:r11",64,0,4,24
+	.stabs "d:r11",64,0,4,23
+	.stabs "sqr:25",128,0,0,208
+	.stabs "p:r24",64,0,8,21
+	.stabd 0xc0,0,0
+	.stabn 68,0,310,.LG208-divm
+.LG208:
+#  304 QELT sqr[NQ+2], prod[NQ+2], quot[NQ+2];
+#  305 int i, prec, k;
+#  306 QELT d, qu, *p;
+#  307 unsigned INT64 u;
+#  308 
+#  309 /* Test if denominator has only 32 bits of significance. */
+#  310 p = &a[4];
+	add x21,x22,16
+	.stabn 68,0,311,.LG209-divm
+.LG209:
+#  311 i = NQ-4;
+	mov w28,10
+.L180:
+	.stabd 0xc0,0,1
+	.stabn 68,0,314,.LG210-divm
+.LG210:
+#  312 do
+#  313 	{
+#  314 	if( *p++ != 0 )
+	mov x15,x21
+	add x21,x15,4
+	ldr w14,[x15]
+	cbz w14,.L183
+	.stabn 68,0,315,.LG211-divm
+.LG211:
+#  315 		goto longdiv;
+	b .L185
+.L183:
+	.stabn 68,0,316,.LG212-divm
+.LG212:
+#  316 	}
+	.stabd 0xe0,0,1
+.L181:
+	.stabn 68,0,317,.LG213-divm
+.LG213:
+#  317 while( --i );
+	sub w15,w28,1
+	mov w28,w15
+	cbnz w15,.L180
+	.stabn 68,0,320,.LG214-divm
+.LG214:
+#  318 
+#  319 /* Do single precision divides if so. */
+#  320 qmov( b, prod );
+	add x1,x29,80
+	ldr x0,[x29,8]
+	bl qmov
+	.stabn 68,0,321,.LG215-divm
+.LG215:
+#  321 prod[NQ] = 0;
+	str wzr,[x29,136]
+	.stabn 68,0,322,.LG216-divm
+.LG216:
+#  322 prod[NQ+1] = 0;
+	str wzr,[x29,140]
+	.stabn 68,0,323,.LG217-divm
+.LG217:
+#  323 shdn1( prod );
+	add x0,x29,80
+	bl shdn1
+	.stabn 68,0,324,.LG218-divm
+.LG218:
+#  324 shdn1( prod );
+	add x0,x29,80
+	bl shdn1
+	.stabn 68,0,325,.LG219-divm
+.LG219:
+#  325 d = a[3];
+	ldr w23,[x22,12]
+	.stabn 68,0,326,.LG220-divm
+.LG220:
+#  326 u = ((unsigned INT64)prod[3] << 32) | prod[4];
+	ldr w15,[x29,92]
+	lsl x15,x15,32
+	ldr w14,[x29,96]
+	orr x25,x15,x14
+	.stabn 68,0,327,.LG221-divm
+.LG221:
+#  327 for( i=3; i<NQ; i++ )
+	mov x28,3
+.L190:
+	.stabd 0xc0,0,1
+	.stabn 68,0,329,.LG222-divm
+.LG222:
+#  328 	{
+#  329 	qu = u / d;
+	mov w15,w23
+	udiv x24,x25,x15
+	.stabn 68,0,330,.LG223-divm
+.LG223:
+#  330 	prod[i] = qu;
+	add x15,x29,80
+	str w24,[x15,x28,lsl 2]
+	.stabn 68,0,331,.LG224-divm
+.LG224:
+#  331 	u = ((u - (unsigned INT64)d * qu) << 32) | prod[i+2];
+	msub x15,x23,x24,x25
+	lsl x15,x15,32
+	add w14,w28,2
+	sxtw x14,w14
+	add x13,x29,80
+	ldr w14,[x13,x14,lsl 2]
+	orr x25,x15,x14
+	.stabd 0xe0,0,1
+.L191:
+	.stabn 68,0,327,.LG225-divm
+.LG225:
+	add w28,w28,1
+	.stabn 68,0,327,.LG226-divm
+.LG226:
+	cmp w28,14
+	blt .L190
+	.stabn 68,0,333,.LG227-divm
+.LG227:
+#  332 	}
+#  333 prod[NQ] = u / d;
+	mov w15,w23
+	udiv x15,x25,x15
+	str w15,[x29,136]
+	.stabn 68,0,334,.LG228-divm
+.LG228:
+#  334 goto divdon;
+	b .L195
+.L185:
+	.stabn 68,0,340,.LG229-divm
+.LG229:
+#  335 
+#  336 
+#  337 longdiv:
+#  338 
+#  339 /* Slower procedure is required */
+#  340 qclear(quot);
+	add x0,x29,144
+	bl qclear
+	.stabn 68,0,341,.LG230-divm
+.LG230:
+#  341 quot[NQ] = 0;
+	str wzr,[x29,200]
+	.stabn 68,0,342,.LG231-divm
+.LG231:
+#  342 qclear(prod);
+	add x0,x29,80
+	bl qclear
+	.stabn 68,0,343,.LG232-divm
+.LG232:
+#  343 qclear(sqr);
+	add x0,x29,208
+	bl qclear
+	.stabn 68,0,347,.LG233-divm
+.LG233:
+#  344 #ifdef _MSC_VER
+#  345 quot[3] = (((unsigned INT64)0x40000000) << 32) / a[3];
+#  346 #else
+#  347 quot[3] = ((unsigned INT64)0x4000000000000000ULL) / a[3];
+	mov x15,1
+	orr x15,xzr,x15,lsl 62
+	ldr w14,[x22,12]
+	udiv x15,x15,x14
+	str w15,[x29,156]
+	.stabn 68,0,349,.LG234-divm
+.LG234:
+#  348 #endif
+#  349 prec = 2;
+	mov x27,2
+	.stabn 68,0,350,.LG235-divm
+.LG235:
+#  350 k = 1;
+	mov x26,1
+	b .L199
+.L198:
+	.stabd 0xc0,0,1
+	.stabn 68,0,353,.LG236-divm
+.LG236:
+#  351 while( prec < NQ-2 )
+#  352 	{
+#  353 	k = 2 * k;
+	lsl w26,w26,1
+	.stabn 68,0,354,.LG237-divm
+.LG237:
+#  354 	if( k > NQ-2 )
+	cmp w26,12
+	ble .L201
+	.stabn 68,0,355,.LG238-divm
+.LG238:
+#  355 		prec = NQ - 2;
+	mov x27,12
+	b .L202
+.L201:
+	.stabn 68,0,357,.LG239-divm
+.LG239:
+#  356 	else
+#  357 		prec = k;
+	mov w27,w26
+.L202:
+	.stabn 68,0,358,.LG240-divm
+.LG240:
+#  358 	squarev( quot, sqr, prec );
+	mov w2,w27
+	add x1,x29,208
+	add x0,x29,144
+	bl squarev
+	.stabn 68,0,359,.LG241-divm
+.LG241:
+#  359 	mulv( a, sqr, prod, prec );
+	mov w3,w27
+	add x2,x29,80
+	add x1,x29,208
+	mov x0,x22
+	bl mulv
+	.stabn 68,0,360,.LG242-divm
+.LG242:
+#  360 	subm( prod, quot );
+	add x1,x29,144
+	add x0,x29,80
+	bl subm
+	.stabn 68,0,361,.LG243-divm
+.LG243:
+#  361 	shup1( quot );
+	add x0,x29,144
+	bl shup1
+	.stabd 0xe0,0,1
+.L199:
+	.stabn 68,0,351,.LG244-divm
+.LG244:
+	cmp w27,12
+	blt .L198
+	.stabn 68,0,363,.LG245-divm
+.LG245:
+#  362 	}
+#  363 mulv( quot, b, prod, NQ-2 );
+	mov x3,12
+	add x2,x29,80
+	ldr x1,[x29,8]
+	add x0,x29,144
+	bl mulv
+	.stabn 68,0,364,.LG246-divm
+.LG246:
+#  364 prod[0] = b[0];
+	ldr x15,[x29,8]
+	ldr w15,[x15]
+	str w15,[x29,80]
+	.stabn 68,0,365,.LG247-divm
+.LG247:
+#  365 prod[1] = b[1];
+	ldr x15,[x29,8]
+	ldr w15,[x15,4]
+	str w15,[x29,84]
+.L195:
+	.stabn 68,0,369,.LG248-divm
+.LG248:
+#  366 
+#  367 divdon:
+#  368 
+#  369 mdnorm( prod );
+	add x0,x29,80
+	bl mdnorm
+	.stabn 68,0,370,.LG249-divm
+.LG249:
+#  370 qmov( prod, b );
+	ldr x1,[x29,8]
+	add x0,x29,80
+	bl qmov
+	.stabn 68,0,371,.LG250-divm
+.LG250:
+#  371 return 0;
+	mov x0,xzr
+	.stabd 0xe0,0,0
+.L179:
+	.stabn 68,0,372,.LG251-divm
+.LG251:
+#  372 }
+	ldp	x27,x28,[x29,16]
+	ldp	x25,x26,[x29,32]
+	ldp	x23,x24,[x29,48]
+	ldp	x21,x22,[x29,64]
+	ldp	x29,x30,[sp],288
+	ret
+.L252:
+	.size	divm,.L252-divm
+	.stabs	"",36,0,0,.L252-divm
+	.globl	divm
+	.stabs "mulv:f1",36,0,0,mulv
+	.stabs "a:r24",64,0,8,0
+	.stabs "a:p24",160,0,0,0
+	.stabs "b:r24",64,0,8,1
+	.stabs "b:p24",160,0,0,0
+	.stabs "c:r24",64,0,8,2
+	.stabs "c:p24",160,0,0,0
+	.stabs "prec:r1",64,0,4,3
+	.stabs "prec:p1",160,0,0,0
+#  373 
+#  374 /*
+#  375 prtemp( s, z )
+#  376 char *s;
+#  377 unsigned short z[];
+#  378 {
+#  379 int i;
+#  380 
+#  381 printf( "%s ", s );
+#  382 for( i=0; i<8; i++ )
+#  383 	printf( "%04x ", z[i+2] );
+#  384 printf( "\n" );
+#  385 }
+#  386 */
+#  387 
+#  388 
+#  389 /* Variable precision multiply of significands.
+#  390  * c must not be in the same location as either a or b.
+#  391  */
+#  392 static int mulv( a, b, c, prec )
+	.type	mulv,%function
+mulv:
+	.stabn 68,0,392,0
+	sub	sp,sp,80
+	stp	x29,x30,[sp]
+	add	x29,sp,16
+	str	x28,[x29,32]
+	.stabs "a:r24",64,0,8,0
+	.stabs "b:r24",64,0,8,1
+	.stabs "c:r24",64,0,8,2
+	.stabs "prec:r1",64,0,4,3
+	.stabn 68,0,395,.LG273-mulv
+.LG273:
+#  393 QELT a[], b[], c[];
+#  394 int prec;
+#  395 {
+	.stabs "p:r24",64,0,8,7
+	.stabs "q:r24",64,0,8,28
+	.stabs "r:r24",64,0,8,5
+	.stabs "u:r14",64,0,8,4
+	.stabs "lp:r14",64,0,8,6
+	.stabs "i:1",128,0,0,40
+	.stabs "k:1",128,0,0,48
+	.stabd 0xc0,0,0
+	.stabn 68,0,400,.LG274-mulv
+.LG274:
+#  396 register QELT *p, *q, *r;
+#  397 register unsigned INT64 u, lp;
+#  398 int k, i;
+#  399 
+#  400 k = prec+2;
+	add w15,w3,2
+	str w15,[x29,48]
+	.stabn 68,0,401,.LG275-mulv
+.LG275:
+#  401 p = &c[2];
+	add x7,x2,8
+.L254:
+	.stabn 68,0,403,.LG276-mulv
+.LG276:
+#  402 do
+#  403 	*p++ = 0;
+	str wzr,[x7],4
+.L255:
+	.stabn 68,0,404,.LG277-mulv
+.LG277:
+#  404 while( --k );
+	ldr w15,[x29,48]
+	sub w15,w15,1
+	str w15,[x29,48]
+	cbnz w15,.L254
+	.stabn 68,0,406,.LG278-mulv
+.LG278:
+#  405 
+#  406 r = &c[prec+3];
+	add w15,w3,3
+	sxtw x15,w15
+	lsl x15,x15,2
+	add x5,x2,x15
+	.stabn 68,0,407,.LG279-mulv
+.LG279:
+#  407 for( k=prec+2; k>=3; k-- )
+	add w15,w3,2
+	str w15,[x29,48]
+	b .L260
+.L257:
+	.stabd 0xc0,0,1
+	.stabn 68,0,409,.LG280-mulv
+.LG280:
+#  408 {
+#  409 q = &b[3];
+	add x28,x1,12
+	.stabn 68,0,410,.LG281-mulv
+.LG281:
+#  410 p = &a[k];
+	ldrsw x15,[x29,48]
+	lsl x15,x15,2
+	add x7,x0,x15
+	.stabn 68,0,411,.LG282-mulv
+.LG282:
+#  411 for( i=k; i>=3; i-- )
+	ldr w15,[x29,48]
+	str w15,[x29,40]
+	b .L264
+.L261:
+	.stabd 0xc0,0,2
+	.stabn 68,0,413,.LG283-mulv
+.LG283:
+#  412 	{
+#  413 	if( (*p == 0) || (*q == 0) )
+	ldr w15,[x7]
+	cbz w15,.L267
+	ldr w15,[x28]
+	cbnz w15,.L265
+.L267:
+	.stabd 0xc0,0,3
+	.stabn 68,0,415,.LG284-mulv
+.LG284:
+#  414 		{
+#  415 		--p;
+	sub x7,x7,4
+	.stabn 68,0,416,.LG285-mulv
+.LG285:
+#  416 		++q;
+	add x28,x28,4
+	.stabn 68,0,417,.LG286-mulv
+.LG286:
+#  417 		continue;
+	b .L262
+	.stabd 0xe0,0,3
+.L265:
+	.stabn 68,0,419,.LG287-mulv
+.LG287:
+#  418 		}
+#  419 	lp = (unsigned INT64)(*p--) * (*q++);
+	mov x15,x7
+	sub x7,x15,4
+	mov x14,x28
+	add x28,x14,4
+	ldr w13,[x15]
+	ldr w12,[x14]
+	mul x6,x13,x12
+	.stabn 68,0,420,.LG288-mulv
+.LG288:
+#  420 	u = (unsigned INT64)(*r) + ((unsigned int) lp);
+	ldr w15,[x5]
+	mov w14,w6
+	add x4,x14,x15
+	.stabn 68,0,421,.LG289-mulv
+.LG289:
+#  421 	*r = u;
+	str w4,[x5]
+	.stabn 68,0,422,.LG290-mulv
+.LG290:
+#  422 	u = (unsigned INT64)(*(r-1)) + (lp >> 32) + (u >> 32);
+	sub x15,x5,4
+	ldr w15,[x15]
+	lsr x14,x6,32
+	add x15,x14,x15
+	lsr x14,x4,32
+	add x4,x14,x15
+	.stabn 68,0,423,.LG291-mulv
+.LG291:
+#  423 	*(r-1) = u;
+	sub x15,x5,4
+	str w4,[x15]
+	.stabn 68,0,424,.LG292-mulv
+.LG292:
+#  424 	*(r-2) += u >> 32;
+	sub x15,x5,8
+	ldr w14,[x15]
+	lsr x13,x4,32
+	add x14,x13,x14
+	str w14,[x15]
+	.stabd 0xe0,0,2
+.L262:
+	.stabn 68,0,411,.LG293-mulv
+.LG293:
+	ldr w15,[x29,40]
+	sub w15,w15,1
+	str w15,[x29,40]
+.L264:
+	.stabn 68,0,411,.LG294-mulv
+.LG294:
+	ldr w15,[x29,40]
+	cmp w15,3
+	bge .L261
+	.stabn 68,0,426,.LG295-mulv
+.LG295:
+#  425 	}
+#  426 --r;
+	sub x5,x5,4
+	.stabd 0xe0,0,1
+.L258:
+	.stabn 68,0,407,.LG296-mulv
+.LG296:
+	ldr w15,[x29,48]
+	sub w15,w15,1
+	str w15,[x29,48]
+.L260:
+	.stabn 68,0,407,.LG297-mulv
+.LG297:
+	ldr w15,[x29,48]
+	cmp w15,3
+	bge .L257
+	.stabn 68,0,428,.LG298-mulv
+.LG298:
+#  427 }
+#  428 return 0;
+	mov x0,xzr
+	.stabd 0xe0,0,0
+.L253:
+	.stabn 68,0,429,.LG299-mulv
+.LG299:
+#  429 }
+	ldr	x28,[x29,32]
+	ldp	x29,x30,[sp],80
+	ret
+.L300:
+	.size	mulv,.L300-mulv
+	.stabs	"",36,0,0,.L300-mulv
+	.stabs "squarev:f1",36,0,0,squarev
+	.stabs "a:r24",64,0,8,22
+	.stabs "a:p24",160,0,0,0
+	.stabs "b:r24",64,0,8,21
+	.stabs "b:p24",160,0,0,0
+	.stabs "prec:p1",160,0,0,0
+#  430 
+#  431 
+#  432 
+#  433 /* Variable precision square.
+#  434  * b must be in a different location from a.
+#  435  */
+#  436 static int squarev( a, b, prec )
+	.type	squarev,%function
+squarev:
+	.stabn 68,0,436,0
+	sub	sp,sp,112
+	stp	x29,x30,[sp]
+	add	x29,sp,16
+	stp	x27,x28,[x29,24]
+	stp	x25,x26,[x29,40]
+	stp	x23,x24,[x29,56]
+	stp	x21,x22,[x29,72]
+	mov	x22,x0
+	mov	x21,x1
+	str	x2,[x29,16]
+	.stabs "a:r24",64,0,8,22
+	.stabs "b:r24",64,0,8,21
+	.stabs "prec:p1",160,0,0,16
+	.stabn 68,0,439,.LG323-squarev
+.LG323:
+#  437 QELT a[], b[];
+#  438 int prec;
+#  439 {
+	.stabs "u:r14",64,0,8,28
+	.stabs "lp:r14",64,0,8,24
+	.stabs "p:r24",64,0,8,27
+	.stabs "q:r24",64,0,8,26
+	.stabs "r:r24",64,0,8,25
+	.stabs "k:r1",64,0,4,23
+	.stabd 0xc0,0,0
+	.stabn 68,0,444,.LG324-squarev
+.LG324:
+#  440 QELT *p, *q, *r;
+#  441 register unsigned INT64 u, lp;
+#  442 int k;
+#  443 
+#  444 k = prec+2;
+	ldr w15,[x29,16]
+	add w23,w15,2
+	.stabn 68,0,445,.LG325-squarev
+.LG325:
+#  445 p = &b[2];
+	add x27,x21,8
+.L302:
+	.stabn 68,0,447,.LG326-squarev
+.LG326:
+#  446 do
+#  447 	*p++ = 0;
+	str wzr,[x27],4
+.L303:
+	.stabn 68,0,448,.LG327-squarev
+.LG327:
+#  448 while( --k );
+	sub w15,w23,1
+	mov w23,w15
+	cbnz w15,.L302
+	.stabn 68,0,450,.LG328-squarev
+.LG328:
+#  449 
+#  450 r = &b[prec+3];
+	ldr w15,[x29,16]
+	add w15,w15,3
+	sxtw x15,w15
+	lsl x15,x15,2
+	add x25,x21,x15
+	.stabn 68,0,451,.LG329-squarev
+.LG329:
+#  451 for( k=prec+2; k>=3; k-- )
+	ldr w15,[x29,16]
+	add w23,w15,2
+	b .L308
+.L305:
+	.stabd 0xc0,0,1
+	.stabn 68,0,453,.LG330-squarev
+.LG330:
+#  452 {
+#  453 q = &a[3];
+	add x26,x22,12
+	.stabn 68,0,454,.LG331-squarev
+.LG331:
+#  454 p = &a[k];
+	lsl x15,x23,2
+	add x27,x22,x15
+	b .L310
+.L309:
+	.stabd 0xc0,0,2
+	.stabn 68,0,457,.LG332-squarev
+.LG332:
+#  455 while( p >= q )	
+#  456 	{
+#  457 	if( (*p == 0) || (*q == 0) )
+	ldr w15,[x27]
+	cbz w15,.L314
+	ldr w15,[x26]
+	cbnz w15,.L312
+.L314:
+	.stabd 0xc0,0,3
+	.stabn 68,0,459,.LG333-squarev
+.LG333:
+#  458 		{
+#  459 		--p;
+	sub x27,x27,4
+	.stabn 68,0,460,.LG334-squarev
+.LG334:
+#  460 		++q;
+	add x26,x26,4
+	.stabn 68,0,461,.LG335-squarev
+.LG335:
+#  461 		continue;
+	b .L310
+	.stabd 0xe0,0,3
+.L312:
+	.stabn 68,0,464,.LG336-squarev
+.LG336:
+#  462 		}
+#  463 /*	printf( "%d %d %d\n", p - &a[3], q - &a[3], r - &b[3] );*/
+#  464 	lp = (unsigned INT64)(*p) * (*q);
+	ldr w15,[x27]
+	ldr w14,[x26]
+	mul x24,x15,x14
+	.stabn 68,0,465,.LG337-squarev
+.LG337:
+#  465 	if( p != q )
+	cmp x27,x26
+	beq .L315
+	.stabd 0xc0,0,3
+	.stabn 68,0,467,.LG338-squarev
+.LG338:
+#  466 		{
+#  467 		if( (lp >> 32) & 0x80000000 )
+	lsr x15,x24,32
+	and x15,x15,2147483648
+	cbz x15,.L317
+	.stabn 68,0,468,.LG339-squarev
+.LG339:
+#  468 			*(r-2) += 1;
+	sub x15,x25,8
+	ldr w14,[x15]
+	add w14,w14,1
+	str w14,[x15]
+.L317:
+	.stabn 68,0,469,.LG340-squarev
+.LG340:
+#  469 		lp <<= 1;
+	lsl x24,x24,1
+	.stabd 0xe0,0,3
+.L315:
+	.stabn 68,0,471,.LG341-squarev
+.LG341:
+#  470 		}
+#  471 	--p;
+	sub x27,x27,4
+	.stabn 68,0,472,.LG342-squarev
+.LG342:
+#  472 	++q;
+	add x26,x26,4
+	.stabn 68,0,473,.LG343-squarev
+.LG343:
+#  473 	u = (unsigned INT64)(*r) + ((unsigned int) lp);
+	ldr w15,[x25]
+	mov w14,w24
+	add x28,x14,x15
+	.stabn 68,0,474,.LG344-squarev
+.LG344:
+#  474 	*r = u;
+	str w28,[x25]
+	.stabn 68,0,475,.LG345-squarev
+.LG345:
+#  475 	u = (unsigned INT64)(*(r-1)) + (lp >> 32) + (u >> 32);
+	sub x15,x25,4
+	ldr w15,[x15]
+	lsr x14,x24,32
+	add x15,x14,x15
+	lsr x14,x28,32
+	add x28,x14,x15
+	.stabn 68,0,476,.LG346-squarev
+.LG346:
+#  476 	*(r-1) = u;
+	sub x15,x25,4
+	str w28,[x15]
+	.stabn 68,0,477,.LG347-squarev
+.LG347:
+#  477 	*(r-2) += u >> 32;
+	sub x15,x25,8
+	ldr w14,[x15]
+	lsr x13,x28,32
+	add x14,x13,x14
+	str w14,[x15]
+	.stabd 0xe0,0,2
+.L310:
+	.stabn 68,0,455,.LG348-squarev
+.LG348:
+	cmp x27,x26
+	bhs .L309
+	.stabn 68,0,479,.LG349-squarev
+.LG349:
+#  478 	}
+#  479 --r;
+	sub x25,x25,4
+	.stabd 0xe0,0,1
+.L306:
+	.stabn 68,0,451,.LG350-squarev
+.LG350:
+	sub w23,w23,1
+.L308:
+	.stabn 68,0,451,.LG351-squarev
+.LG351:
+	cmp w23,3
+	bge .L305
+	.stabn 68,0,481,.LG352-squarev
+.LG352:
+#  480 }
+#  481 shup1(b);
+	mov x0,x21
+	bl shup1
+	.stabn 68,0,482,.LG353-squarev
+.LG353:
+#  482 return 0;
+	mov x0,xzr
+	.stabd 0xe0,0,0
+.L301:
+	.stabn 68,0,483,.LG354-squarev
+.LG354:
+#  483 }
+	ldp	x27,x28,[x29,24]
+	ldp	x25,x26,[x29,40]
+	ldp	x23,x24,[x29,56]
+	ldp	x21,x22,[x29,72]
+	ldp	x29,x30,[sp],112
+	ret
+.L355:
+	.size	squarev,.L355-squarev
+	.stabs	"",36,0,0,.L355-squarev
+	.stabs "mulm:F1",36,0,0,mulm
+	.stabs "b:p24",160,0,0,0
+	.stabs "ac3:p24",160,0,0,0
+#  484 
+#  485 
+#  486 
+#  487 
+#  488 
+#  489 int mulm( b, ac3 )
+	.type	mulm,%function
+mulm:
+	.stabn 68,0,489,0
+	sub	sp,sp,176
+	stp	x29,x30,[sp]
+	add	x29,sp,16
+	stp	x27,x28,[x29,16]
+	stp	x25,x26,[x29,32]
+	stp	x23,x24,[x29,48]
+	stp	x21,x22,[x29,64]
+	str	x0,[x29,0]
+	str	x1,[x29,8]
+	.stabs "b:p24",160,0,0,0
+	.stabs "ac3:p24",160,0,0,8
+	.stabn 68,0,491,.LG378-mulm
+.LG378:
+#  490 QELT b[], ac3[];
+#  491 {
+	.stabs "p:r24",64,0,8,25
+	.stabs "q:r24",64,0,8,24
+	.stabs "a:r14",64,0,8,28
+	.stabs "r:r24",64,0,8,27
+	.stabs "lp:r14",64,0,8,26
+	.stabs "i:r1",64,0,4,23
+	.stabs "o:r1",64,0,4,22
+	.stabs "k:r1",64,0,4,21
+	.stabs "m:1",128,0,0,80
+	.stabs "act:25",128,0,0,96
+	.stabd 0xc0,0,0
+	.stabn 68,0,498,.LG379-mulm
+.LG379:
+#  492 register QELT *p, *q;
+#  493 QELT act[NQ+2];
+#  494 QELT *r;
+#  495 unsigned INT64 lp, a;
+#  496 int i, k, m, o;
+#  497 
+#  498 qclear( act );
+	add x0,x29,96
+	bl qclear
+	.stabn 68,0,499,.LG380-mulm
+.LG380:
+#  499 act[0] = ac3[0];
+	ldr x15,[x29,8]
+	ldr w15,[x15]
+	str w15,[x29,96]
+	.stabn 68,0,500,.LG381-mulm
+.LG381:
+#  500 act[1] = ac3[1];
+	ldr x15,[x29,8]
+	ldr w15,[x15,4]
+	str w15,[x29,100]
+	.stabn 68,0,501,.LG382-mulm
+.LG382:
+#  501 act[NQ] = 0;
+	str wzr,[x29,152]
+	.stabn 68,0,502,.LG383-mulm
+.LG383:
+#  502 act[NQ+1] = 0;
+	str wzr,[x29,156]
+	.stabn 68,0,503,.LG384-mulm
+.LG384:
+#  503 r = &act[NQ+1];
+	add x27,x29,156
+	.stabn 68,0,504,.LG385-mulm
+.LG385:
+#  504 for( k=NQ; k>=3; k-- )
+	mov x21,14
+.L361:
+	.stabd 0xc0,0,1
+	.stabn 68,0,506,.LG386-mulm
+.LG386:
+#  505 {
+#  506 if( k == NQ )
+	cmp w21,14
+	bne .L365
+	.stabd 0xc0,0,2
+	.stabn 68,0,508,.LG387-mulm
+.LG387:
+#  507 	{
+#  508 	m = NQ-1;
+	mov w15,13
+	str w15,[x29,80]
+	.stabn 68,0,509,.LG388-mulm
+.LG388:
+#  509 	o = 4;
+	mov x22,4
+	.stabd 0xe0,0,2
+	b .L366
+.L365:
+	.stabn 68,0,512,.LG389-mulm
+.LG389:
+#  510 	}
+#  511 else
+#  512 	{
+	.stabd 0xc0,0,2
+	.stabn 68,0,513,.LG390-mulm
+.LG390:
+#  513 	m = k;
+	str w21,[x29,80]
+	.stabn 68,0,514,.LG391-mulm
+.LG391:
+#  514 	o = 3;
+	mov x22,3
+	.stabd 0xe0,0,2
+.L366:
+	.stabn 68,0,516,.LG392-mulm
+.LG392:
+#  515 	}
+#  516 q = &ac3[o];
+	lsl x15,x22,2
+	ldr x14,[x29,8]
+	add x24,x14,x15
+	.stabn 68,0,517,.LG393-mulm
+.LG393:
+#  517 p = &b[m];
+	ldrsw x15,[x29,80]
+	lsl x15,x15,2
+	ldr x14,[x29,0]
+	add x25,x14,x15
+	.stabn 68,0,519,.LG394-mulm
+.LG394:
+#  518 
+#  519 for( i=m; i>=o; i-- )
+	ldr w23,[x29,80]
+	b .L370
+.L367:
+	.stabd 0xc0,0,2
+	.stabn 68,0,521,.LG395-mulm
+.LG395:
+#  520 	{
+#  521 	if( (*p == 0) || (*q == 0) )
+	ldr w15,[x25]
+	cbz w15,.L373
+	ldr w15,[x24]
+	cbnz w15,.L371
+.L373:
+	.stabd 0xc0,0,3
+	.stabn 68,0,523,.LG396-mulm
+.LG396:
+#  522 		{
+#  523 		--p;
+	sub x25,x25,4
+	.stabn 68,0,524,.LG397-mulm
+.LG397:
+#  524 		++q;
+	add x24,x24,4
+	.stabn 68,0,525,.LG398-mulm
+.LG398:
+#  525 		continue;
+	b .L368
+	.stabd 0xe0,0,3
+.L371:
+	.stabn 68,0,527,.LG399-mulm
+.LG399:
+#  526 		}
+#  527 	lp = (unsigned INT64)(*p--) * (*q++);
+	mov x15,x25
+	sub x25,x15,4
+	mov x14,x24
+	add x24,x14,4
+	ldr w13,[x15]
+	ldr w12,[x14]
+	mul x26,x13,x12
+	.stabn 68,0,528,.LG400-mulm
+.LG400:
+#  528 	a = (unsigned INT64)(*r) + ((unsigned int) lp);
+	ldr w15,[x27]
+	mov w14,w26
+	add x28,x14,x15
+	.stabn 68,0,529,.LG401-mulm
+.LG401:
+#  529 	*r = a;
+	str w28,[x27]
+	.stabn 68,0,530,.LG402-mulm
+.LG402:
+#  530 	a = (unsigned INT64)(*(r-1)) + (lp >> 32) + (a >> 32);
+	sub x15,x27,4
+	ldr w15,[x15]
+	lsr x14,x26,32
+	add x15,x14,x15
+	lsr x14,x28,32
+	add x28,x14,x15
+	.stabn 68,0,531,.LG403-mulm
+.LG403:
+#  531 	*(r-1) = a;
+	sub x15,x27,4
+	str w28,[x15]
+	.stabn 68,0,532,.LG404-mulm
+.LG404:
+#  532 	*(r-2) += a >> 32;
+	sub x15,x27,8
+	ldr w14,[x15]
+	lsr x13,x28,32
+	add x14,x13,x14
+	str w14,[x15]
+	.stabd 0xe0,0,2
+.L368:
+	.stabn 68,0,519,.LG405-mulm
+.LG405:
+	sub w23,w23,1
+.L370:
+	.stabn 68,0,519,.LG406-mulm
+.LG406:
+	cmp w23,w22
+	bge .L367
+	.stabn 68,0,534,.LG407-mulm
+.LG407:
+#  533 	}
+#  534 --r;
+	sub x27,x27,4
+	.stabd 0xe0,0,1
+.L362:
+	.stabn 68,0,504,.LG408-mulm
+.LG408:
+	sub w21,w21,1
+	.stabn 68,0,504,.LG409-mulm
+.LG409:
+	cmp w21,3
+	bge .L361
+	.stabn 68,0,536,.LG410-mulm
+.LG410:
+#  535 }
+#  536 mdnorm( act );
+	add x0,x29,96
+	bl mdnorm
+	.stabn 68,0,537,.LG411-mulm
+.LG411:
+#  537 qmov( act, ac3 );
+	ldr x1,[x29,8]
+	add x0,x29,96
+	bl qmov
+	.stabn 68,0,538,.LG412-mulm
+.LG412:
+#  538 return 0;
+	mov x0,xzr
+	.stabd 0xe0,0,0
+.L356:
+	.stabn 68,0,539,.LG413-mulm
+.LG413:
+#  539 }
+	ldp	x27,x28,[x29,16]
+	ldp	x25,x26,[x29,32]
+	ldp	x23,x24,[x29,48]
+	ldp	x21,x22,[x29,64]
+	ldp	x29,x30,[sp],176
+	ret
+.L414:
+	.size	mulm,.L414-mulm
+	.stabs	"",36,0,0,.L414-mulm
+	.globl	mulm
+	.stabs "mulin:F1",36,0,0,mulin
+	.stabs "b:p24",160,0,0,0
+	.stabs "ac3:r24",64,0,8,22
+	.stabs "ac3:p24",160,0,0,0
+#  540 
+#  541 
+#  542 
+#  543 
+#  544 int mulin( b, ac3 )
+	.type	mulin,%function
+mulin:
+	.stabn 68,0,544,0
+	sub	sp,sp,160
+	stp	x29,x30,[sp]
+	add	x29,sp,16
+	stp	x27,x28,[x29,16]
+	stp	x25,x26,[x29,32]
+	stp	x23,x24,[x29,48]
+	str	x22,[x29,64]
+	str	x0,[x29,0]
+	mov	x22,x1
+	.stabs "b:p24",160,0,0,0
+	.stabs "ac3:r24",64,0,8,22
+	.stabn 68,0,546,.LG428-mulin
+.LG428:
+#  545 QELT b[], ac3[];
+#  546 {
+	.stabs "p:r24",64,0,8,25
+	.stabs "r:r24",64,0,8,28
+	.stabs "a:r14",64,0,8,27
+	.stabs "lp:r14",64,0,8,26
+	.stabs "i:r1",64,0,4,24
+	.stabs "y:r11",64,0,4,23
+	.stabs ":t26=ar1;0;14;11",128,0,0,0
+	.stabs "act:26",128,0,0,72
+	.stabd 0xc0,0,0
+	.stabn 68,0,553,.LG429-mulin
+.LG429:
+#  547 register QELT *p, *r;
+#  548 QELT act[NQ+1];
+#  549 QELT y;
+#  550 unsigned INT64 lp, a;
+#  551 int i;
+#  552 
+#  553 qclear( act );
+	add x0,x29,72
+	bl qclear
+	.stabn 68,0,554,.LG430-mulin
+.LG430:
+#  554 act[0] = ac3[0];
+	ldr w15,[x22]
+	str w15,[x29,72]
+	.stabn 68,0,555,.LG431-mulin
+.LG431:
+#  555 act[1] = ac3[1];
+	ldr w15,[x22,4]
+	str w15,[x29,76]
+	.stabn 68,0,556,.LG432-mulin
+.LG432:
+#  556 act[NQ] = 0;
+	str wzr,[x29,128]
+	.stabn 68,0,557,.LG433-mulin
+.LG433:
+#  557 r = &act[NQ];
+	add x28,x29,128
+	.stabn 68,0,558,.LG434-mulin
+.LG434:
+#  558 y = b[3];
+	ldr x15,[x29,0]
+	ldr w23,[x15,12]
+	.stabn 68,0,559,.LG435-mulin
+.LG435:
+#  559 p = &ac3[NQ-1];
+	add x25,x22,52
+	.stabn 68,0,560,.LG436-mulin
+.LG436:
+#  560 for( i=NQ-1; i>=3; i-- )
+	mov w24,13
+.L419:
+	.stabd 0xc0,0,1
+	.stabn 68,0,562,.LG437-mulin
+.LG437:
+#  561 	{
+#  562 	if( *p == 0 )
+	ldr w15,[x25]
+	cbnz w15,.L423
+	.stabd 0xc0,0,2
+	.stabn 68,0,564,.LG438-mulin
+.LG438:
+#  563 		{
+#  564 		--p;
+	sub x25,x25,4
+	.stabn 68,0,565,.LG439-mulin
+.LG439:
+#  565 		--r;
+	sub x28,x28,4
+	.stabn 68,0,566,.LG440-mulin
+.LG440:
+#  566 		continue;
+	b .L420
+	.stabd 0xe0,0,2
+.L423:
+	.stabn 68,0,568,.LG441-mulin
+.LG441:
+#  567 		}
+#  568 	lp = (unsigned INT64)(*p--) * y;
+	mov x15,x25
+	sub x25,x15,4
+	ldr w14,[x15]
+	mov w13,w23
+	mul x26,x14,x13
+	.stabn 68,0,569,.LG442-mulin
+.LG442:
+#  569 	a = (unsigned INT64)(*r) + ((unsigned int) lp);
+	ldr w15,[x28]
+	mov w14,w26
+	add x27,x14,x15
+	.stabn 68,0,570,.LG443-mulin
+.LG443:
+#  570 	*r = a;
+	str w27,[x28]
+	.stabn 68,0,571,.LG444-mulin
+.LG444:
+#  571 	a = (unsigned INT64)(*(r-1)) + (lp >> 32) + (a >> 32);
+	sub x15,x28,4
+	ldr w15,[x15]
+	lsr x14,x26,32
+	add x15,x14,x15
+	lsr x14,x27,32
+	add x27,x14,x15
+	.stabn 68,0,572,.LG445-mulin
+.LG445:
+#  572 	*(r-1) = a;
+	sub x15,x28,4
+	str w27,[x15]
+	.stabn 68,0,573,.LG446-mulin
+.LG446:
+#  573 	*(r-2) += a >> 32;
+	sub x15,x28,8
+	ldr w14,[x15]
+	lsr x13,x27,32
+	add x14,x13,x14
+	str w14,[x15]
+	.stabn 68,0,574,.LG447-mulin
+.LG447:
+#  574 	--r;
+	sub x28,x28,4
+	.stabd 0xe0,0,1
+.L420:
+	.stabn 68,0,560,.LG448-mulin
+.LG448:
+	sub w24,w24,1
+	.stabn 68,0,560,.LG449-mulin
+.LG449:
+	cmp w24,3
+	bge .L419
+	.stabn 68,0,576,.LG450-mulin
+.LG450:
+#  575 	}
+#  576 mdnorm( act );
+	add x0,x29,72
+	bl mdnorm
+	.stabn 68,0,577,.LG451-mulin
+.LG451:
+#  577 qmov( act, ac3 );
+	mov x1,x22
+	add x0,x29,72
+	bl qmov
+	.stabn 68,0,578,.LG452-mulin
+.LG452:
+#  578 return 0;
+	mov x0,xzr
+	.stabd 0xe0,0,0
+.L415:
+	.stabn 68,0,579,.LG453-mulin
+.LG453:
+#  579 }
+	ldp	x27,x28,[x29,16]
+	ldp	x25,x26,[x29,32]
+	ldp	x23,x24,[x29,48]
+	ldr	x22,[x29,64]
+	ldp	x29,x30,[sp],160
+	ret
+.L454:
+	.size	mulin,.L454-mulin
+	.stabs	"",36,0,0,.L454-mulin
+	.globl	mulin
+	.data
+	.align	8
+	.type	rndset,object
+	.size	rndset,4
+rndset:
+	.word	0
+	.stabs "rndset:S1",38,0,0,rndset
+	.text
+	.stabs "mdnorm:F1",36,0,0,mdnorm
+	.stabs "x:r24",64,0,8,27
+	.stabs "x:p24",160,0,0,0
+#  580 
+#  581 
+#  582 QELT rndbit[NQ+1];
+#  583 static int rndset = 0;
+#  584 
+#  585 int mdnorm( x )
+	.type	mdnorm,%function
+mdnorm:
+	.stabn 68,0,585,0
+	sub	sp,sp,48
+	stp	x29,x30,[sp]
+	add	x29,sp,16
+	stp	x27,x28,[x29,8]
+	str	x26,[x29,24]
+	mov	x27,x0
+	.stabs "x:r24",64,0,8,27
+	.stabn 68,0,587,.LG484-mdnorm
+.LG484:
+#  586 QELT x[];
+#  587 {
+	.stabs "p:r24",64,0,8,26
+	.stabs "i:r1",64,0,4,28
+	.stabd 0xc0,0,0
+	.stabn 68,0,591,.LG485-mdnorm
+.LG485:
+#  588 int i;
+#  589 register QELT *p;
+#  590 
+#  591 if( rndset == 0 )
+	adrp x15,rndset
+	ldr w15,[x15,:lo12:rndset]
+	cbnz w15,.L456
+	.stabd 0xc0,0,1
+	.stabn 68,0,593,.LG486-mdnorm
+.LG486:
+#  592 	{
+#  593 	qclear( rndbit );
+	adrp x0,rndbit
+	add x0,x0,:lo12:rndbit
+	bl qclear
+	.stabn 68,0,594,.LG487-mdnorm
+.LG487:
+#  594 	rndbit[NQ-1] = 1;
+	adrp x15,rndbit+52
+	add x15,x15,:lo12:rndbit+52
+	mov x14,1
+	str w14,[x15]
+	.stabn 68,0,595,.LG488-mdnorm
+.LG488:
+#  595 	rndbit[NQ] = 0;
+	adrp x15,rndbit+56
+	add x15,x15,:lo12:rndbit+56
+	str wzr,[x15]
+	.stabn 68,0,596,.LG489-mdnorm
+.LG489:
+#  596 	rndset = 1;
+	adrp x15,rndset
+	add x15,x15,:lo12:rndset
+	mov x14,1
+	str w14,[x15]
+	.stabd 0xe0,0,1
+.L456:
+	.stabn 68,0,598,.LG490-mdnorm
+.LG490:
+#  597 	}
+#  598 p = (QELT *)&x[1];
+	add x26,x27,4
+	.stabn 68,0,599,.LG491-mdnorm
+.LG491:
+#  599 for( i=0; i<3; i++ )
+	mov x28,xzr
+.L460:
+	.stabd 0xc0,0,1
+	.stabn 68,0,601,.LG492-mdnorm
+.LG492:
+#  600 	{
+#  601 	if( x[2] == 0 )
+	ldr w15,[x27,8]
+	cbnz w15,.L464
+	.stabn 68,0,602,.LG493-mdnorm
+.LG493:
+#  602 		break;
+	b .L462
+.L464:
+	.stabn 68,0,603,.LG494-mdnorm
+.LG494:
+#  603 	shdn1(x);
+	mov x0,x27
+	bl shdn1
+	.stabn 68,0,604,.LG495-mdnorm
+.LG495:
+#  604 	if( *p < MAXEXP )
+	ldr w15,[x26]
+	mov x14,1
+	orr x14,xzr,x14,lsl 16
+	cmp w15,w14
+	b.hs .L466
+	.stabn 68,0,605,.LG496-mdnorm
+.LG496:
+#  605 		*p += 1;
+	ldr w15,[x26]
+	add w15,w15,1
+	str w15,[x26]
+	b .L467
+.L466:
+	.stabn 68,0,607,.LG497-mdnorm
+.LG497:
+#  606 	else
+#  607 		{
+	.stabd 0xc0,0,2
+	.stabn 68,0,608,.LG498-mdnorm
+.LG498:
+#  608 		*p = MAXEXP; 
+	mov x15,1
+	orr x15,xzr,x15,lsl 16
+	str w15,[x26]
+	.stabn 68,0,609,.LG499-mdnorm
+.LG499:
+#  609 		mtherr("mdnorm", OVERFLOW);
+	mov x1,3
+	adrp x0,.L468
+	add x0,x0,:lo12:.L468
+	bl mtherr
+	.stabd 0xe0,0,2
+.L467:
+	.stabn 68,0,611,.LG500-mdnorm
+.LG500:
+#  610 		}
+#  611 	}
+	.stabd 0xe0,0,1
+.L461:
+	.stabn 68,0,599,.LG501-mdnorm
+.LG501:
+	add w28,w28,1
+	.stabn 68,0,599,.LG502-mdnorm
+.LG502:
+	cmp w28,3
+	blt .L460
+.L462:
+	.stabn 68,0,612,.LG503-mdnorm
+.LG503:
+#  612 for( i=0; i<3; i++ )
+	mov x28,xzr
+.L469:
+	.stabd 0xc0,0,1
+	.stabn 68,0,614,.LG504-mdnorm
+.LG504:
+#  613 	{
+#  614 	if( x[3] & SIGNBIT )
+	ldr w15,[x27,12]
+	tbz w15,31,.L473
+	.stabn 68,0,615,.LG505-mdnorm
+.LG505:
+#  615 		break;
+	b .L471
+.L473:
+	.stabn 68,0,618,.LG506-mdnorm
+.LG506:
+#  616 	/* Prevent exponent underflow.
+#  617 	   Rounding may be incorrect when this happens.  */
+#  618 	if( *p >= 1 )
+	ldr w15,[x26]
+	cmp w15,1
+	blo .L475
+	.stabd 0xc0,0,2
+	.stabn 68,0,620,.LG507-mdnorm
+.LG507:
+#  619 		{
+#  620 		shup1(x);
+	mov x0,x27
+	bl shup1
+	.stabn 68,0,621,.LG508-mdnorm
+.LG508:
+#  621 		*p -= 1;
+	ldr w15,[x26]
+	sub w15,w15,1
+	str w15,[x26]
+	.stabd 0xe0,0,2
+	b .L476
+.L475:
+	.stabn 68,0,624,.LG509-mdnorm
+.LG509:
+#  622 		}
+#  623 	else
+#  624 		mtherr("mdnorm", UNDERFLOW);
+	mov x1,4
+	adrp x0,.L468
+	add x0,x0,:lo12:.L468
+	bl mtherr
+.L476:
+	.stabn 68,0,625,.LG510-mdnorm
+.LG510:
+#  625 	}
+	.stabd 0xe0,0,1
+.L470:
+	.stabn 68,0,612,.LG511-mdnorm
+.LG511:
+	add w28,w28,1
+	.stabn 68,0,612,.LG512-mdnorm
+.LG512:
+	cmp w28,3
+	blt .L469
+.L471:
+	.stabn 68,0,627,.LG513-mdnorm
+.LG513:
+#  626 
+#  627 if( x[NQ] & SIGNBIT )
+	ldr w15,[x27,56]
+	tbz w15,31,.L477
+	.stabd 0xc0,0,1
+	.stabn 68,0,633,.LG514-mdnorm
+.LG514:
+#  628 	{
+#  629 /*
+#  630 	if(  ((x[NQ] & SIGNBIT) == SIGNBIT) && ((x[NQ-1] & 1) == 0)  )
+#  631 		goto nornd;
+#  632 */
+#  633 	addm( rndbit, x );
+	mov x1,x27
+	adrp x0,rndbit
+	add x0,x0,:lo12:rndbit
+	bl addm
+	.stabd 0xe0,0,1
+.L477:
+	.stabn 68,0,635,.LG515-mdnorm
+.LG515:
+#  634 	}
+#  635 if( x[2] )
+	ldr w15,[x27,8]
+	cbz w15,.L479
+	.stabd 0xc0,0,1
+	.stabn 68,0,637,.LG516-mdnorm
+.LG516:
+#  636 	{
+#  637 	shdn1( x );
+	mov x0,x27
+	bl shdn1
+	.stabn 68,0,638,.LG517-mdnorm
+.LG517:
+#  638 	if( *p < MAXEXP )
+	ldr w15,[x26]
+	mov x14,1
+	orr x14,xzr,x14,lsl 16
+	cmp w15,w14
+	b.hs .L481
+	.stabn 68,0,639,.LG518-mdnorm
+.LG518:
+#  639 		*p += 1;
+	ldr w15,[x26]
+	add w15,w15,1
+	str w15,[x26]
+	b .L482
+.L481:
+	.stabn 68,0,641,.LG519-mdnorm
+.LG519:
+#  640 	else
+#  641 		{
+	.stabd 0xc0,0,2
+	.stabn 68,0,642,.LG520-mdnorm
+.LG520:
+#  642 		*p = MAXEXP; 
+	mov x15,1
+	orr x15,xzr,x15,lsl 16
+	str w15,[x26]
+	.stabn 68,0,643,.LG521-mdnorm
+.LG521:
+#  643 		mtherr("mdnorm", OVERFLOW);
+	mov x1,3
+	adrp x0,.L468
+	add x0,x0,:lo12:.L468
+	bl mtherr
+	.stabd 0xe0,0,2
+.L482:
+	.stabn 68,0,645,.LG522-mdnorm
+.LG522:
+#  644 		}
+#  645 	}
+	.stabd 0xe0,0,1
+.L479:
+	.stabn 68,0,646,.LG523-mdnorm
+.LG523:
+#  646 x[NQ] = 0;
+	str wzr,[x27,56]
+	.stabn 68,0,647,.LG524-mdnorm
+.LG524:
+#  647 return 0;
+	mov x0,xzr
+	.stabd 0xe0,0,0
+.L455:
+	.stabn 68,0,648,.LG525-mdnorm
+.LG525:
+#  648 }
+	ldp	x27,x28,[x29,8]
+	ldr	x26,[x29,24]
+	ldp	x29,x30,[sp],48
+	ret
+.L526:
+	.size	mdnorm,.L526-mdnorm
+	.stabs	"",36,0,0,.L526-mdnorm
+	.globl	mdnorm
+	.stabs "qmov:F1",36,0,0,qmov
+	.stabs "a:r24",64,0,8,0
+	.stabs "a:p24",160,0,0,0
+	.stabs "b:r24",64,0,8,1
+	.stabs "b:p24",160,0,0,0
+#  649 
+#  650 /*
+#  651 ;	move a to b
+#  652 */
+#  653 
+#  654 int qmov( a, b )
+	.type	qmov,%function
+qmov:
+	.stabn 68,0,654,0
+	.stabs "a:r24",64,0,8,0
+	.stabs "b:r24",64,0,8,1
+	.stabn 68,0,656,.LG534-qmov
+.LG534:
+#  655 QELT *a, *b;
+#  656 {
+	.stabs "i:r1",64,0,4,2
+	.stabd 0xc0,0,0
+	.stabn 68,0,659,.LG535-qmov
+.LG535:
+#  657 register int i;
+#  658 
+#  659 i = NQ;
+	mov x2,14
+.L528:
+	.stabd 0xc0,0,1
+	.stabn 68,0,662,.LG536-qmov
+.LG536:
+#  660 do
+#  661 	{
+#  662 	*b++ = *a++;
+	mov x15,x0
+	add x0,x15,4
+	ldr w14,[x15]
+	str w14,[x1],4
+	.stabd 0xe0,0,1
+.L529:
+	.stabn 68,0,664,.LG537-qmov
+.LG537:
+#  663 	}
+#  664 while( --i );
+	sub w15,w2,1
+	mov w2,w15
+	cbnz w15,.L528
+	.stabn 68,0,665,.LG538-qmov
+.LG538:
+#  665 return 0;
+	mov x0,xzr
+	.stabd 0xe0,0,0
+.L527:
+	.stabn 68,0,666,.LG539-qmov
+.LG539:
+#  666 }
+	ret
+.L540:
+	.size	qmov,.L540-qmov
+	.stabs	"",36,0,0,.L540-qmov
+	.globl	qmov
+	.stabs "qmovz:F1",36,0,0,qmovz
+	.stabs "a:r24",64,0,8,0
+	.stabs "a:p24",160,0,0,0
+	.stabs "b:r24",64,0,8,1
+	.stabs "b:p24",160,0,0,0
+#  667 
+#  668 
+#  669 int qmovz( a, b )
+	.type	qmovz,%function
+qmovz:
+	.stabn 68,0,669,0
+	.stabs "a:r24",64,0,8,0
+	.stabs "b:r24",64,0,8,1
+	.stabn 68,0,671,.LG548-qmovz
+.LG548:
+#  670 QELT *a, *b;
+#  671 {
+	.stabs "i:r1",64,0,4,2
+	.stabd 0xc0,0,0
+	.stabn 68,0,674,.LG549-qmovz
+.LG549:
+#  672 register int i;
+#  673 
+#  674 i = NQ;
+	mov x2,14
+.L542:
+	.stabd 0xc0,0,1
+	.stabn 68,0,677,.LG550-qmovz
+.LG550:
+#  675 do
+#  676 	{
+#  677 	*b++ = *a++;
+	mov x15,x0
+	add x0,x15,4
+	ldr w14,[x15]
+	str w14,[x1],4
+	.stabd 0xe0,0,1
+.L543:
+	.stabn 68,0,679,.LG551-qmovz
+.LG551:
+#  678 	}
+#  679 while( --i );
+	sub w15,w2,1
+	mov w2,w15
+	cbnz w15,.L542
+	.stabn 68,0,680,.LG552-qmovz
+.LG552:
+#  680 *b++ = 0;
+	str wzr,[x1],4
+	.stabn 68,0,681,.LG553-qmovz
+.LG553:
+#  681 return 0;
+	mov x0,xzr
+	.stabd 0xe0,0,0
+.L541:
+	.stabn 68,0,682,.LG554-qmovz
+.LG554:
+#  682 }
+	ret
+.L555:
+	.size	qmovz,.L555-qmovz
+	.stabs	"",36,0,0,.L555-qmovz
+	.globl	qmovz
+	.stabs "qclear:F1",36,0,0,qclear
+	.stabs "x:r24",64,0,8,0
+	.stabs "x:p24",160,0,0,0
+#  683 
+#  684 /*
+#  685 ; Clear out entire number, including sign and exponent, pointed
+#  686 ; to by x
+#  687 */
+#  688 
+#  689 int qclear( x )
+	.type	qclear,%function
+qclear:
+	.stabn 68,0,689,0
+	.stabs "x:r24",64,0,8,0
+	.stabn 68,0,691,.LG562-qclear
+.LG562:
+#  690 register QELT *x;
+#  691 {
+	.stabs "i:r1",64,0,4,1
+	.stabd 0xc0,0,0
+	.stabn 68,0,694,.LG563-qclear
+.LG563:
+#  692 register int i;
+#  693 
+#  694 for( i=0; i<NQ; i++ )
+	mov x1,xzr
+.L557:
+	.stabn 68,0,695,.LG564-qclear
+.LG564:
+#  695 	*x++ = 0;
+	str wzr,[x0],4
+.L558:
+	.stabn 68,0,694,.LG565-qclear
+.LG565:
+	add w1,w1,1
+	.stabn 68,0,694,.LG566-qclear
+.LG566:
+	cmp w1,14
+	blt .L557
+	.stabn 68,0,696,.LG567-qclear
+.LG567:
+#  696 return 0;
+	mov x0,xzr
+	.stabd 0xe0,0,0
+.L556:
+	.stabn 68,0,697,.LG568-qclear
+.LG568:
+#  697 }
+	ret
+.L569:
+	.size	qclear,.L569-qclear
+	.stabs	"",36,0,0,.L569-qclear
+	.globl	qclear
+	.bss
+	.globl	rndbit
+	.align	8
+	.type	rndbit,object
+	.comm	rndbit,60
+	.stabs "rndbit:G26",32,0,0,0
+	.extern	mtherr
+	.bss
+	.section	.data
+.L468:
+# "mdnorm\x0"
+	.byte	109,100,110,111,114,109,0
+	.stabs "4:T27=s16r:3,0,64;i:3,64,64;;",128,0,0,0
+	.stabs "3:T28=s16r:3,0,64;i:3,64,64;;",128,0,0,0
+	.stabs "2:T29=s112n:30=ar1;0;13;11,0,448;d:30,448,448;;",128,0,0,0
+	.stabs "1:T31=s112r:30,0,448;i:30,448,448;;",128,0,0,0

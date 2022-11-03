@@ -1,0 +1,313 @@
+Warning qairy.c: 136  possible usage of dx before definition
+Warning qairy.c: 628  possible usage of dx before definition
+Warning qairy.c: 704  possible usage of dx before definition
+Warning qairy.c: 767  possible usage of dx before definition
+Warning qairy.c: 844  possible usage of dx before definition
+Warning qcbrt.c: 76   possible usage of dz before definition
+Warning qcmplx.c: 610   possible usage of dz before definition
+Warning qcmplx.c: 752  possible usage of di before definition
+Warning qcerf.c: 87  missing prototype for qcerf
+Warning qcpolylog.c: 109  missing prototype for invformula
+Warning qcpolylog.c: 125  missing prototype for cxplog
+Warning qdawsn.c: 70  possible usage of dx before definition
+Warning qei.c: 45  missing prototype for printf
+Warning qei.c: 45  missing prototype for printf
+Warning qellie.c: 66  possible usage of dmod before definition
+Warning qellik.c: 68  possible usage of dmod before definition
+Warning qexpn.c: 67  possible usage of temp before definition
+Warning qgamma.c: 314  missing prototype for initqgam
+Warning qgamma.c: 406  missing prototype for initqgam
+Warning qgamma.c: 444  missing prototype for initqgam
+Warning qigami.c: 61   possible usage of dz before definition
+Warning qincb.c: 85   possible usage of dz before definition
+Warning qjn.c: 89   possible usage of dz before definition
+Warning qjn.c: 287  possible usage of dconv before definition
+Warning qjypn.c: 162  missing prototype for qlog
+Warning qjypn.c: 166  missing prototype for qjn
+Warning qjypn.c: 34  possible usage of dn before definition
+Warning qjyqn.c: 45  possible usage of dn before definition
+Warning qkn.c: 110  possible usage of dx before definition
+Warning qkne.c: 48  possible usage of dx before definition
+Warning qndtri.c: 137   possible usage of dz before definition
+Warning qplanck.c: 125  missing prototype for qplanck
+Warning qpolylog.c: 83  missing prototype for cxplog
+Warning qpsi.c: 174  missing prototype for initqpsi
+Warning qrand.c: 86  missing prototype for ranwh
+Warning qrand.c: 88  missing prototype for ranwh
+Warning qshici.c: 85  possible usage of dx before definition
+Warning qsici.c: 198  possible usage of dx before definition
+Warning qyn.c: 150   possible usage of dz before definition
+Warning qzetac.c: 221  missing prototype for init_bernum
+Warning qfltbi.c: 357  missing prototype for subm
+Warning qfltbi.c: 623  missing prototype for addm
+ar: creating libmq.a
+Warning qcalc.c: 539  missing prototype
+Warning qcalc.c: 705  missing prototype
+Warning qcalc.c: 708  missing prototype
+Warning qcalc.c: 711  missing prototype
+Warning qcalc.c: 715  missing prototype
+Warning qcalc.c: 859  unreachable code
+Warning qcalc.c: 927  missing prototype for readline
+Warning qcalc.c: 930  missing prototype for add_history
+Warning qcalc.c: 1429  possible usage of dn before definition
+Warning qcalc.c: 1485  possible usage of dx before definition
+Warning qcalc.c: 1677  possible usage of uu before definition
+Warning qcalc.c: 1734  missing return value
+Warning qcalc.c: 1950  possible usage of dk before definition
+Warning qcalc.c: 1966  possible usage of dk before definition
+Warning gamma.c: 370  missing prototype for stirf
+Warning gamma.c: 374  missing prototype for stirf
+Warning log.c: 148  missing prototype for frexp
+Warning log.c: 181  missing prototype for polevl
+Warning log.c: 181  missing prototype for p1evl
+Warning log.c: 196  missing prototype for ldexp
+Warning log.c: 209  missing prototype for polevl
+Warning log.c: 209  missing prototype for p1evl
+Warning log.c: 213  missing prototype for ldexp
+Warning exp.c: 165  missing prototype for floor
+Warning exp.c: 175  missing prototype for polevl
+Warning exp.c: 176  missing prototype for polevl
+Warning exp.c: 177  missing prototype for ldexp
+Warning exp.c: 180  missing prototype for ldexp
+Warning sin.c: 223  missing prototype for floor
+Warning sin.c: 226  missing prototype for ldexp
+Warning sin.c: 227  missing prototype for floor
+Warning sin.c: 228  missing prototype for ldexp
+Warning sin.c: 252  missing prototype for ldexp
+Warning sin.c: 252  missing prototype for polevl
+Warning sin.c: 257  missing prototype for polevl
+Warning sin.c: 290  missing prototype for floor
+Warning sin.c: 291  missing prototype for ldexp
+Warning sin.c: 292  missing prototype for floor
+Warning sin.c: 293  missing prototype for ldexp
+Warning sin.c: 320  missing prototype for polevl
+Warning sin.c: 324  missing prototype for ldexp
+Warning sin.c: 324  missing prototype for polevl
+Warning pow.c: 579  missing prototype for reduc
+Warning pow.c: 584  missing prototype for reduc
+Warning pow.c: 588  missing prototype for reduc
+Warning pow.c: 592  missing prototype for reduc
+Warning pow.c: 666  missing prototype for ldexp
+Warning pow.c: 667  missing prototype for floor
+Warning pow.c: 668  missing prototype for ldexp
+Warning powi.c: 95  missing prototype for frexp
+Warning ndtri.c: 393  missing prototype for polevl
+Warning ndtri.c: 393  missing prototype for p1evl
+Warning ndtri.c: 398  missing prototype for sqrt
+Warning ndtri.c: 398  missing prototype for log
+Warning ndtri.c: 399  missing prototype for log
+Warning ndtri.c: 403  missing prototype for polevl
+Warning ndtri.c: 403  missing prototype for p1evl
+Warning ndtri.c: 405  missing prototype for polevl
+Warning ndtri.c: 405  missing prototype for p1evl
+Warning qmtst.c: 324  missing prototype
+Warning qmtst.c: 326  missing prototype
+Warning qmtst.c: 327  missing prototype
+Warning qmtst.c: 328  missing prototype
+Warning qmtst.c: 338  missing prototype
+Warning qmtst.c: 339  missing prototype
+Warning qmtst.c: 356  missing prototype
+Warning qmtst.c: 358  missing prototype
+Warning qmtst.c: 359  missing prototype
+Warning qmtst.c: 360  missing prototype
+Warning qmtst.c: 364  missing prototype
+Warning qmtst.c: 366  missing prototype
+Warning qmtst.c: 367  missing prototype
+Warning qmtst.c: 368  missing prototype
+Warning qmtst.c: 372  missing prototype
+Warning qmtst.c: 373  missing prototype
+Warning qmtst.c: 380  missing prototype
+Warning qmtst.c: 382  missing prototype
+Warning qmtst.c: 386  missing prototype
+Warning qmtst.c: 387  missing prototype
+Warning drand.c: 123  missing prototype for ranwh
+Warning drand.c: 137  missing prototype for ranwh
+Warning 0  Ignoring unknown option '-Wno-implicit'
+Warning 0  Ignoring unknown option '-fno-builtin'
+Warning qparanoi.c: 34  Identifier 'einit' used without previous definition.
+Warning qparanoi.c: 34  Assuming 'int einit'
+Warning qparanoi.c: 35  missing return value
+Warning qparanoi.c: 194  Identifier 'show' used without previous definition.
+Warning qparanoi.c: 194  Assuming 'int show'
+Warning qparanoi.c: 213  missing return value
+Warning qparanoi.c: 225  Identifier 'sigfpe' used without previous definition.
+Warning qparanoi.c: 225  Assuming 'int sigfpe'
+Warning qparanoi.c: 230  missing prototype for einit
+Warning qparanoi.c: 243  missing prototype for exit
+Warning qparanoi.c: 243  missing prototype for exit
+Warning qparanoi.c: 245  missing return value
+Warning qparanoi.c: 248  Identifier 'main' used without previous definition.
+Warning qparanoi.c: 248  Assuming 'int main'
+Warning qparanoi.c: 252  missing prototype for einit
+Warning qparanoi.c: 260  missing prototype for show
+Warning qparanoi.c: 263  missing prototype for show
+Warning qparanoi.c: 266  missing prototype for show
+Warning qparanoi.c: 323  missing prototype for show
+Warning qparanoi.c: 334  missing prototype for TstPtUf
+Warning qparanoi.c: 334  missing prototype for TstPtUf
+Warning qparanoi.c: 505  missing prototype for show
+Warning qparanoi.c: 523  missing prototype for show
+Warning qparanoi.c: 589  missing prototype for show
+Warning qparanoi.c: 603  missing prototype for show
+Warning qparanoi.c: 689  missing prototype for show
+Warning qparanoi.c: 1328  missing prototype for Random
+Warning qparanoi.c: 1328  missing prototype for Random
+Warning qparanoi.c: 1330  missing prototype for Random
+Warning qparanoi.c: 1369  missing prototype for sqtest
+Warning qparanoi.c: 1369  missing prototype for sqtest
+Warning qparanoi.c: 1371  missing prototype for pow1test
+Warning qparanoi.c: 1371  missing prototype for pow1test
+Warning qparanoi.c: 1509  missing prototype for show
+Warning qparanoi.c: 1516  missing prototype for show
+Warning qparanoi.c: 1524  missing prototype for show
+Warning qparanoi.c: 1556  missing prototype for show
+Warning qparanoi.c: 1558  missing prototype for TstPtUf
+Warning qparanoi.c: 1558  missing prototype for TstPtUf
+Warning qparanoi.c: 1581  missing prototype for show
+Warning qparanoi.c: 1583  missing prototype for show
+Warning qparanoi.c: 1593  missing prototype for show
+Warning qparanoi.c: 1595  missing prototype for show
+Warning qparanoi.c: 1599  missing prototype for show
+Warning qparanoi.c: 1656  missing prototype for show
+Warning qparanoi.c: 1658  missing prototype for show
+Warning qparanoi.c: 1661  missing prototype for show
+Warning qparanoi.c: 1672  missing prototype for show
+Warning qparanoi.c: 1676  missing prototype for show
+Warning qparanoi.c: 1710  missing prototype for show
+Warning qparanoi.c: 1712  missing prototype for show
+Warning qparanoi.c: 1714  missing prototype for show
+Warning qparanoi.c: 1716  missing prototype for show
+Warning qparanoi.c: 1719  missing prototype for show
+Warning qparanoi.c: 1728  missing prototype for show
+Warning qparanoi.c: 1741  missing prototype for show
+Warning qparanoi.c: 1747  missing prototype for pow2test
+Warning qparanoi.c: 1747  missing prototype for pow2test
+Warning qparanoi.c: 1752  missing prototype for Pause
+Warning qparanoi.c: 1752  missing prototype for Pause
+Warning qparanoi.c: 1776  missing prototype for show
+Warning qparanoi.c: 1793  missing prototype for show
+Warning qparanoi.c: 1795  missing prototype for show
+Warning qparanoi.c: 1814  missing prototype for show
+Warning qparanoi.c: 1818  missing prototype for show
+Warning qparanoi.c: 1825  missing prototype for show
+Warning qparanoi.c: 1828  missing prototype for show
+Warning qparanoi.c: 1853  missing prototype for show
+Warning qparanoi.c: 1854  missing prototype for show
+Warning qparanoi.c: 1855  missing prototype for show
+Warning qparanoi.c: 1886  missing prototype for show
+Warning qparanoi.c: 1888  missing prototype for show
+Warning qparanoi.c: 1918  missing prototype for show
+Warning qparanoi.c: 1920  missing prototype for show
+Warning qparanoi.c: 1926  missing prototype for Pause
+Warning qparanoi.c: 1943  missing prototype for show
+Warning qparanoi.c: 1965  missing prototype for show
+Warning qparanoi.c: 1986  missing prototype for show
+Warning qparanoi.c: 1988  missing prototype for show
+Warning qparanoi.c: 1992  missing prototype for Pause
+Warning qparanoi.c: 2085  Identifier 'Random' used without previous definition.
+Warning qparanoi.c: 2085  Assuming 'int Random'
+Warning qparanoi.c: 2105  missing return value
+Warning qparanoi.c: 2109  Identifier 'SqXMinX' used without previous definition.
+Warning qparanoi.c: 2109  Assuming 'int SqXMinX'
+Warning qparanoi.c: 2122  missing prototype for Showsq
+Warning qparanoi.c: 2122  missing prototype for Showsq
+Warning qparanoi.c: 2127  missing prototype for show
+Warning qparanoi.c: 2129  missing prototype for show
+Warning qparanoi.c: 2132  missing prototype for show
+Warning qparanoi.c: 2135  missing return value
+Warning qparanoi.c: 2139  Identifier 'NewD' used without previous definition.
+Warning qparanoi.c: 2139  Assuming 'int NewD'
+Warning qparanoi.c: 2167  missing return value
+Warning qparanoi.c: 2171  Identifier 'SR3750' used without previous definition.
+Warning qparanoi.c: 2171  Assuming 'int SR3750'
+Warning qparanoi.c: 2202  missing prototype for Showsq
+Warning qparanoi.c: 2202  missing prototype for Showsq
+Warning qparanoi.c: 2204  missing prototype for Showsq
+Warning qparanoi.c: 2206  missing return value
+Warning qparanoi.c: 2210  Identifier 'IsYeqX' used without previous definition.
+Warning qparanoi.c: 2210  Assuming 'int IsYeqX'
+Warning qparanoi.c: 2223  missing prototype for show
+Warning qparanoi.c: 2225  missing prototype for show
+Warning qparanoi.c: 2227  missing prototype for show
+Warning qparanoi.c: 2229  missing prototype for show
+Warning qparanoi.c: 2232  missing prototype for show
+Warning qparanoi.c: 2236  missing return value
+Warning qparanoi.c: 2240  Identifier 'SR3980' used without previous definition.
+Warning qparanoi.c: 2240  Assuming 'int SR3980'
+Warning qparanoi.c: 2250  missing prototype for IsYeqX
+Warning qparanoi.c: 2256  missing return value
+Warning qparanoi.c: 2260  Identifier 'PrintIfNPositive' used without previous definition.
+Warning qparanoi.c: 2260  Assuming 'int PrintIfNPositive'
+Warning qparanoi.c: 2264  missing return value
+Warning qparanoi.c: 2269  Identifier 'TstPtUf' used without previous definition.
+Warning qparanoi.c: 2269  Assuming 'int TstPtUf'
+Warning qparanoi.c: 2282  missing prototype for show
+Warning qparanoi.c: 2316  missing prototype for Pause
+Warning qparanoi.c: 2316  missing prototype for Pause
+Warning qparanoi.c: 2323  missing prototype for show
+Warning qparanoi.c: 2328  missing prototype for show
+Warning qparanoi.c: 2334  missing prototype for show
+Warning qparanoi.c: 2339  missing prototype for show
+Warning qparanoi.c: 2346  missing prototype for show
+Warning qparanoi.c: 2348  missing prototype for show
+Warning qparanoi.c: 2350  missing prototype for Pause
+Warning qparanoi.c: 2350  missing prototype for Pause
+Warning qparanoi.c: 2353  missing return value
+Warning qparanoi.c: 2355  Identifier 'Pause' used without previous definition.
+Warning qparanoi.c: 2355  Assuming 'int Pause'
+Warning qparanoi.c: 2357  missing return value
+Warning qparanoi.c: 2359  Identifier 'Sign' used without previous definition.
+Warning qparanoi.c: 2359  Assuming 'int Sign'
+Warning qparanoi.c: 2372  missing return value
+Warning qparanoi.c: 2374  Identifier 'sqtest' used without previous definition.
+Warning qparanoi.c: 2374  Assuming 'int sqtest'
+Warning qparanoi.c: 2398  missing prototype for SqXMinX
+Warning qparanoi.c: 2401  missing prototype for SqXMinX
+Warning qparanoi.c: 2404  missing prototype for SqXMinX
+Warning qparanoi.c: 2406  missing prototype for Pause
+Warning qparanoi.c: 2428  missing prototype for SqXMinX
+Warning qparanoi.c: 2481  missing prototype for show
+Warning qparanoi.c: 2497  missing prototype for Showsq
+Warning qparanoi.c: 2497  missing prototype for Showsq
+Warning qparanoi.c: 2500  missing prototype for Showsq
+Warning qparanoi.c: 2510  missing prototype for Showsq
+Warning qparanoi.c: 2515  missing prototype for Showsq
+Warning qparanoi.c: 2541  missing prototype for Showsq
+Warning qparanoi.c: 2544  missing prototype for Showsq
+Warning qparanoi.c: 2553  missing prototype for Sign
+Warning qparanoi.c: 2668  missing prototype for NewD
+Warning qparanoi.c: 2689  missing prototype for SR3750
+Warning qparanoi.c: 2698  missing prototype for SR3750
+Warning qparanoi.c: 2699  missing prototype for NewD
+Warning qparanoi.c: 2720  missing prototype for SR3750
+Warning qparanoi.c: 2724  missing prototype for SR3750
+Warning qparanoi.c: 2740  missing prototype for show
+Warning qparanoi.c: 2777  missing prototype for show
+Warning qparanoi.c: 2780  missing prototype for show
+Warning qparanoi.c: 2790  missing return value
+Warning qparanoi.c: 2792  Identifier 'Showsq' used without previous definition.
+Warning qparanoi.c: 2792  Assuming 'int Showsq'
+Warning qparanoi.c: 2822  missing return value
+Warning qparanoi.c: 2825  Identifier 'pow1test' used without previous definition.
+Warning qparanoi.c: 2825  Assuming 'int pow1test'
+Warning qparanoi.c: 2831  missing prototype for Pause
+Warning qparanoi.c: 2843  missing prototype for SR3980
+Warning qparanoi.c: 2847  missing prototype for SR3980
+Warning qparanoi.c: 2854  missing prototype for PrintIfNPositive
+Warning qparanoi.c: 2861  missing prototype for PrintIfNPositive
+Warning qparanoi.c: 2878  missing prototype for SR3980
+Warning qparanoi.c: 2898  missing prototype for SR3980
+Warning qparanoi.c: 2916  missing prototype for PrintIfNPositive
+Warning qparanoi.c: 2921  missing prototype for Pause
+Warning qparanoi.c: 2923  missing return value
+Warning qparanoi.c: 2927  Identifier 'pow2test' used without previous definition.
+Warning qparanoi.c: 2927  Assuming 'int pow2test'
+Warning qparanoi.c: 2961  missing prototype for show
+Warning qparanoi.c: 2984  missing prototype for show
+Warning qparanoi.c: 2986  missing prototype for show
+Warning qparanoi.c: 2988  missing prototype for show
+Warning qparanoi.c: 2990  missing prototype for show
+Warning qparanoi.c: 3042  missing prototype for IsYeqX
+Warning qparanoi.c: 3046  missing prototype for IsYeqX
+Warning qparanoi.c: 3053  missing prototype for PrintIfNPositive
+Warning qparanoi.c: 3057  missing return value

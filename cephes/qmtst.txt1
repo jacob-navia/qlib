@@ -1,0 +1,29 @@
+Consistency test of math functions.
+Max and rms errors for 10000 random arguments.
+A = absolute error criterion (but relative if >1):
+Otherwise, estimate is of relative error
+x =   sqrt( square(x) ):  max =  1.541E-106   rms =  2.639E-107
+x =   atan(    tan(x) ):  max =  5.500E-106   rms =  1.241E-106
+x =   cbrt(   cube(x) ):  max =  2.175E-106   rms =  5.768E-107
+x =    sin(   asin(x) ):  max =  1.974E-105   rms =  8.746E-106
+x =    log(    exp(x) ):  max =  3.606E-105   rms =  1.017E-106
+x =   log2(   exp2(x) ):  max =  6.540E-106 A rms =  1.064E-106 A
+x =  log10(  exp10(x) ):  max =  2.250E-105   rms =  1.067E-106
+x =  acosh(   cosh(x) ):  max =  3.818E-106   rms =  8.147E-107
+x = pow( pow(x,a),1/a ):  max =  1.801E-104   rms =  5.272E-106
+x =   tanh(  atanh(x) ):  max =  5.140E-103   rms =  7.115E-105
+x =  asinh(   sinh(x) ):  max =  2.179E-106   rms =  8.095E-107
+x =    cos(   acos(x) ):  max =  2.071E-105 A rms =  4.519E-106 A
+Absolute error and only 2000 trials:
+x =  ndtri(   ndtr(x) ):  max =  1.280E-2   rms =  9.629E-4
+Legendre  ellpk,  ellpe:  max =  1.566E-103   rms =  8.327E-105
+Absolute error and only 2000 trials:
+Wronksian of   Yn,   Jn:  max =  7.397E-80 A rms =  3.418E-81 A
+Absolute error and only 2000 trials:
+Wronksian of   Kn,   Iv:  max =  1.111E-25 A rms =  5.007E-27 A
+lgam(x) = log(gamma(x)):  max =  4.360E-106 A rms =  9.883E-107 A
+
+real	5m17.781s
+user	5m17.764s
+sys	0m0.015s
+
