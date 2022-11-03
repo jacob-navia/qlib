@@ -1,0 +1,55 @@
+A: DIRECTORY LAYOUT
+   ----------------
+1: The four operations are written in arm64 assembler (directory aarch64), or
+   in x86 assembly (directory x86_64).
+2: The "bsr64" function is essential, and not optional as the assembly 
+   functions. Sources for this function are in x86_64 or aarch64.
+3: The statistics library is in the "statslib" directory.
+4: The Makefile comes configured for either ARM64 or X86 linux. It is untested
+   under windows. It defaults to using the asm accelerators
+B: OTHER
+   -----
+5: TO ELIMINATE ASM ACCELERATORS (say, in a new machine):
+   1: Change the variable "ASM" in the makefile to the empty string.
+   2: #define NOASM in qfltbi.c around line 4.
+   3: Recompile. You will still need the bsr64 function. Write that in C.
+C: OUTPUT
+   ------
+6: The programs that are built are:
+   libmq.a (qfloat library)
+   qcalc   (interactive calculator)
+   qmtst   (Test of math functions)
+   qtime   (times the performance of the four operations)
+   qparanoi Tests the floating point. Note that there is a flaw in division.
+           It should be the only flaw.
+7: Results of the qmtst run
+Consistency test of math functions with asm accelerators: Tue Mar  6 13:57:29 2018
+Max and rms errors for 10000 random arguments.
+A = absolute error criterion (but relative if >1):
+Otherwise, estimate is of relative error
+x =   sqrt( square(x) ):  max = 1.945E-0135   rms = 3.567E-0136
+x =   atan(    tan(x) ):  max = 5.451E-0135   rms = 1.193E-0135
+x =   cbrt(   cube(x) ):  max = 1.906E-0135   rms = 4.315E-0137
+x =    sin(   asin(x) ):  max = 1.091E-0134   rms = 2.953E-0135
+x =    log(    exp(x) ):  max = 3.113E-0134   rms = 1.068E-0135
+x =   log2(   exp2(x) ):  max = 1.977E-0134 A rms = 1.145E-0135 A
+x =  log10(  exp10(x) ):  max = 8.342E-0134   rms = 1.766E-0135
+x =  acosh(   cosh(x) ):  max = 2.746E-0135   rms = 7.772E-0136
+x = pow( pow(x,a),1/a ):  max = 2.678E-0133   rms = 6.301E-0135
+x =   tanh(  atanh(x) ):  max = 2.513E-0134   rms = 2.364E-0135
+x =  asinh(   sinh(x) ):  max = 2.745E-0135   rms = 7.853E-0136
+x =    cos(   acos(x) ):  max = 1.101E-0134 A rms = 1.777E-0135 A
+Absolute error and only 2000 trials:
+x =  ndtri(   ndtr(x) ):  max = 8.038E-0114   rms = 2.819E-0115
+Legendre  ellpk,  ellpe:  max = 2.47E-0132   rms = 9.623E-0134
+lgam(x) = log(gamma(x)):  max = 6.191E-0135 A rms = 1.035E-0135 A
+
+
+D: Modifications to the software as distributed
+1: Added functions:
+   Catalan(n) --> nth catalan number
+   remquo (see C standard)
+2: All constants have been verified and rounded to 448 bits using the PARI 
+   calculator or Mathematica
+   sqrt will use floating point to start the newton iteration. (faster)
+   Many functions rewritten (itoq, qtoe, qtanh etc)
