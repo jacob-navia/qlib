@@ -4,6 +4,7 @@ void qnthroot(Qfloatp x,Qfloatp N,Qfloatp r)
 {
 	double d;
 	long long n = qtoll(N);
+	int res;
 	Qfloat z[1],y[1],nm1[1];
 
 	d = qtoe(x,NOROUNDING);
@@ -21,23 +22,34 @@ void qnthroot(Qfloatp x,Qfloatp N,Qfloatp r)
 	qdiv(y,x,y);
 	qsub(z,y,y);
 	qdivi(n,y,y);
-	qadd(z,y,z);
+	res=qadd(z,y,z);
+	if (r == 0) return;
 
 	qfpow(z,nm1,y);
 	qdiv(y,x,y);
 	qsub(z,y,y);
 	qdivi(n,y,y);
-	qadd(z,y,z);
+	res=qadd(z,y,z);
+	if (r == 0) return;
 
 	qfpow(z,nm1,y);
 	qdiv(y,x,y);
 	qsub(z,y,y);
 	qdivi(n,y,y);
-	qadd(z,y,z);
+	res=qadd(z,y,z);
+	if (r == 0) return;
 
+	qfpow(z,nm1,y);
+	qdiv(y,x,y);
+	qsub(z,y,y);
+	qdivi(n,y,y);
+	res=qadd(z,y,r);
+	if (r == 0) return;
+#if 0
 	qfpow(z,nm1,y);
 	qdiv(y,x,y);
 	qsub(z,y,y);
 	qdivi(n,y,y);
 	qadd(z,y,r);
+#endif
 }

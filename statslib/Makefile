@@ -1,10 +1,12 @@
 #CC=~/lcc/lccarm64/lcc
+OSNAME=$(shell uname -s)
 CC=gcc
 CFLAGS=-O2 -g -c 
+CFLAGS += -D$(OSNAME)
 all:	test libstats.a 
 OBJS=bdtrl.o btdtrl.o chdtrl.o fdtrl.o igamil.o incbetl.o incbil.o \
 	kolmogor.o nbdtrl.o ndtril.o pdtrl.o psi.o simplestats.o \
-	stdtrl.o betainv.o exponentialDistribution.o
+	stdtrl.o betainv.o exponentialDistribution.o polevl.o
 libstats.a:	$(OBJS)
 	rm -f libstats.a;ar -r libstats.a $(OBJS)
 test:	test.o libstats.a stats.h

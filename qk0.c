@@ -136,7 +136,7 @@ void qk0(Qfloatp x,Qfloatp y)
 	qmov( z, u );
 	qmov( z, t );
 
-	while( ((int) y[0].exponent - (int) t[0].exponent) < 64 )
+	while( ((int) y[0].exponent - (int) t[0].exponent) < NBITS )
 	{
 		qdiv( k, qone, t );
 		qadd( t, p, p );	/* psi function */

@@ -1,0 +1,309 @@
+This is the first qtime done 2020
+qmovz         :      1.975e-05 ms. (50632.91139) per ms
+pack          :      1.975e-05 ms. (50632.91139) per ms
+qcmp          :    2.79681e-05 ms. (35754.97828) per ms
+The four operations with    5000000 iterations. Tue Jan  7 22:18:25 2020
+Addition      :    0.000164649 ms. (6073.53348) per ms
+Subtraction   :    0.000164701 ms. (6071.62330) per ms
+Multiplication:    0.000358811 ms. (2786.98412) per ms
+Mult. (int)   :    0.000119604 ms. (8360.95235) per ms
+Squaring      :    0.000311471 ms. (3210.57177) per ms
+Division      :     0.00138606 ms. ( 721.47001) per ms
+Division(int) :    0.000402943 ms. (2481.74306) per ms
+qinv          :     0.00111939 ms. ( 893.34417) per ms
+
+Variable number of iterations
+Square root   :     0.00584923 ms. ( 170.96279) per ms (  500000 iterations)
+log           :      0.0765878 ms. (  13.05690) per ms (  100000 iterations)
+exponential   :         0.1075 ms. (   9.30233) per ms (   50000 iterations)
+cosinus       :       0.072635 ms. (  13.76746) per ms (   71428 iterations)
+hyperbolic cos:       0.108799 ms. (   9.19125) per ms (   40000 iterations)
+----------------------------------------------------------------------------
+C-language timings
+-----------------------------------------------------------------------------
+qmovz         :    6.59021e-05 ms. (15174.01561) per ms
+pack          :    6.59021e-05 ms. (15174.01561) per ms
+The four operations with    5000000 iterations. Sat Jan 11 21:58:08 2020
+Addition      :     0.00123394 ms. ( 810.40981) per ms
+Subtraction   :     0.00123618 ms. ( 808.94368) per ms
+Multiplication:      0.0057408 ms. ( 174.19162) per ms
+Squaring      :     0.00429351 ms. ( 232.90987) per ms
+Division      :      0.0293008 ms. (  34.12874) per ms
+Division(int) :     0.00185347 ms. ( 539.52932) per ms
+qinv          :      0.0249748 ms. (  40.04029) per ms
+
+Variable number of iterations
+Square root   :      0.0948933 ms. (  10.53815) per ms (  500000 iterations)
+log           :         0.7151 ms. (   1.39841) per ms (  100000 iterations)
+exponential   :        2.04526 ms. (   0.48893) per ms (   50000 iterations)
+cosinus       :       0.610376 ms. (   1.63834) per ms (   71428 iterations)
+hyperbolic cos:        2.07132 ms. (   0.48278) per ms (   40000 iterations)
+-------------------------------------------------------------------------------
+Consistency test of math functions with asm accelerators: Tue Jan  7 22:20:27 2020
+Max and rms errors for 10000 random arguments.
+A = absolute error criterion (but relative if >1):
+Otherwise, estimate is of relative error
+x =   sqrt( square(x) ):  max = 1.94164E-0135   rms = 3.34387E-0136
+x =   atan(    tan(x) ):  max = 5.45096E-0135   rms = 1.1934E-0135
+x =   cbrt(   cube(x) ):  max = 1.90569E-0135   rms = 4.31512E-0137
+x =    sin(   asin(x) ):  max = 1.09064E-0134   rms = 2.95325E-0135
+x =    log(    exp(x) ):  max = 3.11334E-0134   rms = 7.62072E-0136
+x =   log2(   exp2(x) ):  max = 1.60412E-0134 A rms = 8.44887E-0136 A
+x =  log10(  exp10(x) ):  max = 8.34248E-0134   rms = 1.50386E-0135
+x =  acosh(   cosh(x) ):  max = 1.56098E-0135   rms = 1.56098E-0137
+x = pow( pow(x,a),1/a ):  max = 2.67815E-0133   rms = 6.03717E-0135
+x =   tanh(  atanh(x) ):  max = 2.51288E-0134   rms = 2.36449E-0135
+x =  asinh(   sinh(x) ):  max = 1.79615E-0135   rms = 2.29248E-0137
+x =    cos(   acos(x) ):  max = 1.10066E-0134 A rms = 1.77672E-0135 A
+Absolute error and only 2000 trials:
+x =  ndtri(   ndtr(x) ):  max = 8.03822E-0114   rms = 2.53254E-0115
+Legendre  ellpk,  ellpe:  max = 1.59241E-0132   rms = 8.33027E-0134
+lgam(x) = log(gamma(x)):  max = 5.50328E-0135 A rms = 9.48627E-0136 A
+-------------------------------------------------------------------------------
+qmovz         :    2.07933e-05 ms. (48092.49148) per ms
+pack          :    2.07933e-05 ms. (48092.49148) per ms
+qcmp          :    2.79624e-05 ms. (35762.30939) per ms
+The four operations with    5000000 iterations. Wed Jan  8 11:27:54 2020
+Addition      :    0.000170866 ms. (5852.55312) per ms
+Subtraction   :    0.000172584 ms. (5794.29332) per ms
+Multiplication:    0.000358848 ms. (2786.69831) per ms
+Mult. (int)   :    0.000119616 ms. (8360.09493) per ms
+Squaring      :    0.000310757 ms. (3217.94843) per ms
+Division      :     0.00138554 ms. ( 721.73818) per ms
+Division(int) :    0.000403026 ms. (2481.23196) per ms
+qinv          :     0.00111925 ms. ( 893.45624) per ms
+
+Variable number of iterations
+Square root   :     0.00584751 ms. ( 171.01290) per ms (  500000 iterations)
+log           :       0.080613 ms. (  12.40495) per ms (  100000 iterations)
+exponential   :       0.107726 ms. (   9.28280) per ms (   50000 iterations)
+cosinus       :      0.0748891 ms. (  13.35308) per ms (   71428 iterations)
+hyperbolic cos:       0.109052 ms. (   9.16995) per ms (   40000 iterations)
+---------------------------------------------------------------------------------
+Consistency test of math functions with asm accelerators: Tue Jan  5 23:13:09 2021
+Max and rms errors for 10000 random arguments.
+A = absolute error criterion (but relative if >1):
+Otherwise, estimate is of relative error
+x =   sqrt( square(x) ):  max = 1.94164E-0135   rms = 3.34387E-0136
+x =   atan(    tan(x) ):  max = 5.45096E-0135   rms = 1.1934E-0135
+x =   cbrt(   cube(x) ):  max = 1.90569E-0135   rms = 4.31512E-0137
+x =    sin(   asin(x) ):  max = 1.09064E-0134   rms = 2.95325E-0135
+x =    log(    exp(x) ):  max = 3.11334E-0134   rms = 7.62561E-0136
+x =   log2(   exp2(x) ):  max = 1.60412E-0134 A rms = 8.4392E-0136 A
+x =  log10(  exp10(x) ):  max = 8.34248E-0134   rms = 1.50386E-0135
+x =  acosh(   cosh(x) ):  max = 1.56098E-0135   rms = 1.56098E-0137
+x = pow( pow(x,a),1/a ):  max = 2.67815E-0133   rms = 6.03652E-0135
+x =   tanh(  atanh(x) ):  max = 2.51288E-0134   rms = 2.36379E-0135
+x =  asinh(   sinh(x) ):  max = 1.79615E-0135   rms = 2.29248E-0137
+x =    cos(   acos(x) ):  max = 1.10066E-0134 A rms = 1.77672E-0135 A
+Absolute error and only 2000 trials:
+x =  ndtri(   ndtr(x) ):  max = 8.03822E-0114   rms = 2.53254E-0115
+Legendre  ellpk,  ellpe:  max = 1.59241E-0132   rms = 8.33027E-0134
+lgam(x) = log(gamma(x)):  max = 5.50328E-0135 A rms = 9.50563E-0136 A
+
+real	0m27.682s
+user	0m27.672s
+Sys	0m0.009s
+
+
+movz         :    1.49861e-05 ms. (66728.65017) per ms
+pack          :    1.26407e-05 ms. (79109.33437) per ms
+qcmp          :    2.39526e-05 ms. (41749.12118) per ms
+The four operations with    5000000 iterations. Sat Jan 16 22:31:47 2021
+Addition      :    0.000133046 ms. (7516.18611) per ms
+Subtraction   :    0.000133779 ms. (7475.01476) per ms
+Multiplication:    0.000307993 ms. (3246.82915) per ms
+Mult. (int)   :    0.000102439 ms. (9761.90709) per ms
+Squaring      :    0.000260766 ms. (3834.85283) per ms
+Division      :     0.00118614 ms. ( 843.07180) per ms
+Division(int) :    0.000339761 ms. (2943.24193) per ms
+qinv          :     0.00096519 ms. (1036.06501) per ms
+
+Variable number of iterations
+Square root   :     0.00356123 ms. ( 280.80186) per ms (  500000 iterations)
+log           :      0.0625623 ms. (  15.98406) per ms (  100000 iterations)
+exponential   :      0.0913898 ms. (  10.94214) per ms (   50000 iterations)
+cosinus       :      0.0600445 ms. (  16.65432) per ms (   71428 iterations)
+hyperbolic cos:      0.0925097 ms. (  10.80968) per ms (   40000 iterations)
+
+real	0m39.546s
+user	0m39.539s
+sys	0m0.007s
+--------------------------------------------------------------------------
+After pull from changes in mac-mini
+-------------------------------------------------------------------------
+Consistency test of math functions with asm accelerators: Thu Jan 21 22:28:39 2021
+Max and rms errors for 10000 random arguments.
+A = absolute error criterion (but relative if >1):
+Otherwise, estimate is of relative error
+x =   sqrt( square(x) ):  max = 9.66235E-0135   rms = 1.45275E-0135
+x =   atan(    tan(x) ):  max = 5.45096E-0135   rms = 1.1934E-0135
+x =   cbrt(   cube(x) ):  max = 1.90569E-0135   rms = 4.31512E-0137
+x =    sin(   asin(x) ):  max = 1.35496E-0134   rms = 3.20498E-0135
+x =    log(    exp(x) ):  max = 3.11334E-0134   rms = 7.62561E-0136
+x =   log2(   exp2(x) ):  max = 1.83328E-0134 A rms = 2.16481E-0135 A
+x =  log10(  exp10(x) ):  max = 8.34248E-0134   rms = 1.50386E-0135
+x =  acosh(   cosh(x) ):  max = 1.56098E-0135   rms = 1.56098E-0137
+x = pow( pow(x,a),1/a ):  max = 2.67815E-0133   rms = 6.03652E-0135
+x =   tanh(  atanh(x) ):  max = 2.51288E-0134   rms = 2.36379E-0135
+x =  asinh(   sinh(x) ):  max = 2.10573E-0135   rms = 3.1128E-0137
+x =    cos(   acos(x) ):  max = 1.10066E-0134 A rms = 1.87576E-0135 A
+Absolute error and only 2000 trials:
+x =  ndtri(   ndtr(x) ):  max = 1.52555E-0122   rms = 9.25102E-0124
+Legendre  ellpk,  ellpe:  max = 4.03599E-0132   rms = 1.4728E-0133
+lgam(x) = log(gamma(x)):  max = 5.50328E-0135 A rms = 9.50563E-0136 A
+
+real	0m29.332s
+user	0m29.326s
+sys	0m0.006s
+----------------------------------before change shdn1---------------
+Consistency test of math functions with asm accelerators: Sat Jan 23 06:51:36 2021
+Max and rms errors for 10000 random arguments.
+A = absolute error criterion (but relative if >1):
+Otherwise, estimate is of relative error
+x =   sqrt( square(x) ):  max = 9.66235E-0135   rms = 1.45275E-0135
+x =   atan(    tan(x) ):  max = 5.45096E-0135   rms = 1.1934E-0135
+x =   cbrt(   cube(x) ):  max = 1.90569E-0135   rms = 4.31512E-0137
+x =    sin(   asin(x) ):  max = 1.35496E-0134   rms = 3.20498E-0135
+x =    log(    exp(x) ):  max = 3.11334E-0134   rms = 7.63315E-0136
+x =   log2(   exp2(x) ):  max = 1.83328E-0134 A rms = 2.16109E-0135 A
+x =  log10(  exp10(x) ):  max = 8.34248E-0134   rms = 1.50387E-0135
+x =  acosh(   cosh(x) ):  max = 1.56098E-0135   rms = 1.56098E-0137
+x = pow( pow(x,a),1/a ):  max = 2.67815E-0133   rms = 6.06688E-0135
+x =   tanh(  atanh(x) ):  max = 2.51288E-0134   rms = 2.3668E-0135
+x =  asinh(   sinh(x) ):  max = 2.10573E-0135   rms = 3.1128E-0137
+x =    cos(   acos(x) ):  max = 1.10066E-0134 A rms = 1.87576E-0135 A
+Absolute error and only 2000 trials:
+x =  ndtri(   ndtr(x) ):  max = 1.52555E-0122   rms = 9.25102E-0124
+Legendre  ellpk,  ellpe:  max = 4.03599E-0132   rms = 1.4728E-0133
+lgam(x) = log(gamma(x)):  max = 5.50328E-0135 A rms = 9.5261E-0136 A
+
+real	0m29.123s
+user	0m29.113s
+sys	0m0.009s
+qmovz         :    1.27355e-05 ms. (78520.87608) per ms
+pack          :    1.27324e-05 ms. (78539.78826) per ms
+qcmp          :    2.41166e-05 ms. (41465.21483) per ms
+The four operations with    5000000 iterations. Sat Jan 23 06:52:05 2021
+Addition      :    0.000133399 ms. (7496.31931) per ms
+Subtraction   :    0.000134838 ms. (7416.30698) per ms
+Multiplication:    0.000310867 ms. (3216.81390) per ms
+Mult. (int)   :    0.000103822 ms. (9631.88230) per ms
+Squaring      :    0.000267965 ms. (3731.83622) per ms
+Division      :     0.00119573 ms. ( 836.30738) per ms
+Division(int) :    0.000347115 ms. (2880.88796) per ms
+qinv          :    0.000965584 ms. (1035.64268) per ms
+
+Variable number of iterations
+Square root   :     0.00367979 ms. ( 271.75434) per ms (  500000 iterations)
+log           :      0.0634814 ms. (  15.75266) per ms (  100000 iterations)
+exponential   :      0.0917592 ms. (  10.89809) per ms (   50000 iterations)
+cosinus       :      0.0611026 ms. (  16.36591) per ms (   71428 iterations)
+hyperbolic cos:       0.092933 ms. (  10.76044) per ms (   40000 iterations)
+
+real	0m39.940s
+user	0m39.937s
+sys	0m0.003s
+jacob@rock64:~/qlibarm64$ make >/dev/null
+ar: creating libmq.a
+------------------------------------after change shdn1--------------
+jacob@rock64:~/qlibarm64$ time ./qmtst;time ./qtime
+Consistency test of math functions with asm accelerators: Sat Jan 23 06:53:03 2021
+Max and rms errors for 10000 random arguments.
+A = absolute error criterion (but relative if >1):
+Otherwise, estimate is of relative error
+x =   sqrt( square(x) ):  max = 9.66235E-0135   rms = 1.45275E-0135
+x =   atan(    tan(x) ):  max = 5.45096E-0135   rms = 1.1934E-0135
+x =   cbrt(   cube(x) ):  max = 1.90569E-0135   rms = 4.31512E-0137
+x =    sin(   asin(x) ):  max = 1.35496E-0134   rms = 3.20498E-0135
+x =    log(    exp(x) ):  max = 3.11334E-0134   rms = 7.63315E-0136
+x =   log2(   exp2(x) ):  max = 1.83328E-0134 A rms = 2.16109E-0135 A
+x =  log10(  exp10(x) ):  max = 8.34248E-0134   rms = 1.50387E-0135
+x =  acosh(   cosh(x) ):  max = 1.56098E-0135   rms = 1.56098E-0137
+x = pow( pow(x,a),1/a ):  max = 2.67815E-0133   rms = 6.06688E-0135
+x =   tanh(  atanh(x) ):  max = 2.51288E-0134   rms = 2.3668E-0135
+x =  asinh(   sinh(x) ):  max = 2.10573E-0135   rms = 3.1128E-0137
+x =    cos(   acos(x) ):  max = 1.10066E-0134 A rms = 1.87576E-0135 A
+Absolute error and only 2000 trials:
+x =  ndtri(   ndtr(x) ):  max = 1.52555E-0122   rms = 9.25102E-0124
+Legendre  ellpk,  ellpe:  max = 4.03599E-0132   rms = 1.4728E-0133
+lgam(x) = log(gamma(x)):  max = 5.50328E-0135 A rms = 9.5261E-0136 A
+
+real	0m29.111s
+user	0m29.102s
+sys	0m0.008s
+qmovz         :    1.26462e-05 ms. (79075.13720) per ms
+pack          :    1.26391e-05 ms. (79119.76623) per ms
+qcmp          :    2.39471e-05 ms. (41758.65170) per ms
+The four operations with    5000000 iterations. Sat Jan 23 06:53:32 2021
+Addition      :    0.000133388 ms. (7496.94874) per ms
+Subtraction   :    0.000134322 ms. (7444.78575) per ms
+Multiplication:    0.000308693 ms. (3239.46445) per ms
+Mult. (int)   :    0.000103107 ms. (9698.62493) per ms
+Squaring      :    0.000260766 ms. (3834.86165) per ms
+Division      :     0.00118694 ms. ( 842.50001) per ms
+Division(int) :    0.000344608 ms. (2901.84621) per ms
+qinv          :    0.000958746 ms. (1043.02912) per ms
+
+Variable number of iterations
+Square root   :     0.00367569 ms. ( 272.05791) per ms (  500000 iterations)
+log           :      0.0629586 ms. (  15.88345) per ms (  100000 iterations)
+exponential   :      0.0910726 ms. (  10.98025) per ms (   50000 iterations)
+cosinus       :      0.0605703 ms. (  16.50973) per ms (   71428 iterations)
+hyperbolic cos:      0.0921915 ms. (  10.84698) per ms (   40000 iterations)
+
+real	0m39.629s
+user	0m39.624s
+sys	0m0.004s
+
+------------------------------------------after qdiv streamlining----------
+
+Consistency test of math functions with asm accelerators: Sun Jan 24 07:29:23 2021
+Max and rms errors for 10000 random arguments.
+A = absolute error criterion (but relative if >1):
+Otherwise, estimate is of relative error
+x =   sqrt( square(x) ):  max = 9.66235E-0135   rms = 1.45275E-0135
+x =   atan(    tan(x) ):  max = 5.45096E-0135   rms = 1.1934E-0135
+x =   cbrt(   cube(x) ):  max = 1.90569E-0135   rms = 4.31512E-0137
+x =    sin(   asin(x) ):  max = 1.35496E-0134   rms = 3.20498E-0135
+x =    log(    exp(x) ):  max = 3.11334E-0134   rms = 7.63315E-0136
+x =   log2(   exp2(x) ):  max = 1.83328E-0134 A rms = 2.16109E-0135 A
+x =  log10(  exp10(x) ):  max = 8.34248E-0134   rms = 1.50387E-0135
+x =  acosh(   cosh(x) ):  max = 1.56098E-0135   rms = 1.56098E-0137
+x = pow( pow(x,a),1/a ):  max = 2.67815E-0133   rms = 6.06688E-0135
+x =   tanh(  atanh(x) ):  max = 2.51288E-0134   rms = 2.3668E-0135
+x =  asinh(   sinh(x) ):  max = 2.10573E-0135   rms = 3.1128E-0137
+x =    cos(   acos(x) ):  max = 1.10066E-0134 A rms = 1.87576E-0135 A
+Absolute error and only 2000 trials:
+x =  ndtri(   ndtr(x) ):  max = 1.52555E-0122   rms = 9.25102E-0124
+Legendre  ellpk,  ellpe:  max = 4.03599E-0132   rms = 1.4728E-0133
+lgam(x) = log(gamma(x)):  max = 5.50328E-0135 A rms = 9.5261E-0136 A
+
+real	0m29.057s
+user	0m29.049s
+sys	0m0.006s
+jacob@rock64:~/qlibarm64$ time ./qtime
+qmovz         :    1.50295e-05 ms. (66535.66533) per ms
+pack          :    1.27337e-05 ms. (78531.97560) per ms
+qcmp          :    2.41392e-05 ms. (41426.39358) per ms
+The four operations with    5000000 iterations. Sun Jan 24 07:30:07 2021
+Addition      :    0.000133343 ms. (7499.44504) per ms
+Subtraction   :     0.00013472 ms. (7422.82489) per ms
+Multiplication:    0.000310198 ms. (3223.74949) per ms
+Mult. (int)   :    0.000103181 ms. (9691.73812) per ms
+Squaring      :    0.000262058 ms. (3815.94332) per ms
+Division      :     0.00119543 ms. ( 836.51964) per ms
+Division(int) :    0.000341381 ms. (2929.27500) per ms
+qinv          :    0.000964895 ms. (1036.38198) per ms
+
+Variable number of iterations
+Square root   :     0.00366212 ms. ( 273.06558) per ms (  500000 iterations)
+log           :      0.0628866 ms. (  15.90163) per ms (  100000 iterations)
+exponential   :      0.0916918 ms. (  10.90610) per ms (   50000 iterations)
+cosinus       :      0.0603913 ms. (  16.55867) per ms (   71428 iterations)
+hyperbolic cos:      0.0928378 ms. (  10.77147) per ms (   40000 iterations)
+
+real	0m39.777s
+user	0m39.770s
+sys	0m0.006s
+

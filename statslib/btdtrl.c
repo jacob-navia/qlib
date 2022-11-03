@@ -55,6 +55,13 @@ extern double incbet( double, double, double );
 double __declspec(naked) beta_distribution(double a,double b,double x)
 {
 }
+#else
+
+double beta_distribution( double a,double b,double x )
+{
+
+	return( incbet( a, b, x ) );
+}
 #endif
 double btdtr( double a,double b,double x )
 {

@@ -27,6 +27,7 @@ int main(int argc,char *argv[])
 	if (Iterations < 1000)
 		Iterations = 1000;
 
+	printf("Timing of qlib. %s",asctime(timeinfo));
 	bigIt = Iterations*3;
 	begin = clock();
 	total=begin;
@@ -55,7 +56,6 @@ int main(int argc,char *argv[])
 	time_spent = 1000*(double)(end - begin) / CLOCKS_PER_SEC;
 	printf("qcmp          :%15.6g ms. (%10.5f) per ms\n",time_spent/bigIt,bigIt/time_spent);
 
-	printf("The four operations with %'10ld iterations. %s",Iterations,asctime(timeinfo));
 	// ADDITION:
 	begin = clock();
 	for (i=0; i<Iterations;i++) {
@@ -195,7 +195,7 @@ int main(int argc,char *argv[])
 	printf("psi           :%15.6g ms. (%10.5f) per ms (%8ld iterations)\n",
 			time_spent/smallIt,(smallIt)/time_spent,smallIt);
 	begin = clock();
-	smallIt = Iterations/125;
+	smallIt = Iterations/175;
 	for (i=0; i<smallIt;i++) {
 		qshi(qpi,result);
 	}
@@ -205,7 +205,7 @@ int main(int argc,char *argv[])
 			time_spent/smallIt,(smallIt)/time_spent,smallIt);
 
 	begin = clock();
-	smallIt = Iterations/125;
+	smallIt = Iterations/175;
 	for (i=0; i<smallIt;i++) {
 		qsi(qpi,result);
 	}
@@ -215,7 +215,7 @@ int main(int argc,char *argv[])
 			time_spent/smallIt,(smallIt)/time_spent,smallIt);
 
 	begin = clock();
-	smallIt = Iterations/125;
+	smallIt = Iterations/175;
 	for (i=0; i<smallIt;i++) {
 		qacosh(qpi,result);
 	}
@@ -225,7 +225,7 @@ int main(int argc,char *argv[])
 			time_spent/smallIt,(smallIt)/time_spent,smallIt);
 
 	begin = clock();
-	smallIt = Iterations/125;
+	smallIt = Iterations/175;
 	for (i=0; i<smallIt;i++) {
 		qlgam(qpi,result);
 	}
@@ -235,7 +235,7 @@ int main(int argc,char *argv[])
 			time_spent/smallIt,(smallIt)/time_spent,smallIt);
 
 	begin = clock();
-	smallIt = Iterations/125;
+	smallIt = Iterations/175;
 	for (i=0; i<smallIt;i++) {
 		qk0(qpi,result);
 	}

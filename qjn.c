@@ -38,8 +38,8 @@ double floor(double);
 
 Qfloat t[1],u[1],hankzz[1],k[1],ans[1],hankc[1],hanks[1],j[1],m[1];
 Qfloat hankpp[1],hankqq[1],rans[1],ru[1];
-
-void qjn(Qfloatp const nn,Qfloatp const xx,Qfloatp y)
+/* Cephes former qjn */
+void bessel_J(Qfloatp const nn,Qfloatp const xx,Qfloatp y)
 {
 	double dx, dn, an, du;
 	int i, sign;

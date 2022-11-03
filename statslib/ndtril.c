@@ -51,7 +51,11 @@ Copyright 1984, 1995 by Stephen L. Moshier
 
 #include <errno.h>
 int mtherr (char *, int);
+#ifdef Darwin
+#define MAXNUML 1.7976931348623157E+307
+#else
 #define MAXNUML 1.189731495357231765021263853E4932L
+#endif
 
 /* ndtri(y+0.5)/sqrt(2 pi) = y + y^3 R(y^2)
 0 <= y <= 3/8

@@ -1,69 +1,121 @@
 \begin{theindex}
 
-  \item asctoq, \hyperpage{15}
+  \item asctoq, \hyperpage{19}
 
   \indexspace
 
-  \item Constants, \hyperpage{10}
+  \item bessel\_I, \hyperpage{23}
+  \item bessel\_J, \hyperpage{24}
+  \item bessel\_K, \hyperpage{25}
+  \item beta\_distribution\_invQ, \hyperpage{23}
 
   \indexspace
 
-  \item e24toq, \hyperpage{16}
-  \item ellik, \hyperpage{12}
-  \item etoq, \hyperpage{16}
+  \item Constants, \hyperpage{14}
 
   \indexspace
 
-  \item lltoq, \hyperpage{16}
+  \item e24toq, \hyperpage{19}
+  \item ellik, \hyperpage{15}
+  \item etoq, \hyperpage{19}
 
   \indexspace
 
-  \item qacosh, \hyperpage{8}
-  \item qadd, \hyperpage{16}
-  \item qagm, \hyperpage{8}
-  \item qairy, \hyperpage{8}
-  \item qasin, \hyperpage{9}
-  \item qasinh, \hyperpage{9}
-  \item qatanh, \hyperpage{9}
-  \item qatn, \hyperpage{9}
-  \item qbeta, \hyperpage{10}
-  \item qcalc , \hyperpage{10}
-  \item qcatalan, \hyperpage{10}
-  \item qcbrt, \hyperpage{10}
-  \item qcmp, \hyperpage{16}
-  \item qconst.c, \hyperpage{10}
-  \item qcos, \hyperpage{11}
-  \item qcosh, \hyperpage{11}
-  \item qdiv, \hyperpage{17}
-  \item qei, \hyperpage{11}
-  \item qellie, \hyperpage{11}
-  \item qellik, \hyperpage{12}
-  \item qellpe, \hyperpage{12}
-  \item qellpi, \hyperpage{12}
-  \item qellpk, \hyperpage{12}
-  \item qerf, \hyperpage{13}
-  \item qerfc, \hyperpage{13}
-  \item qexp10, \hyperpage{13}
-  \item qexp2, \hyperpage{14}
-  \item qexpm1, \hyperpage{14}
-  \item qexpn, \hyperpage{14}
-  \item qfexp, \hyperpage{13}
-  \item qfltbi.c, \hyperpage{15}
-  \item qflti.c, \hyperpage{15}
-  \item qfresnl, \hyperpage{17}
-  \item qfrexp, \hyperpage{18}
-  \item qhy2f1, \hyperpage{18}
-  \item qifrac, \hyperpage{16}
-  \item qigam, \hyperpage{18}
-  \item qigami, \hyperpage{18}
-  \item qin, \hyperpage{19}
-  \item qldexp, \hyperpage{18}
-  \item qlgam, \hyperpage{18}
-  \item qmov, \hyperpage{17}
-  \item qmul, \hyperpage{17}
-  \item qmuli, \hyperpage{17}
-  \item qsub, \hyperpage{16}
-  \item qtoasc, \hyperpage{16}
-  \item qtoe, \hyperpage{16}
+  \item lltoq, \hyperpage{20}
+
+  \indexspace
+
+  \item neumann\_N, \hyperpage{36}
+
+  \indexspace
+
+  \item qacosh, \hyperpage{11}
+  \item qadd, \hyperpage{20}
+  \item qagm, \hyperpage{11}
+  \item qairy, \hyperpage{11}
+  \item qasin, \hyperpage{12}
+  \item qasinh, \hyperpage{12}
+  \item qatanh, \hyperpage{12}
+  \item qatn, \hyperpage{12}
+  \item qbdtr, \hyperpage{27}
+  \item qbdtrc, \hyperpage{27}
+  \item qbdtri, \hyperpage{27}
+  \item qbeta, \hyperpage{13}
+  \item qcalc , \hyperpage{13}
+  \item qcatalan, \hyperpage{13}
+  \item qcbrt, \hyperpage{13}
+  \item qchdtc, \hyperpage{28}
+  \item qchdti, \hyperpage{28}
+  \item qchdtr, \hyperpage{28}
+  \item qchi, \hyperpage{33}
+  \item qcmp, \hyperpage{20}
+  \item qconst.c, \hyperpage{14}
+  \item qcos, \hyperpage{14}
+  \item qcosh, \hyperpage{14}
+  \item qcot, \hyperpage{35}
+  \item qdiv, \hyperpage{21}
+  \item qei, \hyperpage{15}
+  \item qellie, \hyperpage{15}
+  \item qellik, \hyperpage{15}
+  \item qellpe, \hyperpage{16}
+  \item qellpi, \hyperpage{16}
+  \item qellpk, \hyperpage{16}
+  \item qerf, \hyperpage{16}
+  \item qerfc, \hyperpage{17}
+  \item qexp10, \hyperpage{17}
+  \item qexp2, \hyperpage{17}
+  \item qexpm1, \hyperpage{18}
+  \item qexpn, \hyperpage{18}
+  \item qfcos, \hyperpage{14}
+  \item qfdtr, \hyperpage{29}
+  \item qfdtrc, \hyperpage{29}
+  \item qfdtri, \hyperpage{30}
+  \item qfexp, \hyperpage{17}
+  \item qfltbi.c, \hyperpage{18}
+  \item qflti.c, \hyperpage{19}
+  \item qfpow, \hyperpage{26}
+  \item qfrand, \hyperpage{32}
+  \item qfresnl, \hyperpage{21}
+  \item qfrexp, \hyperpage{21}
+  \item qfsin, \hyperpage{33}
+  \item qfsqrt, \hyperpage{34}
+  \item qftan, \hyperpage{35}
+  \item qgdtr, \hyperpage{29}
+  \item qgdtrc, \hyperpage{30}
+  \item qhy2f1, \hyperpage{22}
+  \item qifrac, \hyperpage{20}
+  \item qigam, \hyperpage{22}
+  \item qigami, \hyperpage{23}
+  \item qincb, \hyperpage{23}
+  \item qjypn, \hyperpage{24}
+  \item qldexp, \hyperpage{21}
+  \item qlgam, \hyperpage{22}
+  \item qlog, \hyperpage{25}
+  \item qmov, \hyperpage{21}
+  \item qmul, \hyperpage{20}
+  \item qmuli, \hyperpage{20}
+  \item qnbdtc, \hyperpage{31}
+  \item qnbdtr, \hyperpage{30}
+  \item qnthroot, \hyperpage{26}
+  \item qpdtr, \hyperpage{31}
+  \item qpdtrc, \hyperpage{31}
+  \item qpdtri, \hyperpage{31}
+  \item qpsi, \hyperpage{32}
+  \item qremain, \hyperpage{32}
+  \item qremquo, \hyperpage{32}
+  \item qsdtri, \hyperpage{34}
+  \item qshi, \hyperpage{33}
+  \item qsinh, \hyperpage{33}
+  \item qspenc, \hyperpage{34}
+  \item qstudt, \hyperpage{34}
+  \item qsub, \hyperpage{20}
+  \item qtanh, \hyperpage{35}
+  \item qtoasc, \hyperpage{19}
+  \item qtoe, \hyperpage{20}
+  \item qzetac, \hyperpage{36}
+
+  \indexspace
+
+  \item timing, \hyperpage{35}
 
 \end{theindex}

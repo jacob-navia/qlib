@@ -43,6 +43,7 @@
 *
  * Series expansion is truncated at less than full working precision.
 *
+*  Name changed from qin to bessel_I according to ISO WG21
  */
 
 /*
@@ -59,7 +60,7 @@ Direct inquiries to 30 Frost Street, Cambridge, MA 02140
 #include <stdio.h>
 #include "qhead.h"
 
-int EXPORT qin(Qfloatp n,Qfloatp x,Qfloatp y )
+int EXPORT bessel_I(Qfloatp n,Qfloatp x,Qfloatp y )
 {
 	Qfloat t[1], u[1], z[1], k[1], ans[1];
 	long i, ln;

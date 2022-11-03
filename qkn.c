@@ -78,8 +78,8 @@ asymptotically, where
 #include "qhead.h"
 
 #define MAXFAC 150
-
-void qkn(Qfloatp const integer, Qfloatp const x,Qfloatp y)
+/* Formerly qkn in CEPHES. Jacob */
+void bessel_K(Qfloatp const integer, Qfloatp const x,Qfloatp y)
 {
 	long long i, lk, lj;
 	long long n,nn;

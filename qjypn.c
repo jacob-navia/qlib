@@ -153,7 +153,7 @@ int qjypn(Qfloatp qnn,Qfloatp x,Qfloatp y)
 	qadd( g, qeul, g );
 	i = n;
 	itoq( i, h );
-	qjn( h, x, jn );
+	bessel_J( h, x, jn );
 	qmul( jn, g, g );
 	g[0].exponent += 1;
 

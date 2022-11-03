@@ -261,16 +261,16 @@ void qifrac ( Qfloatp x,long long *i, Qfloatp frac );
 void qigam ( Qfloatp a, Qfloatp x, Qfloatp y );
 void qigamc ( Qfloatp a, Qfloatp x, Qfloatp y );
 int qigami ( Qfloatp a, Qfloatp y0, Qfloatp ans );
-int qin ( Qfloatp n, Qfloatp x, Qfloatp y );
+int bessel_I( Qfloatp n, Qfloatp x, Qfloatp y );
 void qincb ( Qfloatp aa, Qfloatp bb, Qfloatp xx, Qfloatp y );
 int qincbi ( Qfloatp a, Qfloatp b, Qfloatp yy, Qfloatp ans );
 int qincg ( Qfloatp a, Qfloatp x, Qfloatp y );
 int qine ( Qfloatp n, Qfloatp x, Qfloatp y );
 void qinfin ( Qfloatp x );
 int qisneg ( Qfloatp x );
-void qjn ( Qfloatp nn, Qfloatp xx, Qfloatp y );
+void bessel_J( Qfloatp nn, Qfloatp xx, Qfloatp y );
 void qk0 ( Qfloatp x, Qfloatp y );
-void qkn ( Qfloatp const nn, Qfloatp const x, Qfloatp y );
+void bessel_K( Qfloatp const nn, Qfloatp const x, Qfloatp y );
 int qkne (Qfloatp nn, Qfloatp const x, Qfloatp y );
 void qldexp ( Qfloatp const x, long n, Qfloatp y );
 void qlgam ( Qfloatp const x, Qfloatp y );
@@ -323,7 +323,7 @@ enum {NOROUNDING,DOROUNDING};
 float128_t qtoe113 ( Qfloatp x);
 int qtoe24 ( Qfloatp x, unsigned short *e );
 void qtoe64 ( Qfloatp x, unsigned short *e );
-void qyn ( Qfloatp qn, Qfloatp x, Qfloatp y );
+void neumann_N( Qfloatp qn, Qfloatp x, Qfloatp y );
 void qzetac ( Qfloatp x, Qfloatp y );
 int simq(Qfloat qA[1],Qfloat qB[1],Qfloat qX[],int n,int flag,int IPS[]);
 int isinfq(Qfloatp a);
@@ -368,6 +368,8 @@ void qshi(Qfloatp const x,Qfloatp y);
 void qchi(Qfloatp const x,Qfloatp y);
 void qci(Qfloatp const x,Qfloatp y);
 void qsi(Qfloatp const x,Qfloatp y);
+void qhypot(Qfloatp x, Qfloatp y, Qfloatp z);
+void qchdti(Qfloatp df, Qfloatp y,Qfloatp x);
 
 #define qadd(a,b,c) qadd_subtract(a,b,c,0)
 #define qsub(a,b,c) qadd_subtract(a,b,c,1)

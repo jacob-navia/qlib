@@ -34,12 +34,12 @@
 	pdfmenubar=true,        % show Acrobat’s menu?
 	pdffitwindow=false,     % window fit to page when opened
 	pdfstartview={FitH},    % fits the width of the page to the window
-	pdftitle={The Little C Compiler},    % title
+	pdftitle={Qlib documentation},    % title
 	pdfauthor={Jacob Navia},     % author
-	pdfsubject={Lcc compiler},   % subject of the document
+	pdfsubject={Qlib documentation},   % subject of the document
 	pdfcreator={Jacob Navia},   % creator of the document
 	pdfproducer={TeXStudio + pdflatex}, % producer of the document
-	pdfkeywords={lcc, compiler, C Language}, % list of keywords
+	pdfkeywords={CEPHES, C Language}, % list of keywords
 	pdfnewwindow=true,      % links in new PDF window
 	colorlinks=true,       % false: boxed links; true: colored links
 	linkcolor=blue,          % color of internal links (change box color with linkbordercolor)
@@ -136,7 +136,9 @@
 \usepackage[T1]{fontenc}
 %\usepackage[urw-garamond]{mathdesign}
 \newcommand{\indexAC}[1]{\index{\texttt{#1}}}
-\newcommand{\TOC}[1] {\addcontentsline{toc}{section}{#1} #1 \par}
+\newcounter{entry}
+\counterwithin{entry}{chapter}
+\newcommand{\TOC}[1] {\addcontentsline{toc}{section}{\theentry\ \  #1} \textbf{\theentry\ \  #1} \par\stepcounter{entry}}
 
 %\usepackage{duerer}
 %\usepackage{tgchorus}
@@ -182,9 +184,11 @@
 \usepackage{tgpagella}
 \usepackage{dtk-logos}
 
+
 \begin{document}
 \lstset{moredelim=[is][\bfseries]{[*}{*]}}
 \setcounter{tocdepth}{5}
+\setcounter{entry}{1}
 \pagestyle{empty} \titleJT
 \cleardoublepage
 \pagestyle{headings}
@@ -278,6 +282,25 @@ Mr Moshier has been working in this library since 1977. And it is a testament to
 software written in the C language that more than 40 years later it continues to run like new. C is not "the new language of the day", it
 is a tried and tested language where you can build software that will run for decades.
 
+Almost all of these functions were written by Stephen L. Moshier. These files have a copyright notice that begins in 1984 or 1985.
+\begin{verbatim}
+	* Cephes Math Library Release 2.3:  March, 1995
+	* Copyright 1985, 1995 by Stephen L. Moshier
+	
+\end{verbatim}
+I have revised the algorithms of some functions, added some (catalan, AGM, for instance) reformatted the code, but essentially this work is based on SLM's work.
+\begin{verbatim}
+/*
+* Revision history:
+*
+* SLM,  5 Jan 84   PDP-11 assembly language version
+* SLM,  2 Mar 86   fixed bug in asctoq()
+* SLM,  6 Dec 86   C language version
+* JN    1995-2011  Many improvements, modifications, etc
+* JN    2017       Ported to ARM64
+* JN    2021       Ported to Apple's M1
+*/
+\end{verbatim}
 I have tested this version in three machines:
 \begin{enumerate}
 \item A PC with windows (16GB RAM, AMD Ryzen Windows 10) 
@@ -287,7 +310,7 @@ I have tested this version in three machines:
 
 \chapter{Data types}
 This library features 8 bytes numbers, with a mantissa of seven 64 bits numbers and a header of 64 bits where the sign and the exponent are stored. This is a design for maximal speed, where space considerations are mostly ignored. The four operations are written entirely in ARM64/x86\_64 assembler. This allows to increase speed by a factor of 30 relative to a high level language like C. Built upon this assembler core functionality the module uses an adapted version of the CEPHES mathematical library written by Stephen L. Moshier. All higher order functions like logarithm, square root , exponential function etc, are written in C using the core functions.
-\subsection{Data types}
+\section{Data types}
 Numbers are represented using the following structure:
 \begin{lstlisting}
 	typedef struct tagQfloat {
@@ -303,20 +326,24 @@ and sign is clearer. All the library has been rewritten to use this structure.
 One problem in this transformation was that since numbers were a table of integers, they were always passed by reference, since tables are always passed as a reference to the first member in C. To keep this and avoid inefficiencies when passing numbers by value, all local variables and numbers are declared as tables of one element: instead of \verb,Qfloat x;, all the functions in the library use \verb,Qfloat x[1];, what is actually exactly the same, but since the second declaration will be understood as a table, it will be passed by reference in all calls.
 
 All constants were recalculated for 64 bits and correctly rounded, and the precision in several functions was extended.
-\subsection{Implementations}
+\section{Implementations}
 Two assembler implementations exist: one for the x86\_64 and another for the ARM64 architectures. They are implemented essentially in the \verb,qasm-xxx, modules. There 3 of them: the \verb,aarch64, module for linux with ARM64, \verb,arm64, for Apple under ARM64, and x86\_64 for linux  under x86.
-\subsection{Software organization}
+\section{Software organization}
 Each function is implemented in  his own file. For instance qsqrt.c implements the square root, etc. 
+There are several sub-directories:
+\begin{itemize}
+	\item \texttt{doc} Documentation in Latex
+	\item \texttt{aarch64} Assembly programs for the linux aarch64 architecture (raspberry pi, rock64).
+	\item \texttt{arm64} Apple's M1 series assembly programs.
+	\item \texttt{x86-64} PC assembly programs
+	\item \texttt{statslib} Statistics library in double precision
+\end{itemize}
 
-Almost all of these functions were written by Stephen L. Moshier. These files have a copyright notice that begins in 1984 or 1985.
-\begin{verbatim}
-	* Cephes Math Library Release 2.3:  March, 1995
-	* Copyright 1985, 1995 by Stephen L. Moshier
-	
-\end{verbatim}
 
-I have revised the algorithms of some functions, added some (catalan, AGM, for instance) reformatted the code, but essentially this work is based on SLM's work.
 
+
+
+\chapter{The functions}
 \begin{longtable}{|p{1.5cm}|p{11.5cm}|}
 	\caption{Qlib documentation}\\\hline
 	\textbf{File}&\textbf{Function description}\\\hline\hline
@@ -325,7 +352,7 @@ I have revised the algorithms of some functions, added some (catalan, AGM, for i
 	agm.c&This file implements the arithmetic geometric mean, written by 
 	\verb,Tom Van Baak (tvb) www.LeapSecond.com/tools, and used to test the implementation in qfloat precision.\\\hline
 	cmplx.c& This is the complex arithmetic module in double precision, used to calculate starting approximations for some functions.\\\hline
-	qacosh.c& \addcontentsline{toc}{section}{Inverse hyperbolic cosine} Inverse hyperbolic cosine
+	qacosh.c& \TOC{Inverse hyperbolic cosine (qacosh)}
 	
 	{\footnotesize SYNOPSIS:}\vspace{-0.25cm}\index{qacosh}
 	\begin{lstlisting}[numbers=none]
@@ -337,7 +364,7 @@ I have revised the algorithms of some functions, added some (catalan, AGM, for i
 	%\verb?acosh(x)  =  log( x + sqrt( (x-1)(x+1) )? 
 	$$acosh(x) = log \left(x + \sqrt{(x-1)\times (x+1)}\right)$$
 	\\\hline
-	qagm.c & \TOC{Arithmetic Geometric Mean of two numbers}
+	qagm.c & \TOC{Arithmetic Geometric Mean of two numbers (qagm)}
 	
 	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{qagm}
 	\begin{lstlisting}[numbers=none]
@@ -374,7 +401,7 @@ I have revised the algorithms of some functions, added some (catalan, AGM, for i
 	{\footnotesize ACCURACY:}\par
 	The asymptotic expansion is truncated at less than full working precision (only 105 digits).
 	\\\hline
-	qasin.c&
+	qasin.c&\TOC{Inverse sine (qasin)}
 	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{qasin}
 	\begin{lstlisting}[numbers=none]
 		int qasin( x, y );   int qasin( x, y );
@@ -395,7 +422,7 @@ I have revised the algorithms of some functions, added some (catalan, AGM, for i
 	
 	\verb,qacos:,   $$acos(x) = \frac{\pi}{2} - asin(x)$$
 	\\\hline
-	qasinh.c& \TOC{Inverse Hyperbolic sine}
+	qasinh.c& \TOC{Inverse Hyperbolic sine (qasinh)}
 	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{qasinh}
 	\begin{lstlisting}[numbers=none]
 		int qasinh( x, y );
@@ -405,7 +432,7 @@ I have revised the algorithms of some functions, added some (catalan, AGM, for i
 	$$asinh(x) = log\left(x+\sqrt{1+x^2}\right)$$
 	For very large $x$,  $asinh(x)=log(x)+log(2)$
 	\\\hline
-	qatanh.c & \TOC{Inverse hyperbolic tangent}
+	qatanh.c & \TOC{Inverse hyperbolic tangent (qatanh)}
 	
 	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{qatanh}
 	\begin{lstlisting}[numbers=none]
@@ -418,7 +445,7 @@ I have revised the algorithms of some functions, added some (catalan, AGM, for i
 	For very small x, the first few terms of the Taylor series
 	are summed.
 	\\\hline
-	qatn.c& \TOC{Inverse circular tangent}
+	qatn.c& \TOC{Inverse circular tangent qatn}
 	
 	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{qatn}
 	\begin{lstlisting}[numbers=none]
@@ -432,7 +459,7 @@ I have revised the algorithms of some functions, added some (catalan, AGM, for i
 	$$arctan(x)=\frac{x}{1 - \frac{x^2}{3 - \frac{4x^2}{5 - \frac{9x^2}{7-}}}} ... $$
 	
 	\\\hline
-	qbeta.c &\TOC{Beta function}
+	qbeta.c &\TOC{Beta function (qbeta)}
 	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{qbeta}
 	\begin{lstlisting}[numbers=none]
 		int qbeta( a, b, y );
@@ -443,7 +470,7 @@ I have revised the algorithms of some functions, added some (catalan, AGM, for i
 	$$ beta(a,b) = \frac{\Gamma (a) \times \Gamma (b)}{\Gamma (a+b)}$$
 	\\\hline
 	qcalc.c& \index{qcalc }This is a calculator that features all functions of the package in an interactive way.\\\hline
-	qcatalan.c& \TOC{Catalan}
+	qcatalan.c& \TOC{Catalan (qcatalan)}
 	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{qcatalan}
 	\begin{lstlisting}[numbers=none]
 		void qcatalan(n,result);
@@ -454,7 +481,7 @@ I have revised the algorithms of some functions, added some (catalan, AGM, for i
 	
 	$$C_n=\frac{(2n)!}{(n+1)!\times n!}$$ These  numbers will be calculated using 128 bit integers up to $n=63$. For numbers above qfloat precision is used.
 	\\\hline
-	qcbrt.c& \TOC{Cubic root}
+	qcbrt.c& \TOC{Cubic root (qcbrt)}
 	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{qcbrt}
 	\begin{lstlisting}[numbers=none]
 		int qcbrt( x, y );
@@ -486,9 +513,9 @@ I have revised the algorithms of some functions, added some (catalan, AGM, for i
 	\tabto{2.5cm}$-e^{-1}$\tabto{4.2cm}qexp\tabto{6.2cm}$e$\tabto{7.4cm}invSqrt2pi\tabto{9.7cm}$\frac{1}{\sqrt{\pi}}$\par
 	qepsilon\tabto{2.5cm}$ 2^{-448}$
 	\\\hline
-	qcos.c& \index{qcos} \TOC{Cosinus}
+	qcos.c& \index{qcos} \TOC{Cosinus (qcos)}
 	
-	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}
+	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{qfcos}
 	\begin{lstlisting}[numbers=none]
 		int qfcos( x, y );
 		qfloat *x; // input
@@ -497,7 +524,7 @@ I have revised the algorithms of some functions, added some (catalan, AGM, for i
 	The cosinus is just $$\cos(x) = \sin \left(\frac{\pi}{2} - x\right)$$
 	In this file the function $cos(x)-1$ (\verb,qcosm1,) is implemented using the Taylor series, useful for small $x$.
 	\\\hline
-	qcosh.c& 	\TOC{Hyperbolic cosine}\index{qcosh}
+	qcosh.c& 	\TOC{Hyperbolic cosine (qcosh)}\index{qcosh}
 	
 	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}
 	\begin{lstlisting}[numbers=none]
@@ -507,7 +534,7 @@ I have revised the algorithms of some functions, added some (catalan, AGM, for i
 	\end{lstlisting}\vspace{-0.2cm}
 	$$cosh(x)=\frac{exp(x)+exp(-x)}{2}$$
 	\\\hline
-	qei.c& 	TOC{The exponential integral}
+	qei.c& 	\TOC{The exponential integral (qei)}
 	
 	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{qei}
 	\begin{lstlisting}[numbers=none]
@@ -525,7 +552,7 @@ I have revised the algorithms of some functions, added some (catalan, AGM, for i
 	For values > 32 SLM used the asymptotic expansion:
 	$$x \times e^x \times Ei(x) = 1+\frac{2}{x^2}+\frac{6}{x^3} + ... \frac{n!}{x^n}$$
 	\\\hline
-	qellie.c&\TOC{Incomplete elliptic integral of the second kind}
+	qellie.c&\TOC{Incomplete elliptic integral of the second kind (qellie)}
 	
 	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{qellie}
 	\begin{lstlisting}[numbers=none]
@@ -538,7 +565,7 @@ I have revised the algorithms of some functions, added some (catalan, AGM, for i
 	
 	of amplitude $\phi$ and modulus  $m$, using the arithmetic geometric mean algorithm.
 	\\\hline
-	qellik.c&\TOC{Incomplete elliptic integral of the first kind}\index{qellik}
+	qellik.c&\TOC{Incomplete elliptic integral of the first kind (qellik)}\index{qellik}
 	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{ellik}
 	\begin{lstlisting}[numbers=none]
 		int qellik( phi, m, y );
@@ -549,7 +576,7 @@ I have revised the algorithms of some functions, added some (catalan, AGM, for i
 	 Approximates the integral:
 	$$ F(\phi , m) = \int_{0}^{\phi} \frac{dt}{\sqrt{1-m\times sin^2 \ t}}$$
 	\\\hline
-	qellpe.c & \TOC{Complete elliptic integral of the second kind}
+	qellpe.c & \TOC{Complete elliptic integral of the second kind (qellpe)}
 	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{qellpe}
 	\begin{lstlisting}[numbers=none]
 int qellpe(x, y);
@@ -559,7 +586,7 @@ qfloat *y; //output
 	Approximates the integral
 	$$ E(m) = \int_{0}^{\frac{\pi}{2}} \sqrt{1 - m\ sin^2 t} \ dt$$
 	\\\hline
-	qellpj.c& \TOC{Jacobian Elliptic Functions}
+	qellpj.c& \TOC{Jacobian Elliptic Functions (qellpi)}
 	
 	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{qellpi}
 \begin{lstlisting}[numbers=none]
@@ -588,7 +615,7 @@ qfloat *sn, *cn, *dn, *ph; // outputs
 	
 	{\footnotesize{ACCURACY:}}  Truncated at 70 bits.
 	\\\hline
-	qellpk.c& \TOC{Complete elliptic integral of the first kind}
+	qellpk.c& \TOC{Complete elliptic integral of the first kind (qellpk)}
 	
 	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{qellpk}
 	\begin{lstlisting}[numbers=none]
@@ -610,7 +637,7 @@ qfloat *sn, *cn, *dn, *ph; // outputs
 	
 	{\footnotesize ACCURACY:} Truncated at NBITS
 	\\\hline
-	qerf.c& \TOC{Error function}
+	qerf.c& \TOC{Error function (qerf)}
 	
 	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{qerf}
 	\begin{lstlisting}[numbers=none]
@@ -633,7 +660,7 @@ qfloat *sn, *cn, *dn, *ph; // outputs
 	$$erfc(x)=\frac{2}{\sqrt{\pi}} \ \int_{x}^{\infty} exp(-t^2)\ dt = 1-erf(x)$$
 	using two different continued fraction for arguments smaller than 4 and bigger than 4.
 	\\\hline
-	qexp.c& \TOC{The exponential function}
+	qexp.c& \TOC{The exponential function (qefexp)}
 	
 	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{qfexp}
 	\begin{lstlisting}[numbers=none]
@@ -645,7 +672,7 @@ qfloat *sn, *cn, *dn, *ph; // outputs
 	To achieve full precision this needs approx 30-40 iterations, depending on the argument. Arguments close to 1 need more iterations. This method is different from the one used by Mr Moshier: $$exp(x)=\frac{1+tanh(x)}{1-tanh(x)}$$
 	The speed of the calculation was improved by 60\%. On the downside a loss of 1 ulps has been seen due to the long summation of the pre-calculated inverse factorials table.
 	\\\hline
-	qexp10.c& \TOC{Base 10 exponential function}
+	qexp10.c& \TOC{Base 10 exponential function (qexp10)}
 	
 	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{qexp10}
 	\begin{lstlisting}[numbers=none]
@@ -656,7 +683,7 @@ qfloat *sn, *cn, *dn, *ph; // outputs
 	(Common antilogarithm).
 	$$10^x=e^{x \times log(10)}$$
 	\\\hline
-	qexp2.c& \TOC{Base 2 exponential function}
+	qexp2.c& \TOC{Base 2 exponential function (qexp2)}
 	
 	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{qexp2}
 	\begin{lstlisting}[numbers=none]
@@ -667,7 +694,7 @@ qfloat *sn, *cn, *dn, *ph; // outputs
 	Base 2 exponential function
 	$$2^(x)=e^{x\times log(2)}$$
 	\\\hline
-	qexpm1.c& $e^x - 1$ \TOC{expm1}\index{qexpm1}
+	qexpm1.c& $e^x - 1$ \TOC{expm1 (qexpm1)}\index{qexpm1}
 	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}
 	\begin{lstlisting}[numbers=none]
 		int qexpm1(x,y);
@@ -680,7 +707,7 @@ qfloat *sn, *cn, *dn, *ph; // outputs
 	cancellation and the result will have little or no precision.  The \verb,expm1, function provides
 	an alternative means to do this calculation without the risk of significant loss of precision.
 	\\\hline
-	qexpn.c& \TOC{Exponential integral}
+	qexpn.c& \TOC{Exponential integral (qexpn)}
 	
 	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}
 	\begin{lstlisting}[numbers=none]
@@ -692,7 +719,7 @@ qfloat *sn, *cn, *dn, *ph; // outputs
 	Evaluates the exponential integral:
 	$$E_n(x)=\int_{1}^{\infty}\frac{e^{-xt}}{t^n}\ dt$$
 	\\\hline
-	qfac.c& \TOC{Factorial}
+	qfac.c& \TOC{Factorial (qfact)}
 	
 	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}
 	\begin{lstlisting}[numbers=none]
@@ -702,7 +729,7 @@ qfloat *sn, *cn, *dn, *ph; // outputs
 	\end{lstlisting}\vspace{-0.2cm}
 	Calculates $n!$.
 	\\\hline
-	qfloor.c&\TOC{Floor}
+	qfloor.c&\TOC{Floor (qfloor)}
 	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}
 	\begin{lstlisting}[numbers=none]
 		int qfloor(x,y);
@@ -757,7 +784,7 @@ qfloat *sn, *cn, *dn, *ph; // outputs
 	\end{lstlisting}
 	\\\hline
 	\multicolumn{2}{c}{Conversions}\\\hline
-	qflti.c& \TOC{Text to qfloat}\index{asctoq}
+	qflti.c& \TOC{Convert text to qfloat (asctoq)}\index{asctoq}
 	
 	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}
 	\begin{lstlisting}[numbers=none]
@@ -766,17 +793,17 @@ qfloat *sn, *cn, *dn, *ph; // outputs
 	
 	The character string \verb,text, will be converted into qfloat, and the \verb,pend, pointer will point to the character right after the last digit. Scientific notation is supported.
 	\\\hline
-	qflti.c& \TOC{qfloat to text}\index{qtoasc}
+	qflti.c& \TOC{Convert qfloat to text (qtoasc)}\index{qtoasc}
 	
 	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}
 	\begin{lstlisting}[numbers=none]
-		int qtoasc(Qfloatp q,char *string,int width,int ndigs,int flags );
+int qtoasc(Qfloatp q,char *string,int width,int ndigs,int flags );
 	\end{lstlisting}\vspace{-0.2cm} \par
 	
 	Formats the given number using the given width and number of digits after the decimal point. Numbers are rounded to the given
 	precision.
 	\\\hline
-	qflti.c&\TOC{Conversion of double, float to qfloat}
+	qflti.c&\TOC{Conversion of double, float to qfloat (e2q e24toq)}
 	
 	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{etoq}\index{e24toq}
 	\begin{lstlisting}[numbers=none]
@@ -877,7 +904,13 @@ qfloat *sn, *cn, *dn, *ph; // outputs
 	\end{lstlisting}\vspace{-0.2cm}
 	$b=a$.\par
 	This procedure is written in assembly language.
-	
+	\\\hline
+	qflti.c&\TOC{Inverse}
+	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{qmov}
+	\begin{lstlisting}[numbers=none]
+		int qinv(qfloat *const x,qfloat *y);
+	\end{lstlisting}\vspace{-0.2cm}
+	$$y=\frac{1}{x}$$
 	\\\hline
 	qfresf.c& \TOC{Fresnel integral}
 	
@@ -934,6 +967,24 @@ qfloat *sn, *cn, *dn, *ph; // outputs
 	\end{lstlisting}\vspace{-0.2cm}
 	$$hy_2f_1 = 1+\sum_{k=0}^{\infty}\frac{a(a+1)(a+2)\ ...(a+k)\ b(b+1)(b+2)\ ... (b+k)}{c(c+1)(c+2)\ ... (c+k)\times (k+1)!}\ \ x^{k+1}$$
 	\\\hline
+	qhypot.c& \TOC{Hypotenuse}
+	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}
+\begin{lstlisting}[numbers=none]
+	void qhypot(qfloat *const x, qfloat *const y, qfloat *z);	
+\end{lstlisting}\vspace{-0.2cm}
+Calculates $\sqrt{x^2+y^2}$ without overflow
+\footnote{This will be difficult to achieve since the biggest number is $10^{1048576}$. A 1 followed by more than a million zeroes!}
+ using the following algorithm:
+
+
+\begin{itemize}
+	\item $Max \leftarrow Maximum(|x|,|y|)$
+	\item $Min \leftarrow Minimum(|x|,|y|)$
+	\item $r = \frac{Min}{Max}$
+	\item return $Max \times \sqrt{1+r\times r}$  
+\end{itemize}
+The term under the square root is always between 1 and 2.
+	\\\hline
 	qhyperg.c& \TOC{Hypergeometric function}
 	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}
 	\begin{lstlisting}[numbers=none]
@@ -956,7 +1007,7 @@ qfloat *sn, *cn, *dn, *ph; // outputs
 	$$igam(a,x)=\int_{0}^{x}e^t\ t^{a-1}\ dt$$
 	{\footnotesize ACCURACY:} Expansions terminate at less than full working precision.
 	\\\hline
-	qigami.c&Inverse of complemented incomplete gamma integral.
+	qigami.c&\TOC{Inverse of complemented incomplete gamma integral}
 	
 	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{qigami}
 	\begin{lstlisting}[numbers=none]
@@ -971,15 +1022,15 @@ qfloat *sn, *cn, *dn, *ph; // outputs
 	
 	{\footnotesize ACCURACY:}  Set to do just one Newton-Raphson iteration. 
 	\\\hline
-	qin.c&Modified Bessel function I of noninteger order.
-	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{qin}
+	qin.c&\TOC{Modified Bessel function I of noninteger order}
+	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{bessel\_I}
 	\begin{lstlisting}[numbers=none]
-		int qin( v, x, y );
+		int bessel_I( v, x, y );
 		qfloat *v,*x; // inputs
 		qfloat *y; // output 
-	\end{lstlisting}\vspace{-0.2cm}
+	\end{lstlisting}\vspace{-0.2cm}\index{bessel\_I}
 	 Returns modified Bessel function of order v of the
-	argument.
+	argument. Also known as $Y_v(x)$, formerly \verb,qin, in CEPHES.
 	
 	The power series is:
 	$$I_v(z)=\left(\frac{z}{2}\right)^v\sum_{k=0}^{\infty}\frac{\left(\frac{z^2}{4}\right)^k}{k! \ \Gamma(v+k+1)}$$
@@ -988,9 +1039,9 @@ qfloat *sn, *cn, *dn, *ph; // outputs
 	$$ I_v(z)=\frac{e^z}{\sqrt{2\ \pi \ z}}\left\lbrace 1-\frac{(u-1)^2)}{1!\ (8z)}+\frac{(u-1^2)(u-3^2)}{2!\ (8z)^2} + ... \right\rbrace$$ 
 	asymptotically where $u=4v^2$.
 	\\\hline
-	qincb.c&Incomplete beta integral.
+	qincb.c&\TOC{Incomplete beta integral}
 	
-	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}
+	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{qincb}
 	\begin{lstlisting}[numbers=none]
 		int qincb( a, b, x, y );
 		qfloat *a, *b, *x; // inputs
@@ -1000,9 +1051,9 @@ qfloat *sn, *cn, *dn, *ph; // outputs
 	$$IncB(a,b,x) = \frac{\Gamma(a+b)}{\Gamma(a)\ \Gamma(b)}\int_{0}^{x} t^{(a-1)}\times (1-t)^{b-1} \ dt$$
 	{\footnotesize ACCURACY:} Expansions terminate at less than full working precision.
 	\\\hline
-	qincbi.c&Inverse of incomplete beta integral.
+	qincbi.c&\TOC{Inverse of incomplete beta integral}
 	
-	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}
+	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{beta\_distribution\_invQ}
 	\begin{lstlisting}[numbers=none]
 		void beta_distribution_invQ(a,b, y, x);
 		qfloat *a, *b, *y; // inputs
@@ -1012,10 +1063,10 @@ qfloat *sn, *cn, *dn, *ph; // outputs
 	$$qincb( a, b, x ) = y$$
 	The routine performs up to 10 Newton iterations to find the root of $qincb(a,b,x) - y = 0$.
 	\\\hline
-	qjn.c& Bessel function of noninteger order
-	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}
+	qjn.c& \TOC{Bessel function of non-integer order}
+	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{bessel\_J}
 	\begin{lstlisting}[numbers=none]
-		void qjn(v, x, y);
+		void bessel_J(v, x, y);
 		qfloat *v, *x; // inputs
 		qfloat *y; // output 
 	\end{lstlisting}\vspace{-0.2cm}
@@ -1026,9 +1077,9 @@ qfloat *sn, *cn, *dn, *ph; // outputs
 	Hankel expansion for large $v$.  If $v$ is not too large, it
 	is reduced by recurrence to a region of better accuracy.
 	\\\hline
-	qjypn.c& Auxiliary function for Hankel's asymptotic expansion
+	qjypn.c& \TOC{Auxiliary function for Hankel's asymptotic expansion}
 	
-	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}
+	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{qjypn}
 	\begin{lstlisting}[numbers=none]
 		void qjypn(n, x, y);
 		qfloat *n, *x; // inputs
@@ -1045,11 +1096,11 @@ qfloat *sn, *cn, *dn, *ph; // outputs
 	Series expansions are set to terminate at less than full
 	working precision.
 	\\\hline
-	qkn.c& Modified Bessel function K of order $n$.
+	qkn.c& \TOC{Modified Bessel function K of order $n$}
 	
-	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}
+	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{bessel\_K}
 	\begin{lstlisting}[numbers=none]
-		void qkn(n, x, y);
+		void bessel_K(n, x, y);
 		qfloat *n, *x; // inputs
 		qfloat *y; // output 
 	\end{lstlisting}\vspace{-0.2cm}
@@ -1067,22 +1118,22 @@ qfloat *sn, *cn, *dn, *ph; // outputs
 	asymptotically where $u=4v^2$.
 	Converges to 1.4e-17
 	\footnote{The asymptotic series was starting to be used at 24. I have modified it to be 40. This allows calculating $k_0(34)$ with 120 digits precision
-		To verify the results I used Grenoble University GP calculator with precision of 132 digits. I also used the inline calculator \texttt{bc}.}.
+		To verify the results I used Bordeaux University GP calculator with precision of 132 digits. I also used the inline calculator \texttt{bc}.}.
 	
 	\\\hline
-	qlog.c& Logarithm
+	qlog.c& \TOC{Logarithm}
 	
-	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}
+	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{qlog}
 	\begin{lstlisting}[numbers=none]
-		void qkn(x, y);
+		void qlog(x, y);
 		qfloat *x; // input
 		qfloat *y; // output 
-	\end{lstlisting}\vspace{-0.2cm}
+	\end{lstlisting}\vspace{-0.2cm}\index{qlog}
 	After reducing the range to $[\frac{1}{\sqrt{2}}, \sqrt{2}]$ the logarithm is calculated with
 	$$w=\frac{(x-1)}{(x+1)}$$
 	$$\frac{ln(x)}{2}=w+\frac{w^3}{3}+\frac{w^5}{5} + ...$$
 	\\\hline
-	qmtst.c&
+	qmtst.c& \TOC{Verification program}
 	This program calls several functions several thousand times with random inputs and displays statistics about the error ranges and accuracy.
 	\begin{verbatim}
 		Consistency test of math functions: Fri Oct 28 15:43:51 2022
@@ -1107,28 +1158,29 @@ qfloat *sn, *cn, *dn, *ph; // outputs
 		lgam(x)=log(gamma(x)):max= 1.37582E-0134A rms = 2.4302E-0135 A
 	\end{verbatim}
 	\\\hline
-	qnthroot.c&
-	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}
+	qnthroot.c& \TOC{Nth root}
+	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{qnthroot}
 	\begin{lstlisting}[numbers=none]
 		void qnthroot(x, N, y);
 		qfloat *x, *N; // input
 		qfloat *y; // output 
 	\end{lstlisting}\vspace{-0.2cm}
 	Calculates the nth root of $x$ with a newton iteration.
+	$$ delta = \frac{1}{n}\left(\frac{x}{x_{k-1}^{n-1}}\right)$$
+$$ x_{k+1}=x_k+delta ; x_0=x^{1/n} $$
 	\\\hline
-	qpow.c&
-	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}
+	qpow.c& \TOC{Power: $x^y$}
+	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{qfpow}
 	\begin{lstlisting}[numbers=none]
 		void qfpow(x, p, y);
 		qfloat *x, *p; // input
 		qfloat *y;     // output 
 	\end{lstlisting}\vspace{-0.2cm}
-	Calculates $x^p$. It uses the trivial identity: $x^p=e^{p\ log(x)}$.
+	Calculates $x^p$. It uses the trivial identity: $x^y=e^{y\ log(x)}$.
 	\\\hline
-	qprob.c&
-	Binomial Probability density
+	qprob.c&	\TOC{Binomial Probability density}
 	
-	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}
+	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{qbdtr}
 	\begin{lstlisting}[numbers=none]
 		void qbdtr( k, n,p,y)
 		int k,n; // input
@@ -1143,8 +1195,8 @@ qfloat *sn, *cn, *dn, *ph; // outputs
 	The arguments must be positive, with p ranging from 0 to 1.
 	\\\hline
 	qprob.c&
-	Complemented Binomial Probability density
-	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}
+	\TOC{Complemented Binomial Probability density}
+	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{qbdtrc}
 	\begin{lstlisting}[numbers=none]
 		void qbdtrc(k,n,p,y)
 		int k,n; // input
@@ -1155,9 +1207,9 @@ qfloat *sn, *cn, *dn, *ph; // outputs
 	probability density:
 	$$\sum_{j=k+1}^{n}\binom{n}{j} p^j (1-p)^{n-j} $$
 	\\\hline
-	qprob.c&	  Inverse binomial distribution 
+	qprob.c&	\TOC{Inverse binomial distribution} 
 	
-	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}
+	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{qbdtri}
 	\begin{lstlisting}[numbers=none]
 		void qbdtri(int k,int n,qfloat *y,qfloat *p)
 		int k,n; // inputs
@@ -1172,9 +1224,9 @@ qfloat *sn, *cn, *dn, *ph; // outputs
 	
 	$$ 1 - p = incbi( n-k, k+1, y )$$
 	\\\hline
-	qprob.c&	Chi-square distribution
+	qprob.c&	\TOC{Chi-square distribution}
 	
-	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}
+	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{qchdtr}
 	\begin{lstlisting}[numbers=none]
 		
 		void qchdtr( const qfloat *df,const qfloat *x, qfloat *y )
@@ -1187,11 +1239,9 @@ qfloat *sn, *cn, *dn, *ph; // outputs
 	where $x$ is the Chi-square variable. The incomplete gamma integral is used according to the formula:
 	$$y=chdtr(v,x)=igam(v/2.0,x/2.0)$$ The arguments must be both positive.
 	\\\hline
-	qprob.c&
+	qprob.c&	\TOC{Complemented Chi-square distribution} 
 	
-	Complemented Chi-square distribution 
-	
-	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}
+	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{qchdtc}
 	\begin{lstlisting}[numbers=none]
 		void qchdtc(qfloat * const df, qfloat *const x, qfloat *y);
 	\end{lstlisting}\vspace{-0.2cm}
@@ -1205,9 +1255,9 @@ qfloat *sn, *cn, *dn, *ph; // outputs
 	\\\hline
 	qprob.c&
 	
-	Inverse of complemented Chi-square distribution 
+	\TOC{Inverse of complemented Chi-square distribution}
 	
-	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}
+	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{qchdti}
 	\begin{lstlisting}4[numbers=none]
 		void qchdti(qfloat *df,qfloat *y, qfloat *x );
 	\end{lstlisting}\vspace{-0.2cm}
@@ -1221,9 +1271,9 @@ qfloat *sn, *cn, *dn, *ph; // outputs
 	
 	$$x/2 = igami( df/2, y );$$
 	\\\hline
-	qprob.c&	     F distribution
+	qprob.c&	     \TOC{F distribution}
 	
-	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}
+	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{qfdtr}
 	\begin{lstlisting}4[numbers=none]
 		void qfdtr(int ia,int ib,qfloat *x,qfloat *y );
 	\end{lstlisting}\vspace{-0.2cm}
@@ -1246,20 +1296,23 @@ qfloat *sn, *cn, *dn, *ph; // outputs
 	nonnegative.
 	\\\hline
 	qprob.c&
-	Gamma distribution function 
+	\TOC{Gamma distribution function} 
 	
-	\texttt{void qgdtr(qfloat *a,qfloat *b,qfloat *x,qfloat *y )}
+	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{qgdtr}
+\begin{lstlisting}4[numbers=none]
+	void qgdtr(qfloat *a,qfloat *b,qfloat *x,qfloat *y )
+	\end{lstlisting}\vspace{-0.2cm}
 	
 	Returns the integral from zero to x of the gamma probability
 	density function:
 	$$ y = \frac{a^b}{\Gamma b}\int_{0}^{x}t^{b-1}\ e^{-at}\ dt$$
 	\\\hline
 	qprob.c&
-	Complemented F distribution
+	\TOC{Complemented F distribution}
 	
-	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}
+	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{qfdtrc}
 	\begin{lstlisting}4[numbers=none]
-		void qfdtrc(const int ia,const int ib,qfloat *const x, qfloat *y)
+	void qfdtrc(const int ia,const int ib,qfloat *const x, qfloat *y)
 	\end{lstlisting}\vspace{-0.2cm}
 	
 	Returns the area from x to infinity under the F density
@@ -1270,11 +1323,11 @@ qfloat *sn, *cn, *dn, *ph; // outputs
 	formula
 	$$P(x) = incbet( df2/2, df1/2, (df2/(df2 + df1*x) )$$
 	\\\hline
-	qprob.c&	Inverse of complemented F distribution
+	qprob.c&	\TOC{Inverse of complemented F distribution}
 	
-	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}
+	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{qfdtri}
 	\begin{lstlisting}4[numbers=none]
-		void qfdtri(int ia,int ib,qfloat *y,qfloat *x );
+	void qfdtri(int ia,int ib,qfloat *y,qfloat *x );
 	\end{lstlisting}\vspace{-0.2cm}
 	
 	Finds the F density argument x such that the integral from x to infinity of the F density is equal to the
@@ -1290,11 +1343,11 @@ qfloat *sn, *cn, *dn, *ph; // outputs
 	$$z = incbi( df1/2, df2/2, p )$$
 	$$x = df2 z / (df1 (1-z))$$
 	\\\hline
-	qprob.c& Complemented gamma distribution function
+	qprob.c& \TOC{Complemented gamma distribution function}
 	
-	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}
+	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{qgdtrc}
 	\begin{lstlisting}[numbers=none]
-		void qgdtrc(qfloat *const a,qfloat *const b, qfloat *x, qfloat *y );
+void qgdtrc(qfloat *const a,qfloat *const b, qfloat *x, qfloat *y );
 	\end{lstlisting}\vspace{-0.2cm}
 	
 	Returns the integral from x to infinity of the gamma
@@ -1303,11 +1356,11 @@ qfloat *sn, *cn, *dn, *ph; // outputs
 	The incomplete gamma integral is used, according to the
 	relation $$y = igamc( b, ax )$$
 	\\\hline
-	qprob.c& Negative binomial distribution
+	qprob.c& \TOC{Negative binomial distribution}
 	
-	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}
+	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{qnbdtr}
 	\begin{lstlisting}[numbers=none]
-		void qnbdtr(const int k,const int n,const qfloat *p,qfloat *y );
+	void qnbdtr(const int k,const int n,const qfloat *p,qfloat *y );
 	\end{lstlisting}\vspace{-0.2cm}
 	Returns the sum of the terms 0 through k of the negative
 	binomial distribution:
@@ -1320,9 +1373,9 @@ qfloat *sn, *cn, *dn, *ph; // outputs
 	
 	The arguments must be positive, with p ranging from 0 to 1
 	\\\hline
-	qprob.c&Complemented negative binomial distribution
+	qprob.c&\TOC{Complemented negative binomial distribution}
 	
-	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}
+	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{qnbdtc}
 	\begin{lstlisting}[numbers=none]
 		void qnbdtc( const int k, const int n,qfloat *const p,qfloat *y);
 	\end{lstlisting}\vspace{-0.2cm}
@@ -1336,9 +1389,9 @@ qfloat *sn, *cn, *dn, *ph; // outputs
 	
 	The arguments must be positive, with p ranging from 0 to 1.
 	\\\hline
-	qprob.c&  Poisson distribution
+	qprob.c&  \TOC{Poisson distribution}
 	
-	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}
+	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{qpdtr}
 	\begin{lstlisting}[numbers=none]
 		int qpdtr(const int k,qfloat *const m, qfloat *y)
 	\end{lstlisting}\vspace{-0.2cm}
@@ -1351,9 +1404,9 @@ qfloat *sn, *cn, *dn, *ph; // outputs
 	
 	The arguments must both be positive.
 	\\\hline
-	qprob.c& Complemented poisson distribution
+	qprob.c& \TOC{Complemented poisson distribution}
 	
-	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}
+	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{qpdtrc}
 	\begin{lstlisting}[numbers=none]
 		int qpdtrc(const int k,const qfloat *m,qfloat *y)
 	\end{lstlisting}\vspace{-0.2cm}
@@ -1366,9 +1419,9 @@ qfloat *sn, *cn, *dn, *ph; // outputs
 	$y = pdtrc( k, m ) = igam( k+1, m )$
 	The arguments must both be positive.
 	\\\hline
-	qprob.c&Inverse Poisson distribution
+	qprob.c&\TOC{Inverse Poisson distribution}
 	
-	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}
+	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{qpdtri}
 	\begin{lstlisting}[numbers=none]
 		int qpdtri(const int k,qfloat *const y,qfloat *m);
 	\end{lstlisting}\vspace{-0.2cm}
@@ -1380,9 +1433,9 @@ qfloat *sn, *cn, *dn, *ph; // outputs
 	function and the relation
 	$m = igami( k+1, y )$
 	\\\hline
-	qpsi.c& Psi (digamma) function.
+	qpsi.c& \TOC{Psi (digamma) function}
 	
-	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}
+	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{qpsi}
 	\begin{lstlisting}[numbers=none]
 		void qpsi(qfloat *const x,qfloat *y)
 	\end{lstlisting}\vspace{-0.2cm}
@@ -1403,9 +1456,9 @@ qfloat *sn, *cn, *dn, *ph; // outputs
 	The accuracy is the full 132 digits
 	\footnote{The accuracy has been improved from the original 22 digits by adding much more terms to the Bernoulli numbers table (59 now)}.
 	\\\hline
-	qrand.c&Pseudo-random number generator
+	qrand.c&\TOC{Pseudo-random number generator}
 	
-	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}
+	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{qfrand}
 	\begin{lstlisting}[numbers=none]
 		int qfrand(qfloat *q );
 	\end{lstlisting}\vspace{-0.2cm}
@@ -1418,9 +1471,9 @@ qfloat *sn, *cn, *dn, *ph; // outputs
 	These are copied into the significand area to produce
 	a pseudorandom bit pattern.
 	\\\hline
-	qremain.c& Floating point remainder
+	qremain.c& \TOC{Floating point remainder}
 	
-	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}
+	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{qremain}
 	\begin{lstlisting}[numbers=none]
 		void qremain(qfloat *qa,qfloat *qb,qfloat *qc );
 	\end{lstlisting}\vspace{-0.2cm}
@@ -1428,9 +1481,9 @@ qfloat *sn, *cn, *dn, *ph; // outputs
 	If n = integer part of b/a, rounded toward zero,
 	then qremain(a,b,c) gives c = b - n * a. 
 	\\\hline
-	qremquo.c& Floating point remainder according to C99
+	qremquo.c& \TOC{Floating point remainder according to C99}
 	
-	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}
+	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{qremquo}
 	\begin{lstlisting}[numbers=none]
 		int qremquo(qfloat *const a,qfloat *const b,qfloat *c);
 	\end{lstlisting}\vspace{-0.2cm}
@@ -1447,9 +1500,9 @@ qfloat *sn, *cn, *dn, *ph; // outputs
 	is always exact. If r = 0, its sign shall be that of x.
 	This definition is applicable for all implementations.
 	\\\hline
-	qshici.c& Hyperbolic sine integral
+	qshici.c& \TOC{Hyperbolic sine integral}
 	
-	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}
+	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{qshi}
 	\begin{lstlisting}[numbers=none]
 		void qshi(qfloat *const x,qfloat *y);
 	\end{lstlisting}\vspace{-0.2cm}
@@ -1459,9 +1512,9 @@ qfloat *sn, *cn, *dn, *ph; // outputs
 	{\footnotesize ACCURACY:} The series gives only 126 decimal digits
 	\\\hline
 	
-	qshici.c & Hyperbolic cosinus Integral
+	qshici.c & \TOC{Hyperbolic cosinus Integral}
 	
-	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}
+	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{qchi}
 	\begin{lstlisting}[numbers=none]
 		int qchi(qfloat *x,qfloat *y)
 	\end{lstlisting}\vspace{-0.2cm}
@@ -1470,9 +1523,9 @@ qfloat *sn, *cn, *dn, *ph; // outputs
 	$$ chi(z)=eul+ln(z)+\sum_{n=1}^{\infty}\frac{z^{2n}}{2n \ (2n)!}$$
 	{\footnotesize ACCURACY:} The series gives only 126 decimal digits
 	\\\hline
-	qsin.c & Sinus
+	qsin.c & \TOC{Sine}
 	
-	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}
+	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{qfsin}
 	\begin{lstlisting}[numbers=none]
 		int qfsin(qfloat *const x,qfloat *y)
 	\end{lstlisting}\vspace{-0.2cm}
@@ -1482,9 +1535,9 @@ qfloat *sn, *cn, *dn, *ph; // outputs
 	$$ sin(x) = x - \frac{x^3}{3!}+\frac{x^5}{5!}-\frac{x^7}{7!} ...$$
 	\\\hline
 	
-	qsinh.c& Hyperbolic sine
+	qsinh.c& \TOC{Hyperbolic sine}
 	
-	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}
+	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{qsinh}
 	\begin{lstlisting}[numbers=none]
 		int qsinh(qfloat *const x,qfloat *y)
 	\end{lstlisting}\vspace{-0.2cm}
@@ -1494,9 +1547,9 @@ qfloat *sn, *cn, *dn, *ph; // outputs
 	Otherwise the calculation is $$sinh(x) = \frac{( e^{x} - e^{-x} )}{2}$$
 	
 	\\\hline
-	qspenc.c& Dilogarithm
+	qspenc.c& \TOC{Dilogarithm}
 	
-	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}
+	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{qspenc}
 	\begin{lstlisting}[numbers=none]
 		int qspenc(qfloat *const x,qfloat *y)
 	\end{lstlisting}\vspace{-0.2cm}
@@ -1508,9 +1561,9 @@ qfloat *sn, *cn, *dn, *ph; // outputs
 	the interval (0.5, 1.5).  Transformation formulas for 1/x
 	and 1-x are employed outside the basic expansion range.
 	\\\hline
-	qsqrt.c& Square root
+	qsqrt.c& \TOC{Square root}
 	
-	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}
+	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{qfsqrt}
 	\begin{lstlisting}[numbers=none]
 		int qfsqrt(qfloat *const x,qfloat *y)
 	\end{lstlisting}\vspace{-0.2cm}
@@ -1521,9 +1574,9 @@ qfloat *sn, *cn, *dn, *ph; // outputs
 	a rough value for the square root.  Then Heron's iteration
 	is used to converge to an accurate value.
 	\\\hline
-	qstudt.c& Student's distribution
+	qstudt.c& \TOC{Student's distribution}
 	
-	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}
+	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{qstudt}
 	\begin{lstlisting}[numbers=none]
 		void qstudt(int k,Qfloatp t,Qfloatp y)
 	\end{lstlisting}\vspace{-0.2cm}
@@ -1543,17 +1596,17 @@ qfloat *sn, *cn, *dn, *ph; // outputs
 	right tail of the density is found by calling the function
 	with $-t$ instead of $t$.
 	\\\hline
-	qstudt.c& Inverse of Student's t distribution
+	qstudt.c& \TOC{Inverse of Student's t distribution}
 	
-	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}
+	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{qsdtri}
 	\begin{lstlisting}[numbers=none]
 		void qsdtri(int k,qfloat *t,qfloat *y);
 	\end{lstlisting}\vspace{-0.2cm}
 	Given probability $p$, finds the argument t such that $stdtr(k,t)$ is equal to p.
 	\\\hline
-	qtan.c& Circular tangent
+	qtan.c& \TOC{Circular tangent}
 	
-	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}
+	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{qftan}
 	\begin{lstlisting}[numbers=none]
 		void qftan(qfloat *const x,qfloat *y);
 	\end{lstlisting}\vspace{-0.2cm}
@@ -1563,17 +1616,17 @@ qfloat *sn, *cn, *dn, *ph; // outputs
 	
 	$$tan(x)=\cfrac{x}{1-\cfrac{x^2}{3-\cfrac{x^2}{5-\cfrac{x2}{7-\dotsb}}}}$$
 	\\\hline
-	qtan.c& Circular cotangent
+	qtan.c& \TOC{Circular cotangent}
 	
-	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}
+	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{qcot}
 	\begin{lstlisting}[numbers=none]
 		void qcot(qfloat *const x,qfloat *y);
 	\end{lstlisting}\vspace{-0.2cm}
 	$$ cot(x)=\frac{1}{tan(x)}$$
 	\\\hline
-	qtanh.c& Hyperbolic tangent
+	qtanh.c& \TOC{Hyperbolic tangent}
 	
-	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}
+	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{qtanh}
 	\begin{lstlisting}[numbers=none]
 		void qtanh(qfloat *const x,qfloat *y);
 	\end{lstlisting}\vspace{-0.2cm}
@@ -1585,7 +1638,7 @@ qfloat *sn, *cn, *dn, *ph; // outputs
 	
 	$$tanh(x)=\cfrac{x}{1+\cfrac{x^2}{3+\cfrac{x^2}{5+\cfrac{x^2}{7+\dotsb}}}}$$
 	\\\hline
-	qtime.c& Timing the qlib functions.
+	qtime.c& \TOC{Timing the qlib functions}\index{timing}
 	
 	This will go through some of the functions in the library and iterate them several thousand times to see how many mili-seconds they use. The source code is very straightforward, nothing sophisticated here.
 	
@@ -1596,11 +1649,11 @@ qfloat *sn, *cn, *dn, *ph; // outputs
 		\item High level functions like square root, the psi function, cosinus, etc. A smaller number of iterations is used to avoid very long waiting times in \verb,qtime,.
 	\end{enumerate}
 	\\\hline
-	qyn.c& Real bessel function of second kind and general order
+	qyn.c& \TOC{Real bessel function of second kind and general order}
 	
-	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}
+	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{neumann\_N}
 	\begin{lstlisting}[numbers=none]
-		void qyn(qfloat *const n,qfloat *const x,qfloat *y);
+	void neumann_N(qfloat *const n,qfloat *const x,qfloat *y);
 	\end{lstlisting}\vspace{-0.2cm}
 	Returns Bessel function of order v.
 	If v is not an integer, the result is
@@ -1617,9 +1670,9 @@ qfloat *sn, *cn, *dn, *ph; // outputs
 	$$Y_n(z)=\frac{-(z/2)^{-n}}{\pi} \sum_{k=0}^{n-1}\frac{(n-k-1)!}{k!}(z^2/r)^k+(2/pi)ln(z/2)J_n(z)-$$
 	$$ -\frac{(z/2)^n}{\pi} - \sum_{k=0}^{n-1}(\psi(k+1)+\psi(n+k+1)\frac{(-z^2/4)^k}{k!(n+k)!}$$   
 	\\\hline
-	qzetac.c& Riemann zeta function
+	qzetac.c& \TOC{Riemann zeta function}
 	
-	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}
+	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{qzetac}
 	\begin{lstlisting}[numbers=none]
 		void qzetac(qfloat *const x,qfloat *y);
 	\end{lstlisting}\vspace{-0.2cm}

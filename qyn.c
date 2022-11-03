@@ -66,6 +66,8 @@
 * Series expansions are set to terminate at less than full working
 * precision.
 *
+* Name of this function changed to neumann_N according to N1514 ISO 21
+* JN
 Cephes Math Library Release 2.1:  December, 1988
 Copyright 1984, 1987, 1996 by Stephen L. Moshier
 */
@@ -96,7 +98,8 @@ static Qfloat k[1] = {
 	0};
 #endif
 void qynrecur( int k,long  n,Qfloatp x,Qfloatp y);
-void qyn(Qfloatp qn,Qfloatp x,Qfloatp y)
+/* former Cephes qyn */
+void neumann_N(Qfloatp qn,Qfloatp x,Qfloatp y)
 {
 	long long i, k, sign;
 	long long kpn, n;
@@ -112,14 +115,14 @@ void qyn(Qfloatp qn,Qfloatp x,Qfloatp y)
 	if( qcmp(qn, h) != 0 )
 	{
 		/* y = (cos(PI*v) * jv( v, x ) - jv( -v, x ))/sin(PI*v); */
-		qjn( qn, x, g );
+		bessel_J( qn, x, g );
 		qmul( qpi, qn, a );
 		qfcos( a, f );
 		qmul( f, g, g );
 
 		qmov( qn, f );
 		qneg( f );
-		qjn( f, x, h );
+		bessel_J( f, x, h );
 		qsub( h, g, g );
 
 		qfsin( a, f );
@@ -273,7 +276,7 @@ void qyn(Qfloatp qn,Qfloatp x,Qfloatp y)
 	qadd( g, qeul, g );
 	i = n;	/* convert integer n to q type for qjn() */
 	itoq( i, h );
-	qjn( h, x, Jn );
+	bessel_J( h, x, Jn );
 	qmul( Jn, g, g );
 	g[0].exponent += 1;
 

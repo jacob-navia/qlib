@@ -60,13 +60,13 @@ endif
 LIBOBJS= qacosh.o qairy.o qasin.o qasinh.o qatanh.o qatn.o qbeta.o \
 qcbrt.o qcgamma.o qcmplx.o qchyp1f1.o qcerf.o qconst.o qcos.o qcosh.o \
 qcpolylog.o qdawsn.o qei.o qellie.o qellik.o qellpe.o qellpj.o qellpk.o \
-qerf.o qerfc.o qeuclid.o qexp.o qexp10.o qexp2.o qexpn.o qfac.o \
+qerf.o qerfc.o qeuclid.o qexp.o qexp10.o qexp2.o qexpn.o qfac.o qhypot.o \
 qfresf.o qgamma.o qhy2f1.o qhyperg.o qigam.o qigami.o qin.o qinv_fact.o \
 qincb.o qine.o qjn.o qjypn.o qjyqn.o qagm.o qcatalan.o qnthroot.o \
 qk0.o qkn.o qkne.o qlog.o qlog1.o qlog10.o qndtr.o qndtri.o qplanck.o \
 qpolylog.o qpow.o qpsi.o qrand.o qremain.o qshici.o qsici.o qprob.o \
 qsimq.o qsin.o qsindg.o qsinh.o qspenc.o qstudt.o qtan.o qtanh.o \
-qyn.o qzetac.o qfloor.o mtherr.o $(F128) $(ARITH)
+qincbi.o qyn.o qzetac.o qfloor.o mtherr.o $(F128) $(ARITH)
 
 
 all: libmq.a qcalc qmtst qparanoi tsqrt statslib/libstats.a qtime
@@ -225,7 +225,7 @@ qsqrt.o: qsqrt.c $(HEADERS)
 qagm.o: qagm.c $(HEADERS)
 qnthroot.o: qnthroot.c $(HEADERS)
 qinv_fact.o: qinv_fact.c $(HEADERS)
-
+qhypot.o: qhypot.c $(HEADERS)
 
 #qparanoi: qparanoi.o qflt.o qflta.o qsqrta.o libmq.a
 #	$(CC) $(CFLAGS) -o qparanoi qparanoi.o qflt.o qflta.o \
@@ -295,15 +295,4 @@ qsquare.o: $(CPU)/qsquare-$(CPU).s
 	as -c -g -o qsquare.o $(CPU)/qsquare-$(CPU).s
 
 clean:
-	rm -f *.o
-	rm -f *.lil
-	rm -f *.s
-	rm -f libmq.a
-	rm -f qcalc
-	rm -f qccalc
-	rm -f qparanoi
-	rm -f qmtst
-	rm -f qtime
-	rm -f tsqrt
-	rm -f statslib/*.o
-	rm -f $(CPU)/*.o
+	rm -f *.o *.lil *.s libmq.a qcalc qparanoi qmtst qtime tsqrt statslib/*.o $(CPU)/*.o
