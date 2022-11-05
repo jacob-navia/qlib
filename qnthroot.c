@@ -23,28 +23,28 @@ void qnthroot(Qfloatp x,Qfloatp N,Qfloatp r)
 	qsub(z,y,y);
 	qdivi(n,y,y);
 	res=qadd(z,y,z);
-	if (r == 0) return;
+	if (res == 0) return;
 
 	qfpow(z,nm1,y);
 	qdiv(y,x,y);
 	qsub(z,y,y);
 	qdivi(n,y,y);
 	res=qadd(z,y,z);
-	if (r == 0) return;
+	if (res == 0) return;
 
 	qfpow(z,nm1,y);
 	qdiv(y,x,y);
 	qsub(z,y,y);
 	qdivi(n,y,y);
 	res=qadd(z,y,z);
-	if (r == 0) return;
+	if (res == 0) return;
 
 	qfpow(z,nm1,y);
 	qdiv(y,x,y);
 	qsub(z,y,y);
 	qdivi(n,y,y);
 	res=qadd(z,y,r);
-	if (r == 0) return;
+	if (res == 0) return;
 #if 0
 	qfpow(z,nm1,y);
 	qdiv(y,x,y);
