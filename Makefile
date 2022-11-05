@@ -6,7 +6,7 @@ ASM=qasm.o shift.o qsquare.o
 
 ifeq ($(CPU),x86_64)
 ifeq ($(OSNAME),Darwin)
-ASM=(CPU)/qasm-$(CPU)_$(OSNAME).o
+ASM=$(CPU)/qasm-$(CPU)_$(OSNAME).o
 endif
 endif
 
@@ -269,8 +269,8 @@ qfltbi.o: qfltbi.c
 
 qf68k.o: qf68k.a
 	as -o qf68k.o qf68k.a
-bsr.o:	$(CPU)/bsr-$(CPU).s
-	$(CC) -c -o bsr.o $(CPU)/bsr-$(CPU).s
+bsr.o:	$(CPU)/bsr-$(CPU)_$(OSNAME).s
+	as -c -o bsr.o $(CPU)/bsr-$(CPU)_$(OSNAME).s
 tsqrt:	tsqrt.o libmq.a
 	$(LD) $(LDFLAGS) -o tsqrt tsqrt.o libmq.a -lm
 tsqrt.o:	tsqrt.c 
@@ -280,13 +280,13 @@ statslib/libstats.a: $(STATSLIBSRC)
 
 x86_64/qasm-x86_64_Darwin.s:	x86_64/qasm-x86_64.s
 	sed -f sed.cmds x86_64/qasm-x86_64.s >x86_64/qasm-x86_64_Darwin.s
-	as -c -g -o x86_64/qasm-x86_64_Darwin.o x86_64/qasm-x86_64_Darwin.s
+	as -c -g -o qasm.o x86_64/qasm-x86_64_Darwin.s
 
 x86_64/bsr-x86_64_Darwin.o:	x86_64/bsr-x86_64.s
 	sed -e "s/bsr64/_bsr64/" x86_64/bsr-x86_64.s >x86_64/bsr-x86_64_Darwin.s
 	as -c -g -o x86_64/bsr-x86_64_Darwin.o x86_64/bsr-x86_64_Darwin.s
 
-qasm.o:	$(CPU)/qasm-$(CPU).s
+qasm.o:	$(CPU)/qasm-$(CPU)_$(OSNAME).s
 	as -c -g -o qasm.o $(CPU)/qasm-$(CPU).s
 
 shift.o: $(CPU)/shift-$(CPU).s
