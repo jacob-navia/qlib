@@ -1,0 +1,23 @@
+#define qadd_subtract	__qadd_subtract
+#define qmov(a,b) __qmov(a,b)
+#define qmovz(a,b) __qmovz(a,b)
+#define qclear(a) __qclear(a)
+#define qmul(a,b,c) __qmul(a,b,c)
+#define asctoq __asctoq
+#define qdiv __qdiv
+#define qtoe64	__qtoe64
+#define shup1	__shup1
+#define subm __subm
+#define shdn1 __shdn1
+#define qcmp __qcmp
+#define qifrac __qifrac
+#define normlz __normlz
+#define shift __shift
+#define qmuli __qmuli
+#define qtoasc __qtoasc
+#define qinfin __qinfin
+#define shiftupn __shiftupn
+#define shiftdownn __shiftdownn
+#define qequal(a,b) (0 == memcmp(a,b,sizeof(Qfloat)))
+#define qone __qone
+#define itoq __itoq
