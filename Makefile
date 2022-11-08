@@ -6,7 +6,11 @@ ASM=qasm.o shift.o qsquare.o
 
 ifeq ($(CPU),x86_64)
 ifeq ($(OSNAME),Darwin)
-ASM=$(CPU)/qasm-$(CPU)_$(OSNAME).o
+#ASM=$(CPU)/qasm-$(CPU)_$(OSNAME).o
+echo "Do not use this directory for OS X-x86"
+echo "Change directory to:"
+echo "cd ./x86_64/mac"
+exit
 endif
 endif
 
