@@ -46,7 +46,7 @@ Copyright 1984, 1987, 1995 by Stephen L. Moshier
  */
 
 
-void qbdtr(int k,int n,Qfloatp p,Qfloatp y)
+void qbdtr(const int k,const int n,const Qfloatp p,Qfloatp y)
 {
 	Qfloat dk[1], dn[1], dp[1];
 	int li;
@@ -103,7 +103,7 @@ void qbdtr(int k,int n,Qfloatp p,Qfloatp y)
 *
  */
 
-void qbdtrc(int k,int n,Qfloatp p,Qfloatp y)
+void qbdtrc(const int k,const int n,Qfloatp const p,const Qfloatp y)
 {
 	Qfloat dk[1], dn[1];
 	int li;
@@ -636,7 +636,7 @@ void qgdtrc(Qfloatp a,Qfloatp b,Qfloatp x,Qfloatp y )
 *
  */
 
-void qnbdtr(int k,int n,Qfloatp p,Qfloatp y )
+void qnbdtr(const int k,const int n,const Qfloatp p,Qfloatp y )
 {
 	Qfloat dk[1], dn[1];
 	int li;
@@ -798,7 +798,7 @@ int qpdtr(int k,Qfloatp m, Qfloatp y)
 *
  */
 
-int qpdtrc(int k,Qfloatp m,Qfloatp y)
+int qpdtrc(const int k,const Qfloatp m,Qfloatp y)
 {
 	Qfloat v[1];
 	int li;
