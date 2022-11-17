@@ -749,7 +749,7 @@ void qnbdtc( int k,int n,Qfloatp p,Qfloatp y)
 *
  */
 
-int qpdtr(int k,Qfloatp m, Qfloatp y)
+int qPoissonDistribution(int k,Qfloatp m, Qfloatp y)
 {
 	Qfloat v[1];
 	int li;
@@ -798,7 +798,7 @@ int qpdtr(int k,Qfloatp m, Qfloatp y)
 *
  */
 
-int qpdtrc(const int k,const Qfloatp m,Qfloatp y)
+int qPoissonDistributionComp(const int k,const Qfloatp m,Qfloatp y)
 {
 	Qfloat v[1];
 	int li;
@@ -842,7 +842,7 @@ int qpdtrc(const int k,const Qfloatp m,Qfloatp y)
 *
  */
 
-int qpdtri(int k,Qfloatp y,Qfloatp m)
+int qPoissonDistributionInv(int k,Qfloatp y,Qfloatp m)
 {
 	Qfloat v[1];
 	int li;
