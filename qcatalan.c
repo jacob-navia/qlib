@@ -99,7 +99,32 @@ void qcatalan(Qfloatp n,Qfloatp result)
 	qdiv(ip1,r,r);
 	qfloor(r,result);
 }
- 
+void qcatalanConstant(Qfloatp y)
+{
+	int r; // Will stop after 446 iterations
+	Qfloat b[1],s[1],t[1],p[1],j[1],i[1],z[1];
+
+	qmov(qhalf,s); qmov(qhalf,t); qmov(qhalf,p);
+	qmov(qone,i);
+
+	for (;;) {
+		// j = 2*i+1;
+		qmov(i,j); j[0].exponent++; // j = 2*i
+		qadd(j,qone,j);             // j = 2 * i + 1
+		qdiv(j,i,z);                // z = i/j
+		qmul(z,p,p);                // p = p*i/j
+		qmul(t,z,t);                // t = t*i/j
+		qdiv(j,p,b);                // b = p/j
+		qadd(t,b,t);                // t = t+b
+		r = qadd(s,t,s);            // s = s+t
+		if (r == 0) {
+			qadd(qepsilon,s,s);
+			break;
+		}
+		qadd(i,qone,i);
+	}
+	qmov(s,y);
+}
 #ifdef STANDALONE
 // Driver program to test above functions
 int main(int argc,char *argv[])
