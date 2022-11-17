@@ -106,7 +106,7 @@ int EXPORT bessel_I(Qfloatp n,Qfloatp x,Qfloatp y )
 	qmov( u, ans );		/*ans = u;*/
 	qmov( qone, k );	/*k = 1.0;*/
 
-	while( ((int) ans[0].exponent - (int) u[0].exponent) < NBITS/2 )	/* 70 */
+	while( ((int) ans[0].exponent - (int) u[0].exponent) < NBITS )	/* 70 */
 	{
 		qadd( n, k, t );
 		qmul( t, k, t );	/*u *= z / (k * (n+k));*/
