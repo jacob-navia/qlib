@@ -301,11 +301,14 @@ I have revised the algorithms of some functions, added some (catalan, AGM, for i
 * JN    2021       Ported to Apple's M1
 */
 \end{verbatim}
-I have tested this version in three machines:
+I have tested this version in the following machines:
 \begin{enumerate}
 \item A PC with windows (16GB RAM, AMD Ryzen Windows 10) 
+\item A PC with linux (16GB RAM, Rtzen, Linux Mint)
 \item  A Macintosh (mac-mini Apple M1, 16GB RAM, Mac OS X)
+\item A Macintosh (mac-pro Apple x86\_64 32GB RAM Mac OS X)
 \item  A Raspberry pi (8GB RAM and ARM64 CPU, Linux)
+\item A Rock64 single board computer from Pine64.org (ARM 64 processor 4GB RAM Linux Debian)
 \end{enumerate}
 
 \chapter{Data types}
@@ -533,6 +536,8 @@ There are several sub-directories:
 		qfloat *y; // output
 	\end{lstlisting}\vspace{-0.2cm}
 	$$cosh(x)=\frac{exp(x)+exp(-x)}{2}$$
+	If the number is smaller than 16, the Taylor series is used instead of the simple procedure proposed in the original code:
+	$$ cosh(x)=1+\frac{x^2}{2!}+\frac{x^4}{4!}+\frac{x^6}{6!}...$$
 	\\\hline
 	qei.c& 	\TOC{The exponential integral (qei)}
 	
@@ -753,6 +758,7 @@ qfloat *sn, *cn, *dn, *ph; // outputs
 		mulm( a, b )        multiply significands, result in b
 		mdnorm( x )         normalize and round off
 	\end{lstlisting}
+None of this routines are directly usable. They are part of the library and are used through their higher level ones in \verb,qflti.c,.
 	\\\hline
 	qflti.c&\TOC{Utilities}\index{qflti.c}
 	qfloat precision utilities.
@@ -792,6 +798,7 @@ qfloat *sn, *cn, *dn, *ph; // outputs
 	\end{lstlisting}
 	
 	The character string \verb,text, will be converted into qfloat, and the \verb,pend, pointer will point to the character right after the last digit. Scientific notation is supported.
+	
 	\\\hline
 	qflti.c& \TOC{Convert qfloat to text (qtoasc)}\index{qtoasc}
 	
@@ -958,17 +965,46 @@ int qtoasc(Qfloatp q,char *string,int width,int ndigs,int flags );
 	
 	The function \verb,qlgam, calculates the natural logarithm of gamma function. The \verb,qgamma, function returns the value of the gamma function.
 	\\\hline
-	qhy2f1.c& \TOC{Hypergeometric $_2F_1$}
-	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{qhy2f1}
-	\begin{lstlisting}[numbers=none]
-		int qhy2f1( a, b, c, x, y );
-		qfloat *a,*b,*c,*x; // input
-		qfloat *y; // output
-	\end{lstlisting}\vspace{-0.2cm}
-	$$hy_2f_1 = 1+\sum_{k=0}^{\infty}\frac{a(a+1)(a+2)\ ...(a+k)\ b(b+1)(b+2)\ ... (b+k)}{c(c+1)(c+2)\ ... (c+k)\times (k+1)!}\ \ x^{k+1}$$
-	\\\hline
+	qflti.c&\TOC{Hexadecimal representation}
+{\footnotesize SYNOPSIS:}\vspace{-0.2cm}
+\begin{lstlisting}[numbers=none]
+	int qhex(Qfloatp const number,size_t outbufLength,char *outbuf);
 	qhypot.c& \TOC{Hypotenuse}
-	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}
+\end{lstlisting}\vspace{-0.2cm}
+
+Representation of a number in hexadecimal. This produces a character string containing 3 parts:
+\begin{ShorterItemize}
+\item Sign. A single character containing either \verb,'+', or \verb,'-',.
+\item \verb,0., In a normalized number the first bit is always 1. This leads that in some representations this bit is
+implicit, hence this \verb,'1.',. In the \verb,qfloat, representation, with 448 bits, this isn't done actually, so
+the traditional '1' is replaced by a '0'.
+\item The 448 bits of the mantissa will be shown as 112 hexadecimal numbers.
+\item The letter \verb,'p', that introduces the exponent
+\item The exponent (using base 10). This number is the number of times you have to multiply the mantissa by 2 to arrive at the number's value.
+\item If the length of the output buffer is less than the length required by the full format, the mantissa will be truncated accordingly.
+\item if the length of the buffer is less than  15, the field will be filled with the \verb,'*', character.
+\end{ShorterItemize}
+{\footnotesize EXAMPLE:}\par
+\begin{lstlisting}[numbers=none]
+qhex(pi,128,buf);
++0x0.c90fdaa22168c234c4c6628b80dc1cd129024e088a67cc74020bbea63b139b2\       2514a08798e3404ddef9519b3cd3a431b302b0a6df25f1437p1
+qhex(pi,30,buf);
++0x0.c90fdaa22168c234c4c6628p1
+qhex(pi,10,buf);
+**********       
+\end{lstlisting}
+\\\hline
+	qhy2f1.c& \TOC{Hypergeometric $_2F_1$}
+{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{qhy2f1}
+\begin{lstlisting}[numbers=none]
+	int qhy2f1( a, b, c, x, y );
+	qfloat *a,*b,*c,*x; // input
+	qfloat *y; // output
+\end{lstlisting}\vspace{-0.2cm}
+$$hy_2f_1 = 1+\sum_{k=0}^{\infty}\frac{a(a+1)(a+2)\ ...(a+k)\ b(b+1)(b+2)\ ... (b+k)}{c(c+1)(c+2)\ ... (c+k)\times (k+1)!}\ \ x^{k+1}$$
+\\\hline
+qhypot.c& \TOC{Hypotenuse}
+{\footnotesize SYNOPSIS:}\vspace{-0.2cm}
 \begin{lstlisting}[numbers=none]
 	void qhypot(qfloat *const x, qfloat *const y, qfloat *z);	
 \end{lstlisting}\vspace{-0.2cm}
@@ -1004,7 +1040,12 @@ The term under the square root is always between 1 and 2.
 		qfloat *a,*x; // inputs
 		qfloat *x; // output
 	\end{lstlisting}\vspace{-0.2cm}
-	$$igam(a,x)=\int_{0}^{x}e^t\ t^{a-1}\ dt$$
+	$$igam(a,x)=\frac{1}{\Gamma(a)}\int_{0}^{x}e^t\ t^{a-1}\ dt$$
+ In this implementation both arguments must be positive.
+ The integral is evaluated by either a power series or
+ continued fraction expansion, depending on the relative
+ values of a and x.
+ 
 	{\footnotesize ACCURACY:} Expansions terminate at less than full working precision.
 	\\\hline
 	qigami.c&\TOC{Inverse of complemented incomplete gamma integral}
@@ -1038,6 +1079,14 @@ The term under the square root is always between 1 and 2.
 	For large x:
 	$$ I_v(z)=\frac{e^z}{\sqrt{2\ \pi \ z}}\left\lbrace 1-\frac{(u-1)^2)}{1!\ (8z)}+\frac{(u-1^2)(u-3^2)}{2!\ (8z)^2} + ... \right\rbrace$$ 
 	asymptotically where $u=4v^2$.
+	
+{\footnotesize EXAMPLE:}\par
+\begin{lstlisting}[numbers=none]
+ * digits(40)
+40
+* besseli(1,1)
+0.5651591039924850272076960276098633073289
+\end{lstlisting}
 	\\\hline
 	qincb.c&\TOC{Incomplete beta integral}
 	
@@ -1050,7 +1099,17 @@ The term under the square root is always between 1 and 2.
 	
 	$$IncB(a,b,x) = \frac{\Gamma(a+b)}{\Gamma(a)\ \Gamma(b)}\int_{0}^{x} t^{(a-1)}\times (1-t)^{b-1} \ dt$$
 	{\footnotesize ACCURACY:} Expansions terminate at less than full working precision.
-	\\\hline
+	
+{\footnotesize EXAMPLE:}\par
+\begin{lstlisting}[numbers=none]
+* digits(60)
+60
+* incbet(1,3,0.4) // Incomplete beta integral
+0.784
+* incbetinv(1,3,0.784) - 0.4
+1.006986581831863573180738149365635071938508852182231785805687E-103
+\end{lstlisting}
+\\\hline
 	qincbi.c&\TOC{Inverse of incomplete beta integral}
 	
 	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{beta\_distribution\_invQ}
@@ -1062,21 +1121,41 @@ The term under the square root is always between 1 and 2.
 	Given y, the function finds x such that
 	$$qincb( a, b, x ) = y$$
 	The routine performs up to 10 Newton iterations to find the root of $qincb(a,b,x) - y = 0$.
-	\\\hline
-	qjn.c& \TOC{Bessel function of non-integer order}
-	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{bessel\_J}
-	\begin{lstlisting}[numbers=none]
-		void bessel_J(v, x, y);
-		qfloat *v, *x; // inputs
-		qfloat *y; // output 
-	\end{lstlisting}\vspace{-0.2cm}
+	
+{\footnotesize EXAMPLE:}\par
+\begin{lstlisting}[numbers=none]
+* digits(60)
+60
+* incbet(1,3,0.4) // Incomplete beta integral
+0.784
+* incbetinv(1,3,0.784) - 0.4 // Inverse of incomplete beta integral
+1.006986581831863573180738149365635071938508852182231785805687E-103
+\end{lstlisting}\vspace{-0.5cm}\index{bessel\_J}
+\\\hline
+qjn.c& \TOC{Bessel function of non-integer order}
+
+{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{bessel\_J}
+\begin{lstlisting}[numbers=none]
+	void bessel_J(v, x, y);
+	qfloat *v, *x; // inputs
+	qfloat *y; // output 
+\end{lstlisting}\vspace{-0.2cm}
 	Returns Bessel function of order $v$ of the argument,
 	where $v$ is real.  Negative $x$ is allowed if $v$ is an integer.
 	
 	Two expansions are used: the ascending power series and the
 	Hankel expansion for large $v$.  If $v$ is not too large, it
 	is reduced by recurrence to a region of better accuracy.
-	\\\hline
+
+{\footnotesize EXAMPLE:}\par
+\begin{lstlisting}[numbers=none]
+ * digits(60)
+60
+* besselj(0,3)
+-0.260051954901933437624154695977331436819608653511293277055987
+\end{lstlisting} 
+{\footnotesize{NOTE:} In the original library this function was called qjn.}
+\\\hline
 	qjypn.c& \TOC{Auxiliary function for Hankel's asymptotic expansion}
 	
 	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{qjypn}
@@ -1116,11 +1195,17 @@ The term under the square root is always between 1 and 2.
 	
 	$$k_v(z)=\sqrt{\frac{\pi}{2z}} e^{-z}\left\lbrace1+\frac{u^2-1}{1! (8z)^1} +\frac{(u^2-1)}{2!(8z)^2} + ...\right\rbrace$$
 	asymptotically where $u=4v^2$.
-	Converges to 1.4e-17
-	\footnote{The asymptotic series was starting to be used at 24. I have modified it to be 40. This allows calculating $k_0(34)$ with 120 digits precision
+	Converges to 1.4e-17	\footnote{The asymptotic series was starting to be used at 24. I have modified it to be 40. This allows calculating $k_0(34)$ with 120 digits precision
 		To verify the results I used Bordeaux University GP calculator with precision of 132 digits. I also used the inline calculator \texttt{bc}.}.
 	
-	\\\hline
+{\footnotesize EXAMPLE:}\par
+\begin{lstlisting}[numbers=none]
+* digits(55)
+55
+* besselk(0,0.53)
+0.8765603804164856831291372854543554152943086526727639605	
+\end{lstlisting}\vspace{-0.4cm}\index{bessel\_K}
+\\\hline
 	qlog.c& \TOC{Logarithm}
 	
 	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{qlog}
@@ -1132,7 +1217,15 @@ The term under the square root is always between 1 and 2.
 	After reducing the range to $[\frac{1}{\sqrt{2}}, \sqrt{2}]$ the logarithm is calculated with
 	$$w=\frac{(x-1)}{(x+1)}$$
 	$$\frac{ln(x)}{2}=w+\frac{w^3}{3}+\frac{w^5}{5} + ...$$
-	\\\hline
+	
+{\footnotesize EXAMPLE:}\par
+\begin{lstlisting}[numbers=none]
+* exp(23)
+9744803446.2489026000346326848229752776493877640360069764
+* log(exp(23))
+23
+\end{lstlisting}\vspace{-0.4cm}\index{bessel\_K}
+\\\hline
 	qmtst.c& \TOC{Verification program}
 	This program calls several functions several thousand times with random inputs and displays statistics about the error ranges and accuracy.
 	\begin{verbatim}
@@ -1168,7 +1261,16 @@ The term under the square root is always between 1 and 2.
 	Calculates the nth root of $x$ with a newton iteration.
 	$$ delta = \frac{1}{n}\left(\frac{x}{x_{k-1}^{n-1}}\right)$$
 $$ x_{k+1}=x_k+delta ; x_0=x^{1/n} $$
-	\\\hline
+{\footnotesize EXAMPLE:}\par
+\begin{lstlisting}[numbers=none]
+* digits(45)
+45
+* nthroot(81.1,4)
+3.000925497564966531056368548723519042392334468
+* nthroot(81,4)
+3
+\end{lstlisting}\vspace{-0.4cm}
+\\\hline
 	qpow.c& \TOC{Power: $x^y$}
 	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{qfpow}
 	\begin{lstlisting}[numbers=none]
@@ -1192,8 +1294,13 @@ $$ x_{k+1}=x_k+delta ; x_0=x^{1/n} $$
 	$$\sum_{j=0}^{k}\binom{n}{k} p^j (1-p)^{n-j} $$
 	The terms aren't summed directly ; instead, the incomplete beta integral is employed according to the formula:
 	$y = bdtr(k,n,p)=incbet(n-k,k+1,1-p)$
-	The arguments must be positive, with p ranging from 0 to 1.
-	\\\hline
+	The arguments must be positive, with p ranging from 0 to 1.\par
+{\footnotesize EXAMPLE:}\par
+\begin{lstlisting}[numbers=none]
+* binomialdist(25,36,0.7)
+0.533655157929798456675154200072751884
+\end{lstlisting}\vspace{-0.4cm}
+\\\hline
 	qprob.c&
 	\TOC{Complemented Binomial Probability density}
 	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{qbdtrc}
@@ -1377,7 +1484,7 @@ void qgdtrc(qfloat *const a,qfloat *const b, qfloat *x, qfloat *y );
 	
 	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{qnbdtc}
 	\begin{lstlisting}[numbers=none]
-		void qnbdtc( const int k, const int n,qfloat *const p,qfloat *y);
+	void qnbdtc( const int k, const int n,qfloat *const p,qfloat *y);
 	\end{lstlisting}\vspace{-0.2cm}
 	Returns the sum of the terms k+1 to infinity of the negative
 	binomial distribution:
@@ -1389,11 +1496,31 @@ void qgdtrc(qfloat *const a,qfloat *const b, qfloat *x, qfloat *y );
 	
 	The arguments must be positive, with p ranging from 0 to 1.
 	\\\hline
+qhyperg.c&  \TOC{Pochhammer symbol (Falling factorial)}
+
+{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{qPochhammerUp}
+\begin{lstlisting}[numbers=none]
+void qPochhammerDown(Qfloatp const x,Qfloatp const n,Qfloatp y);
+\end{lstlisting}
+
+Calculates the falling factorial:
+$$ (m_n)=\frac{m!}{(m-n)!} = x(x-1)(x-2)...(x-m+1)$$
+\\\hline
+qhyperg.c&  \TOC{Pochhammer symbol (Rising factorial)}
+
+{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{qPochhammerUp}
+\begin{lstlisting}[numbers=none]
+ void qPochhammerUp(Qfloatp const x,Qfloatp const nn,Qfloatp y);
+\end{lstlisting}
+
+Caldculates the rising factorial:
+$$ (m^n)=\frac{(m+n-1)!}{(m-1)!} = x(x+1)(x+2)...(x+m-1)$$
+\\\hline
 	qprob.c&  \TOC{Poisson distribution}
 	
-	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{qpdtr}
+	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{qPoissonDistribution}
 	\begin{lstlisting}[numbers=none]
-		int qpdtr(const int k,qfloat *const m, qfloat *y)
+int qPoissonDistribution(const int k,qfloat *const m, qfloat *y)
 	\end{lstlisting}\vspace{-0.2cm}
 	Returns the sum of the first k terms of the Poisson
 	distribution:
@@ -1406,9 +1533,9 @@ void qgdtrc(qfloat *const a,qfloat *const b, qfloat *x, qfloat *y );
 	\\\hline
 	qprob.c& \TOC{Complemented poisson distribution}
 	
-	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{qpdtrc}
+	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{qPoissonDistributionComp}
 	\begin{lstlisting}[numbers=none]
-		int qpdtrc(const int k,const qfloat *m,qfloat *y)
+int qPoissonDistributionComp(const int k,const qfloat *m,qfloat *y)
 	\end{lstlisting}\vspace{-0.2cm}
 	Returns the sum of the terms k+1 to infinity of the Poisson
 	distribution:
@@ -1421,9 +1548,9 @@ void qgdtrc(qfloat *const a,qfloat *const b, qfloat *x, qfloat *y );
 	\\\hline
 	qprob.c&\TOC{Inverse Poisson distribution}
 	
-	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{qpdtri}
+	{\footnotesize SYNOPSIS:}\vspace{-0.2cm}\index{qPoissondistributionInv}
 	\begin{lstlisting}[numbers=none]
-		int qpdtri(const int k,qfloat *const y,qfloat *m);
+int qPoissondistributionInv(const int k,qfloat *const y,qfloat *m);
 	\end{lstlisting}\vspace{-0.2cm}
 	Finds the Poisson variable x such that the integral
 	from 0 to x of the Poisson density is equal to the

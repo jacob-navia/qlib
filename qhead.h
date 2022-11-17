@@ -190,7 +190,7 @@ void qasinh ( Qfloatp const x, Qfloatp y );
 void qatanh ( Qfloatp const x, Qfloatp y );
 void qatn ( Qfloatp const x, Qfloatp y );
 void qatn2 ( Qfloatp const x, Qfloatp y, Qfloatp z );
-void qbdtr ( int k, int n, Qfloatp const p, Qfloatp y );
+void qbdtr (Qfloatp const k, Qfloatp const n, Qfloatp const p, Qfloatp y );
 void qbdtrc ( int k, int n, Qfloatp const p, Qfloatp y );
 void qbdtri ( int k, int n, Qfloatp const y, Qfloatp p );
 void qbeta ( Qfloatp const a, Qfloatp const b, Qfloatp y );

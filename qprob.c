@@ -46,10 +46,11 @@ Copyright 1984, 1987, 1995 by Stephen L. Moshier
  */
 
 
-void qbdtr(const int k,const int n,const Qfloatp p,Qfloatp y)
+void qbdtr(Qfloatp const kk,const Qfloatp nn,const Qfloatp p,Qfloatp y)
 {
 	Qfloat dk[1], dn[1], dp[1];
 	int li;
+	long long k = qtoll(kk),n=qtoll(nn);
 
 	if( k >= n )
 	{
