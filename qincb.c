@@ -37,7 +37,7 @@ Copyright 1984, 1995, 1996 by Stephen L. Moshier
 */
 
 #include "qhead.h"
-#define BITSPREC 132
+#define BITSPREC 448
 
 static void qincps( Qfloatp, Qfloatp, Qfloatp, Qfloatp );
 
@@ -213,7 +213,7 @@ void qincb(Qfloatp aa,Qfloatp bb,Qfloatp xx,Qfloatp y)
 		}
 		/*	printf( "n=%3d ans=%.6E pk=%.5E qk=%.5E\n", n, ans, pk, qk );*/
 	}
-	while( ++n < 900 );
+	while( ++n < 1200 );
 
 	//mtherr( "qincb", PLOSS );
 
