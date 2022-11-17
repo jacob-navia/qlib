@@ -66,7 +66,7 @@ qincb.o qine.o qjn.o qjypn.o qjyqn.o qagm.o qcatalan.o qnthroot.o \
 qk0.o qkn.o qkne.o qlog.o qlog1.o qlog10.o qndtr.o qndtri.o qplanck.o \
 qpolylog.o qpow.o qpsi.o qrand.o qremain.o qshici.o qsici.o qprob.o \
 qsimq.o qsin.o qsindg.o qsinh.o qspenc.o qstudt.o qtan.o qtanh.o \
-qincbi.o qyn.o qzetac.o qfloor.o mtherr.o $(F128) $(ARITH)
+qincbi.o qyn.o qzetac.o qfloor.o mtherr.o qkolmogorov.o $(F128) $(ARITH)
 
 
 all: libmq.a qcalc qmtst qparanoi tsqrt statslib/libstats.a qtime
