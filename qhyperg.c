@@ -91,3 +91,33 @@ void qhyp(Qfloatp a,Qfloatp b,Qfloatp x,Qfloatp y)
 done:
 	qmov( sum, y );
 }
+
+void qPochhammerUp(Qfloatp const x,Qfloatp const nn,Qfloatp y)
+{
+	long long i,n;
+	Qfloat sum[1],term[1];
+
+	n = qtoll(nn);
+	qmov(x,sum);
+	qmov(x,term);
+	for (i=1; i<n; i++) {
+		qadd(term,qone,term);
+		qmul(term,sum,sum);
+	}
+	qmov(sum,y);
+}
+
+void qPochhammerDown(Qfloatp const x,Qfloatp const nn,Qfloatp y)
+{
+	long long i,n;
+	Qfloat sum[1],term[1];
+
+	n = qtoll(nn);
+	qmov(x,sum);
+	qmov(x,term);
+	for (i=1; i<n; i++) {
+		qsub(qone,term,term);
+		qmul(term,sum,sum);
+	}
+	qmov(sum,y);
+}
