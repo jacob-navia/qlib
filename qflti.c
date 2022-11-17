@@ -26,6 +26,7 @@
  *	qtod( q, &d )		convert q type to DEC double precision
  *	double qtoe( q, doround )		convert q type to IEEE double precision
  *	qtoe24( q, &d )		convert q type to IEEE single precision
+ *  qhex(x)             Hexadecimal representation
  *
  *   qinv(src,result)    Inverse: result = 1/src. Jacob, 2018
  *
@@ -1073,7 +1074,7 @@ doexp:
 			pstr = strchr(string,'.');
 			int iexp = -expon;
 
-			if (iexp < ndigs-2) {
+			if (iexp < ndigs-2 && iexp < 6) {
 				pstr--;
 				pstr[1] = pstr[0];
 				pstr[0] = '.';
@@ -1106,7 +1107,7 @@ doexp:
 			}
 		}
 	}
-	sprintf(string+strlen(string),"E%+05d",expon);
+	sprintf(string+strlen(string),"E%+d",expon);
 	return 0;
 }
 
@@ -2029,4 +2030,26 @@ void e113toq(float128_t ld,Qfloatp r)
 	r->mantissa[1] = (u->d.mantissalow << 15);
 	r->mantissa[2] = r->mantissa[3] = r->mantissa[4] = r->mantissa[5] = 0;
 	r->mantissa[6] = 0;
+}
+
+int qhex(Qfloatp const qx,size_t n,char *output)
+{
+	char buf[256],*p;
+	int len;
+
+	p = buf;
+	len = sprintf(p," 0x0.%016llx%016llx%016llx%016llx%016llx%016llx%016llxp%d",
+		qx->mantissa[0],qx->mantissa[1],qx->mantissa[2],qx->mantissa[3],qx->mantissa[4],
+		qx->mantissa[5],qx->mantissa[6],qx->exponent-EXPONE);
+	if (qx->sign) *p = '-'; else *p='+';
+	len++; // count sign
+	if (n > len)
+		strcpy(output,buf);
+	else if (n > 14) {
+		memcpy(buf+n-8,buf+len-8,9);
+	}
+	else memset(buf,'*',n-1);
+	buf[n-1]=0;
+	strncpy(output,buf,n-1);
+	return len;
 }
