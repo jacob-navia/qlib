@@ -227,84 +227,90 @@ struct funent funtbl[] = {
 	{"hex",		OPR | FUNC, hex,	},
 	/*"view",	OPR | FUNC, view,*/
 	{"acos",	OPR | FUNC, (int (*)())qacos,	},
+	{"acosh",	OPR | FUNC, (int (*)())qacosh,	},
 	{"agm",		OPR | FUNC, (int (*)())qagm,	},
 	{"asin",	OPR | FUNC, (int (*)())qasin,	},
+	{"asinh",	OPR | FUNC, (int (*)())qasinh,	},
 	{"atan",	OPR | FUNC, (int (*)())qatn,	},
-	{"inverse",	OPR | FUNC, (int (*)())Inverse,	},
-	{"square",	OPR | FUNC, (int (*)())qsquare,	},
+	{"atanh",	OPR | FUNC, (int (*)())qatanh,	},
 	{"atantwo",	OPR | FUNC, (int (*)())qatn2,	},
+	{"bessi",		OPR | FUNC, (int (*)())bessel_I,	},
+	{"bessj",		OPR | FUNC, (int (*)())bessel_J},
+	{"bessk",		OPR | FUNC,   (int (*)())bessel_K,},
+	{"bits",	OPR | FUNC, (int (*)())bits,	},
+	{"catconst",OPR | FUNC,(int (*)())qcatalanConstant,},
+	{"catalan",	OPR | FUNC, (int (*)())qcatalan,},
 	{"cbrt",	OPR | FUNC, (int (*)())qcbrt,	},
 	{"chdti",	OPR | FUNC, (int (*)())qchdti,	},
+	{"chi",		OPR | FUNC,  (int (*)())qchi  },
+	{"ci",		OPR | FUNC, (int (*)())qci    },
+	{"cmp",		OPR | FUNC, (int (*)())cmp,	},
 	{"cos",		OPR | FUNC, (int (*)())qfcos,	},
+	{"cosh",	OPR | FUNC, (int (*)())qcosh,	},
 	{"cot",		OPR | FUNC, (int (*)())qcot,	},
+	{"digits",	OPR | FUNC, (int (*)())cmddig,	},
+	{"double",     OPR | FUNC, todouble,},
+	{"ellpe",	OPR | FUNC, (int (*)())qellpe,	},
+	{"ellpk",	OPR | FUNC, (int (*)())qellpk,	},
+	{"erf",		OPR | FUNC, (int (*)())qerf,	},
+	{"erfc",	OPR | FUNC, (int (*)())qerfc,	},
+	{"exit",	OPR | FUNC, (int (*)())mxit,	},
 	{"exp",		OPR | FUNC, (int (*)())qfexp,	},
+	{"expn",	OPR | FUNC, (int (*)())Qexpn	},
 	{"expten",	OPR | FUNC, (int (*)())qexp10,	},
 	{"factorial",OPR | FUNC, (int (*)())qfact,	},
+	{"float",     OPR | FUNC, tofloat,},
+	{"floor",	OPR | FUNC, (int (*)())qfloor,	},
 	{"fma",		OPR | FUNC, (int (*)())qfma,	},
-	{"catalan",	OPR | FUNC, (int (*)())qcatalan,},
+	{"frexp",	OPR | FUNC, (int (*)())zfrexp,	},
+	{"gamma",	OPR | FUNC, (int (*)())qgamma,	},
+	{"gausshyp",OPR | FUNC, (int (*)())qhy2f1,	},
+	{"hexbits", OPR | FUNC,(int (*)())hexbits, },
 	{"hypot",	OPR | FUNC, (int (*)())qhypot,  },
 	{"incr",	OPR | FUNC, (int (*)())qincr	},
+	{"inverse",	OPR | FUNC, (int (*)())Inverse,	},
+	{"intcvts",     OPR | FUNC, (int (*)())intcvts,},
+	{"jypn",	OPR | FUNC, (int (*)())qjypn,	},
+	{"jyqn",	OPR | FUNC, (int (*)())qjyqn,	},
+	{"kolmogorov",	OPR | FUNC,(int (*)())qkolmogorov},
+	{"kzero",		OPR | FUNC,   (int (*)())qk0,},
+	{"kzne",	OPR | FUNC,   (int (*)())qkne,},
+	{"ldexp",	OPR | FUNC, (int (*)())zldexp,	},
+	{"lgamma",	OPR | FUNC, (int (*)())qlgam,	},
 	{"log",		OPR | FUNC, (int (*)())qflog,	},
 	{"logonep",	OPR | FUNC, (int (*)())qlog1,	},
 	{"logten",	OPR | FUNC, (int (*)())qlog10,	},
 	{"logtwo",	OPR | FUNC, (int (*)())qlogtwo,	},
-	{"floor",	OPR | FUNC, (int (*)())qfloor,	},
-	{"acosh",	OPR | FUNC, (int (*)())qacosh,	},
-	{"asinh",	OPR | FUNC, (int (*)())qasinh,	},
-	{"atanh",	OPR | FUNC, (int (*)())qatanh,	},
-	{"cosh",	OPR | FUNC, (int (*)())qcosh,	},
-	{"sinh",	OPR | FUNC, (int (*)())qsinh,	},
-	{"tanh",	OPR | FUNC, (int (*)())qtanh,	},
-	{"nthroot",	OPR | FUNC, (int (*)())qnthroot,},
-	{"gamma",	OPR | FUNC, (int (*)())qgamma,	},
-	{"lgamma",	OPR | FUNC, (int (*)())qlgam,	},
-	{"psi",		OPR | FUNC, (int (*)())qpsi,	},
-	{"bessj",		OPR | FUNC, (int (*)())bessel_J},
-	{"neum",		OPR | FUNC, (int (*)())neumann_N,	},
-	{"jypn",	OPR | FUNC, (int (*)())qjypn,	},
-	{"jyqn",	OPR | FUNC, (int (*)())qjyqn,	},
+	{"longdouble",     OPR | FUNC, tolongdouble,},
 	{"ndtr",	OPR | FUNC, (int (*)())qndtr,	},
 	{"ndtri",	OPR | FUNC, (int (*)())qndtri,	},
-	{"erf",		OPR | FUNC, (int (*)())qerf,	},
-	{"erfc",	OPR | FUNC, (int (*)())qerfc,	},
-	{"pdtr",	OPR | FUNC, (int (*)())zpdtr,	},
-//	{"pdtri",	OPR | FUNC, (int (*)())zpdtri,	},
-//	{"incbet",	OPR | FUNC, (int (*)())qincb,	},
+	{"neum",		OPR | FUNC, (int (*)())neumann_N,	},
+	{"nthroot",	OPR | FUNC, (int (*)())qnthroot,},
+	{"pochhammerup",OPR | FUNC, (int (*)())qPochhammerUp},
+	{"pochhammerdown",OPR | FUNC, (int (*)())qPochhammerDown},
+	{"poissondistribution",	OPR | FUNC, (int (*)())zpdtr,	},
+	{"poissondistributioninv",	OPR | FUNC, (int (*)())qPoissonDistributionInv,	},
+	{"polylog",	OPR | FUNC, (int (*)())zpolylog,},
+	{"pow",		OPR | FUNC, (int (*)())qfpow,	},
+	{"psi",		OPR | FUNC, (int (*)())qpsi,	},
+	{"quit",	OPR | FUNC, (int (*)())mxit,	},
+	{"shi",		OPR | FUNC,  (int (*)())qshi  },
+	{"sin",		OPR | FUNC, (int (*)())qfsin,	},
+	{"si",		OPR | FUNC, (int (*)())qsi    },
+	{"sinh",	OPR | FUNC, (int (*)())qsinh,	},
+	{"sqrt",	OPR | FUNC, (int (*)())qfsqrt,	},
+	{"square",	OPR | FUNC, (int (*)())qsquare,	},
+	{"stirling",    OPR | FUNC , (int (*)())qlstir  },
+	{"tanh",	OPR | FUNC, (int (*)())qtanh,	},
+	{"tan",		OPR | FUNC, (int (*)())qftan,	},
+	{"incbet",	OPR | FUNC, (int (*)())qincb,	},
 //	{"incbetinv",	OPR | FUNC, (int (*)())beta_distribution_invQ,},
 //	{"incgam",	OPR | FUNC, (int (*)())qigamc,	},
 //	{"incgaminv",	OPR | FUNC, (int (*)())qigami,	},
 //	{"ellie",	OPR | FUNC, (int (*)())qellie,	},
 //	{"ellik",	OPR | FUNC, (int (*)())qellik,	},
-	{"ellpe",	OPR | FUNC, (int (*)())qellpe,	},
-	{"ellpk",	OPR | FUNC, (int (*)())qellpk,	},
-	{"bessi",		OPR | FUNC, (int (*)())bessel_I,	},
-	{"kzero",		OPR | FUNC,   (int (*)())qk0,},
-	{"bessk",		OPR | FUNC,   (int (*)())bessel_K,},
-	{"kzne",	OPR | FUNC,   (int (*)())qkne,},
-	{"gausshyp",OPR | FUNC, (int (*)())qhy2f1,	},
 //	{"confhyp",	OPR | FUNC, (int (*)())hypergeomq,	},
-	{"frexp",	OPR | FUNC, (int (*)())zfrexp,	},
-	{"ldexp",	OPR | FUNC, (int (*)())zldexp,	},
-	{"polylog",	OPR | FUNC, (int (*)())zpolylog,},
 	{"zeta",	OPR | FUNC, (int (*)())zzeta,	},
-	{"pow",		OPR | FUNC, (int (*)())qfpow,	},
-	{"expn",	OPR | FUNC, (int (*)())Qexpn	},
-	{"shi",		OPR | FUNC,  (int (*)())qshi  },
-	{"chi",		OPR | FUNC,  (int (*)())qchi  },
-	{"si",		OPR | FUNC, (int (*)())qsi    },
-	{"ci",		OPR | FUNC, (int (*)())qci    },
-	{"sin",		OPR | FUNC, (int (*)())qfsin,	},
-	{"sqrt",	OPR | FUNC, (int (*)())qfsqrt,	},
-	{"square",	OPR | FUNC, (int (*)())qsquare,	},
-	{"tan",		OPR | FUNC, (int (*)())qftan,	},
-	{"cmp",		OPR | FUNC, (int (*)())cmp,	},
-	{"bits",	OPR | FUNC, (int (*)())bits,	},
-	{"hexbits", OPR | FUNC,(int (*)())hexbits, },
-	{"digits",	OPR | FUNC, (int (*)())cmddig,	},
-	{"intcvts",     OPR | FUNC, (int (*)())intcvts,},
-	{"float",     OPR | FUNC, tofloat,},
-	{"double",     OPR | FUNC, todouble,},
-	{"longdouble",     OPR | FUNC, tolongdouble,},
 	{"hexinput",	OPR | FUNC, hexinput,},
 	{"remainder",	OPR | FUNC, (int (*)())qremain,	},
 	{"dm",		OPR | FUNC, cmddm,	},
@@ -315,9 +321,6 @@ struct funent funtbl[] = {
 	{"system",	OPR | FUNC | COMMAN, (int (*)())qsys,	},
 	{"rem",		OPR | FUNC | COMMAN, (int (*)())remark,},
 //	{"lambertw",    OPR | FUNC , (int (*)())__lambertwq  },
-	{"stirling",    OPR | FUNC , (int (*)())qlstir  },
-	{"exit",	OPR | FUNC, (int (*)())mxit,	},
-	{"quit",	OPR | FUNC, (int (*)())mxit,	},
 	{"\0",		OPR | FUNC,	0	},
 };
 
@@ -397,6 +400,14 @@ static void trimresult(char *str)
 		*p = 0;
 }
 
+int qhex(Qfloatp, size_t,char *);
+void testhex(void)
+{
+	char buf[256];
+
+	qhex(qpi,15,buf);
+}
+
 
 /*							main()		*/
 
@@ -405,6 +416,7 @@ static void trimresult(char *str)
 int main(void)
 {
 
+	testhex();
 	/*	the scan table:			*/
 
 	/*	array of pointers to symbols which have been parsed:	*/
@@ -893,7 +905,9 @@ struct symbol *parser(void)
 		}
 		if( takptr < 0 )
 		{	/* no take file active: prompt keyboard input */
+#ifndef USE_READLINE
 			printf("* ");
+#endif
 			if( savfil )
 				fprintf( savfil, "* " );
 		}
@@ -920,7 +934,7 @@ struct symbol *parser(void)
 				line_read = (char *)NULL;
 			}
 			/* Get a line from the user. */
-			line_read = readline ("");
+			line_read = readline (" * ");
 			/* If the line has any text in it, save it on the history. */
 			if (line_read && *line_read)
 				add_history (line_read);
@@ -1469,17 +1483,20 @@ int abmac(void)
 int hex(Qfloatp qx)
 {
 	long z;
-	double x;
+	long double x;
 
 	x = qtoe( qx, DOROUNDING );
-	if( fabs(x) >= 2.147483648e9 )
+	if( fabs(x) >= 18446744073709551616.0L )
 	{
-		printf( "hex: too large\n" );
-		return 0;
+		printf( "hex: too large integer fort 64 bits\n" );
 	}
 
 	z = x;
 	printf( "0%lo  0x%lx  %ld.\n", z, z, z );
+	if (qx->sign) printf("-"); else printf("+");
+	printf("0x1.%016llx%016llx%016llx%016llx%016llx%016llx%016llx p%d\n",
+		qx->mantissa[0],qx->mantissa[1],qx->mantissa[2],qx->mantissa[3],qx->mantissa[4],
+		qx->mantissa[5],qx->mantissa[6],qx->exponent-EXPONE);
 	return 0;
 }
 
@@ -1490,9 +1507,10 @@ int hexbits(Qfloatp u)
 	long long *pll;
 	float128_t ldd;
 	ld113 Ldd;
+	char buf[256];
 
 	/* Print Q-type value in hex.  */
-	printf("{%d,0x%08x,",u->sign,u->exponent);
+	printf("{%d,0x%08x,{",u->sign,u->exponent);
 	j = 0;
 	for( i=0; i<MANTISSA_LENGTH; i++ )
 	{
@@ -1507,9 +1525,11 @@ int hexbits(Qfloatp u)
 				fprintf( savfil, "\n" );
 		}
 	}
-	printf( "}\n" );
+	printf( "}}\n" );
 	if( savfil )
-		fprintf( savfil, "\n" );
+		fprintf( savfil, "}}\n" );
+	qhex(u,sizeof(buf),buf);
+	printf("Hexadecimal representation:\n%s\n",buf);
 	dd = qtoe(u,DOROUNDING);
 	pll = (long long *)&dd;
 	printf("Floating point 0x%llx (%17.15f)\n",pll[0],dd);

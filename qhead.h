@@ -289,9 +289,9 @@ void qndtr ( Qfloatp x, Qfloatp y );
 void qndtri ( Qfloatp qy0, Qfloatp qx0 );
 void qneg ( Qfloatp x );
 void qnthroot( Qfloatp x, Qfloatp n, Qfloatp r );
-int qpdtr ( int k, Qfloatp m, Qfloatp y );
-int qpdtrc ( int k, Qfloatp m, Qfloatp y );
-int qpdtri ( int k, Qfloatp y, Qfloatp m );
+int qPoissonDistribution( int k, Qfloatp m, Qfloatp y );
+int qPoissonDistributionInv( int k, Qfloatp m, Qfloatp y );
+int qPoissonDistributionComp( int k, Qfloatp y, Qfloatp m );
 void qfpow ( Qfloatp x, Qfloatp y, Qfloatp z );
 void qpowi ( Qfloatp x, Qfloatp y, Qfloatp z );
 void qpsi ( Qfloatp x, Qfloatp y );
@@ -370,6 +370,10 @@ void qci(Qfloatp const x,Qfloatp y);
 void qsi(Qfloatp const x,Qfloatp y);
 void qhypot(Qfloatp x, Qfloatp y, Qfloatp z);
 void qchdti(Qfloatp df, Qfloatp y,Qfloatp x);
+void qcatalanConstant(Qfloatp y);
+int qkolmogorov(Qfloatp const x,Qfloatp y);
+void qPochhammerUp(Qfloatp const x,Qfloatp const n,Qfloatp y);
+void qPochhammerDown(Qfloatp const x,Qfloatp const n,Qfloatp y);
 
 #define qadd(a,b,c) qadd_subtract(a,b,c,0)
 #define qsub(a,b,c) qadd_subtract(a,b,c,1)
