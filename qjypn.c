@@ -247,13 +247,13 @@ done:
 	return(0);
 findp:
 
-	/* Jn(x) = sqrt(2/(pi x)) [ P(n,x) cos X  -  Q(n,x) sin X ]
-	* Yn(x) = sqrt(2/(pi x)) [ P(n,x) sin X  +  Q(n,x) cos X ]
-	*
- * where arg of sine and cosine = X = x - (0.5n + 0.25)*PI.
-	* We solve this for Pn(x):
-	* Jn(x) cos X  +  Yn(x) sin X  =  sqrt( 8/(pi x)) Pn(x)
-	*/
+/* Jn(x) = sqrt(2/(pi x)) [ P(n,x) cos X  -  Q(n,x) sin X ]
+* Yn(x) = sqrt(2/(pi x)) [ P(n,x) sin X  +  Q(n,x) cos X ]
+*
+* where arg of sine and cosine = X = x - (0.5n + 0.25)*PI.
+* We solve this for Pn(x):
+* Jn(x) cos X  +  Yn(x) sin X  =  sqrt( 8/(pi x)) Pn(x)
+*/
 
 	qmov( qone, tt );
 	tt[0].exponent -= 2;		/* 0.25 */
