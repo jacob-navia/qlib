@@ -23,28 +23,28 @@ void qnthroot(Qfloatp x,Qfloatp N,Qfloatp r)
 	qsub(z,y,y);
 	qdivi(n,y,y);
 	res=qadd(z,y,z);
-	if (res == 0) return;
+	if (res == 0) goto doexit;
 
 	qfpow(z,nm1,y);
 	qdiv(y,x,y);
 	qsub(z,y,y);
 	qdivi(n,y,y);
 	res=qadd(z,y,z);
-	if (res == 0) return;
+	if (res == 0) goto doexit;
 
 	qfpow(z,nm1,y);
 	qdiv(y,x,y);
 	qsub(z,y,y);
 	qdivi(n,y,y);
 	res=qadd(z,y,z);
-	if (res == 0) return;
+	if (res == 0) goto doexit;
 
 	qfpow(z,nm1,y);
 	qdiv(y,x,y);
 	qsub(z,y,y);
 	qdivi(n,y,y);
-	res=qadd(z,y,r);
-	if (res == 0) return;
+	res=qadd(z,y,z);
+	if (res == 0) goto doexit;
 #if 0
 	qfpow(z,nm1,y);
 	qdiv(y,x,y);
@@ -52,4 +52,6 @@ void qnthroot(Qfloatp x,Qfloatp N,Qfloatp r)
 	qdivi(n,y,y);
 	qadd(z,y,r);
 #endif
+doexit:
+	qmov(z,r);
 }
