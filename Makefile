@@ -29,6 +29,10 @@ ifeq ($(CC),gcc)
 CFLAGS= -Wall -I. -g $(OPTIM)  $(PROFILE)
 endif
 
+ifeq ($(CPU),aarch64)
+CFLAGS += -Wno-strict-aliasing -Wno-builtin-declaration-mismatch
+endif
+
 ifeq ($(CC),~/lcc/book/lcc)
 CFLAGS=-O -g -c -S -z
 LCCLIBS=/usr/local/lcc/lib/lcclib.a
@@ -88,8 +92,8 @@ powi.o polevl.o ndtri.o \
 const.o libmq.a statslib/libstats.a
 	$(LD) $(LDFLAGS) -o qcalc qcalc.o incbet.o incbi.o ndtri.o \
 igami.o igam.o powi.o polevl.o  \
-const.o statslib/libstats.a  $(ASM)  \
-libmq.a -lreadline -lcurses -lm $(LCCLIBS)
+const.o $(ASM)  \
+libmq.a -lreadline -lcurses -lm $(LCCLIBS) statslib/libstats.a
 #libmq.a -lreadline -lm
 #libmq.a -lm
 
@@ -287,7 +291,7 @@ x86_64/bsr-x86_64_Darwin.o:	x86_64/bsr-x86_64.s
 	as -c -g -o x86_64/bsr-x86_64_Darwin.o x86_64/bsr-x86_64_Darwin.s
 
 qasm.o:	$(CPU)/qasm-$(CPU)_$(OSNAME).s
-	as -c -g -o qasm.o $(CPU)/qasm-$(CPU).s
+	as -c -g -o qasm.o $(CPU)/qasm-$(CPU)_$(OSNAME).s
 
 shift.o: $(CPU)/shift-$(CPU).s
 	as -g -c -o shift.o $(CPU)/shift-$(CPU).s
