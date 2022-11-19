@@ -98,128 +98,126 @@ void qbdtr(Qfloatp const kk,const Qfloatp nn,const Qfloatp p,Qfloatp y)
  * The terms are not summed directly; instead the incomplete
 * beta integral is employed, according to the formula
 *
- * y = bdtrc( k, n, p ) = incbet( k+1, n-k, p ).
-*
- * The arguments must be positive, with p ranging from 0 to 1.
-*
- */
-
-void qbdtrc(const int k,const int n,Qfloatp const p,const Qfloatp y)
-{
-	Qfloat dk[1], dn[1];
-	int li;
-
-	if( k < 0 )
-	{
-		qmov( qone, y );
-		return;
-	}
-	if( k == n )
-	{
-		qclear( y );
-		return;
-	}
-	li = k + 1;
-	itoq( li, dk );	/* dk = k */
-
-	li = n - k;
-	itoq( li, dn );
-
-	qincb( dk, dn, p, y );
-}
-
-/*							qbdtri
-*
- *	Inverse binomial distribution
-*
+  * y = bdtrc( k, n, p ) = incbet( k+1, n-k, p ).
  *
+  * The arguments must be positive, with p ranging from 0 to 1.
  *
- * SYNOPSIS:
-*
- * int qbdtri( k, n, y, p );
-* int k, n;
-* QELT *p, *y;
-*
- * qbdtri( k, n, y, p );
-*
- * DESCRIPTION:
-*
- * Finds the event probability p such that the sum of the
-* terms 0 through k of the Binomial probability density
-* is equal to the given cumulative probability y.
-*
- * This is accomplished using the inverse beta integral
-* function and the relation
-*
- * 1 - p = incbi( n-k, k+1, y ).
-*
- */
-
-void qbdtri(int k,int n,Qfloatp y,Qfloatp p)
-{
-	Qfloat dk[1], dn[1];
-	int li;
-
-
-	if( (n <= k) || (k < 0) )
-	{
-		qclear( y );
-		return;
-	}
-	li = k + 1;
-	itoq( li, dk );	/* dk = k */
-
-	li = n - k;
-	itoq( li, dn );
-
-	beta_distribution_invQ( dn, dk, y, p );
-	qsub( p, qone, p );
-}
-
-
+  */
+ 
+ void qbdtrc(Qfloatp const kk,Qfloatp const  nn,Qfloatp const p,const Qfloatp y)
+ {
+ 	Qfloat dk[1], dn[1];
+ 	int li,k = qtoll(kk),n=qtoll(nn);
+ 
+ 	if( k < 0 )
+ 	{
+ 		qmov( qone, y );
+ 		return;
+ 	}
+ 	if( k == n )
+ 	{
+ 		qclear( y );
+ 		return;
+ 	}
+ 	li = k + 1;
+ 	itoq( li, dk );	/* dk = k */
+ 
+ 	li = n - k;
+ 	itoq( li, dn );
+ 
+ 	qincb( dk, dn, p, y );
+ }
+ 
+ /*							qbdtri
+ *
+  *	Inverse binomial distribution
+ *
+  *
+  *
+  * SYNOPSIS:
+ *
+  * int qbdtri( k, n, y, p );
+ * int k, n;
+ * QELT *p, *y;
+ *
+  * qbdtri( k, n, y, p );
+ *
+  * DESCRIPTION:
+ *
+  * Finds the event probability p such that the sum of the
+ * terms 0 through k of the Binomial probability density
+ * is equal to the given cumulative probability y.
+ *
+  * This is accomplished using the inverse beta integral
+ * function and the relation
+ *
+  * 1 - p = incbi( n-k, k+1, y ).
+ *
+  */
+ 
+ void qbdtri(int k,int n,Qfloatp y,Qfloatp p)
+ {
+ 	Qfloat dk[1], dn[1];
+ 	int li;
+ 
+ 
+ 	if( (n <= k) || (k < 0) )
+ 	{
+ 		qclear( y );
+ 		return;
+ 	}
+ 	li = k + 1;
+ 	itoq( li, dk );	/* dk = k */
+ 
+ 	li = n - k;
+ 	itoq( li, dn );
+ 
+ 	beta_distribution_invQ( dn, dk, y, p );
+ 	qsub( p, qone, p );
+ }
+ 
+ 
 /*							qchdtr
-*
+ *
  *	Chi-square distribution
-*
+ *
  *
  *
  * SYNOPSIS:
-*
- * int qchdtr( df, x, y );
-* QELT *df, *x, *y;
-*
- * qchdtr( df, x, y );
-*
+ *
+ * int qChiSquare( df, x, y );
+ * QELT *df, *x, *y;
+ *
  *
  *
  * DESCRIPTION:
-*
+ *
  * Returns the area under the left hand tail (from 0 to x)
-* of the Chi square probability density function with
-* v degrees of freedom.
-*
+ * of the Chi square probability density function with
+ * v degrees of freedom.
+ *
  *
  *                                  inf.
-*                                    -
-*                        1          | |  v/2-1  -t/2
-*  P( x | v )   =   -----------     |   t      e     dt
-*                    v/2  -       | |
-*                   2    | (v/2)   -
-*                                   x
-*
+ *                                    -
+ *                        1          | |  v/2-1  -t/2
+ *  P( x | v )   =   -----------     |   t      e     dt
+ *                    v/2  -       | |
+ *                   2    | (v/2)   -
+ *                                   x
+ *
  * where x is the Chi-square variable.
-*
+ *
  * The incomplete gamma integral is used, according to the
-* formula
-*
+ * formula
+ *
  *	y = chdtr( v, x ) = igam( v/2.0, x/2.0 ).
-*
+ *
  *
  * The arguments must both be positive.
-*
+ *
  */
 
-void qchdtr( Qfloatp df, Qfloatp x, Qfloatp y )
+void qChiSquare( Qfloatp df, Qfloatp x, Qfloatp y )
 {
 	Qfloat a[1], b[1];
 
@@ -231,48 +229,48 @@ void qchdtr( Qfloatp df, Qfloatp x, Qfloatp y )
 }
 
 /*							qchdtc
-*
+ *
  *	Complemented Chi-square distribution
-*
+ *
  *
  *
  * SYNOPSIS:
-*
+ *
  * int qchdtc( df, x, y );
-* QELT df[], x[], y[];
-*
+ * QELT df[], x[], y[];
+ *
  * qchdtc( df, x, y );
-*
+ *
  *
  *
  * DESCRIPTION:
-*
+ *
  * Returns the area under the right hand tail (from x to
-* infinity) of the Chi square probability density function
-* with v degrees of freedom:
-*
+ * infinity) of the Chi square probability density function
+ * with v degrees of freedom:
+ *
  *
  *                                  inf.
-*                                    -
-*                        1          | |  v/2-1  -t/2
-*  P( x | v )   =   -----------     |   t      e     dt
-*                    v/2  -       | |
-*                   2    | (v/2)   -
-*                                   x
-*
+ *                                    -
+ *                        1          | |  v/2-1  -t/2
+ *  P( x | v )   =   -----------     |   t      e     dt
+ *                    v/2  -       | |
+ *                   2    | (v/2)   -
+ *                                   x
+ *
  * where x is the Chi-square variable.
-*
+ *
  * The incomplete gamma integral is used, according to the
-* formula
-*
+ * formula
+ *
  *	y = chdtr( v, x ) = igamc( v/2.0, x/2.0 ).
-*
+ *
  *
  * The arguments must both be positive.
-*
+ *
  */
 
-void qchdtc(Qfloatp df, Qfloatp x, Qfloatp y)
+void qChiSquareComp(Qfloatp df, Qfloatp x, Qfloatp y)
 {
 	Qfloat a[1], b[1];
 
