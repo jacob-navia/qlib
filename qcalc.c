@@ -199,10 +199,10 @@ static char *intmsg[] = {
 };
 #endif
 //#define qneg(a) (a[0].exponent ^= 1)
+int cmddig(Qfloatp x );
 int hexbits(Qfloatp u);
 int hex(Qfloatp), cmdh(void), cmdhlp(void), remark(char *), qsys(char *);
 int qsave(char *);
-int hexinput(Qfloatp, Qfloatp ,Qfloatp), cmddig(Qfloatp);
 int cmddm(Qfloatp), cmdtm(Qfloatp), cmdem(Qfloatp);
 int take(char *);
 void mxit(void);
@@ -271,7 +271,6 @@ struct funent funtbl[] = {
 	{"gamma",	OPR | FUNC, (int (*)())qgamma,	},
 	{"gausshyp",OPR | FUNC, (int (*)())qhy2f1,	},
 	{"hexbits", OPR | FUNC,(int (*)())hexbits, },
-	{"hexinput",	OPR | FUNC, hexinput,},
 	{"hypot",	OPR | FUNC, (int (*)())qhypot,  },
 	{"incbet",	OPR | FUNC, (int (*)())qincb,	},
 	{"incbetinv",	OPR | FUNC, (int (*)())beta_distribution_invQ,},
@@ -1907,58 +1906,6 @@ int remark(char * s )
 /* Copy two 32-bit integer values into a double
 and return the value of that double.  */
 
-int hexinput(Qfloatp a,Qfloatp b,Qfloatp ans)
-{
-	Qfloat z[1];
-	long long la, lb;
-	/* double da, db; */
-	union
-		{
-		double d;
-		unsigned short i[4];
-	}
-	u;
-
-	/*
-	qtoe(a, (unsigned short *) &da);
-	qtoe(b, (unsigned short *) &db);
-	*/
-	/*
-	qtoe(a, &u.i[0]);
-	da = u.d;
-	qtoe(b, &u.i[0]);
-	db = u.d;
-	*/
-	qifrac(a, &la, z);
-	qifrac(b, &lb, z);
-	printf("%08llx %08llx\n", la, lb);
-#ifdef IBMPC
-	l = la;
-	u.i[3] = l >> 16;
-	u.i[2] = l & 0xffff;
-	l = lb;
-	u.i[1] = l >> 16;
-	u.i[0] = l & 0xffff;
-#endif
-#ifdef DEC
-	l = la;
-	u.i[3] = l >> 16;
-	u.i[2] = l;
-	l = lb;
-	u.i[1] = l >> 16;
-	u.i[0] = l;
-#endif
-#ifdef MIEEE
-	l = la;
-	u.i[0] = l >> 16;
-	u.i[1] = l;
-	l = lb;
-	u.i[2] = l >> 16;
-	u.i[3] = l;
-#endif
-	etoq( u.i[0], ans );
-	return 0;
-}
 
 #if MOREFUNS
 /* Poisson distribution */
