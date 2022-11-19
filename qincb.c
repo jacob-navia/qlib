@@ -179,7 +179,8 @@ void qincb(Qfloatp aa,Qfloatp bb,Qfloatp xx,Qfloatp y)
 			qdiv( qk, pk, r );	/* r = pk/qk */
 		if( r[0].exponent > 10 )
 		{
-			qsub( r, ans, t );
+			int res = qsub( r, ans, t );
+			if (res == 0) goto cdone;
 			if( ((int)ans[0].exponent - (int)t[0].exponent) > BITSPREC )
 				goto cdone;
 			qmov( r, ans );
@@ -213,7 +214,7 @@ void qincb(Qfloatp aa,Qfloatp bb,Qfloatp xx,Qfloatp y)
 		}
 		/*	printf( "n=%3d ans=%.6E pk=%.5E qk=%.5E\n", n, ans, pk, qk );*/
 	}
-	while( ++n < 1200 );
+	while( ++n < 600 );
 
 	//mtherr( "qincb", PLOSS );
 
@@ -272,18 +273,22 @@ static void qincps(Qfloatp aa,Qfloatp bb,Qfloatp xx,Qfloatp y)
 	qclear(ans);
 	while( ((int) k8[0].exponent - (int) k2[0].exponent) <  BITSPREC )
 	{
-		qsub(bb,k5,pk);
+		int r = qsub(bb,k5,pk);
+		if (r == 0) break;
 		qmul(pk,xx,pk);
 		qdiv(k5,pk,k1);
 
 		qmul(k1,k4,k4);
 
-		qadd(aa,k5,pk);
+		r=qadd(aa,k5,pk);
+		if (r == 0) break;
 		qdiv(pk,k4,k2);
 
-		qadd(k2,ans,ans);
+		r=qadd(k2,ans,ans);
+		if (r == 0) break;
 
-		qadd(qone,k5,k5);
+		r=qadd(qone,k5,k5);
+		if (r == 0) break;
 	}
 	qadd(ans,k3,ans);
 	qadd(ans,k8,ans);
